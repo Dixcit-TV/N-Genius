@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/3rdParty/glm/glm/out/build/x64-Debug (default)/.cmake/api/v1
+/3rdParty/glm/glm/out/build/x64-Debug (default)
+/x64/Debug
+/N-Genius/x64/Debug

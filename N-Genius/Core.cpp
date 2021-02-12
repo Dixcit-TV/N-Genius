@@ -1,5 +1,5 @@
-#include "MiniginPCH.h"
-#include "Minigin.h"
+#include "PCH.h"
+#include "Core.h"
 #include <chrono>
 #include <thread>
 #include "InputManager.h"
@@ -15,7 +15,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void ngenius::Minigin::Initialize()
+void ngenius::Core::Initialize()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
@@ -41,7 +41,7 @@ void ngenius::Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void ngenius::Minigin::LoadGame() const
+void ngenius::Core::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -60,7 +60,7 @@ void ngenius::Minigin::LoadGame() const
 	scene.Add(to);
 }
 
-void ngenius::Minigin::Cleanup()
+void ngenius::Core::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
@@ -68,7 +68,7 @@ void ngenius::Minigin::Cleanup()
 	SDL_Quit();
 }
 
-void ngenius::Minigin::Run()
+void ngenius::Core::Run()
 {
 	Initialize();
 

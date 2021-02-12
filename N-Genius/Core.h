@@ -2,7 +2,7 @@
 struct SDL_Window;
 namespace ngenius
 {
-	class Minigin
+	class Core
 	{
 	public:
 		void Initialize();
