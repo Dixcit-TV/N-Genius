@@ -100,6 +100,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -124,6 +125,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x86\*.dll" "$(OutputPath)" /R /Y</Com
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,6 +152,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -178,6 +181,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x86\*.dll" "$(OutputPath)" /R /Y</Com
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -207,7 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TextObject.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="TimeSettings.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -229,7 +233,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="TimeSettings.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

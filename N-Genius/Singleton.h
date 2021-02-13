@@ -18,6 +18,6 @@ namespace ngenius
 		Singleton& operator=(Singleton&& other) = delete;
 
 	protected:
-		Singleton() = default;
+		explicit Singleton() = default;
 	};
 }

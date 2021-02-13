@@ -22,6 +22,9 @@ namespace ngenius
 
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 	private:
+		friend class Singleton<Renderer>;
+		explicit Renderer() = default;
+		
 		SDL_Renderer* m_Renderer{};
 	};
 }

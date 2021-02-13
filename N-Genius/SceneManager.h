@@ -13,7 +13,8 @@ namespace ngenius
 		void Render();
 	private:
 		friend class Singleton<SceneManager>;
-		SceneManager() = default;
+		explicit SceneManager() = default;
+		
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
 	};
 }

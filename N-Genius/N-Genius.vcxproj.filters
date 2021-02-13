@@ -51,13 +51,13 @@
     <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,13 +95,13 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PCH.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

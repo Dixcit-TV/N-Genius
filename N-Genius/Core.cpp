@@ -1,7 +1,5 @@
 #include "PCH.h"
 #include "Core.h"
-#include <chrono>
-#include <thread>
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -10,7 +8,7 @@
 #include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "Time.h"
+#include "TimeSettings.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -76,23 +74,26 @@ void ngenius::Core::Run()
 	ResourceManager::GetInstance().Init("../Data/");
 
 	LoadGame();
-
+	
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
+		auto& timeSettings = TimeSettings::GetInstance();
 
 		bool doContinue = true;
 		while (doContinue)
 		{
-			const auto currentTime = high_resolution_clock::now();
+			timeSettings.Update();
 			
 			doContinue = input.ProcessInput();
-			sceneManager.Update();
-			renderer.Render();
+
+			while(timeSettings.CatchUp())
+			{
+				sceneManager.Update();
+			}
 			
-			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(Time::GetInstance().GetFrameTime()) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
+			renderer.Render();
 		}
 	}
 
