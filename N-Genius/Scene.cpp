@@ -2,20 +2,16 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-using namespace ngenius;
+unsigned int ngenius::Scene::m_IdCounter = 0;
 
-unsigned int Scene::m_IdCounter = 0;
+ngenius::Scene::Scene(const std::string& name) : m_Name(name) {}
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
-
-Scene::~Scene() = default;
-
-void Scene::Add(const std::shared_ptr<SceneObject>& object)
+void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object)
 {
 	m_Objects.push_back(object);
 }
 
-void Scene::Update()
+void ngenius::Scene::Update()
 {
 	for(auto& object : m_Objects)
 	{
@@ -23,7 +19,7 @@ void Scene::Update()
 	}
 }
 
-void Scene::Render() const
+void ngenius::Scene::Render() const
 {
 	for (const auto& object : m_Objects)
 	{

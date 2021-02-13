@@ -54,7 +54,7 @@ void ngenius::Core::LoadGame() const
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
+	to->SetTextPosition(80, 20);
 	scene.Add(to);
 }
 

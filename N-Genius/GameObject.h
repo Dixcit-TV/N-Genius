@@ -1,20 +1,19 @@
 #pragma once
 #include "Transform.h"
-#include "SceneObject.h"
 
 namespace ngenius
 {
 	class Texture2D;
-	class GameObject : public SceneObject
+	class GameObject
 	{
 	public:
-		void Update() override;
-		void Render() const override;
+		void Update();
+		void Render() const;
 
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 
-		GameObject() = default;
+		explicit GameObject() = default;
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;

@@ -48,7 +48,7 @@ void ngenius::TextObject::SetText(const std::string& text)
 	m_NeedsUpdate = true;
 }
 
-void ngenius::TextObject::SetPosition(const float x, const float y)
+void ngenius::TextObject::SetTextPosition(const float x, const float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
 }

@@ -1,19 +1,19 @@
 #pragma once
-#include "SceneObject.h"
+#include "GameObject.h"
 #include "Transform.h"
 
 namespace ngenius
 {
 	class Font;
 	class Texture2D;
-	class TextObject final : public SceneObject
+	class TextObject final : public GameObject
 	{
 	public:
-		void Update() override;
-		void Render() const override;
+		void Update();
+		void Render() const;
 
 		void SetText(const std::string& text);
-		void SetPosition(float x, float y);
+		void SetTextPosition(float x, float y);
 
 		explicit TextObject(const std::string& text, const std::shared_ptr<Font>& font);
 		virtual ~TextObject() = default;
