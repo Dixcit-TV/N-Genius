@@ -4,33 +4,41 @@
 ngenius::TimeSettings::TimeSettings()
 	: m_LastTimePoint(Clock::now())
 	, m_ElapsedTime(0.f)
-	, m_FixedElapsedTime(0.f)
 	, m_Lag(0.f)
+	, m_FPSTimerCount(0.f)
+	, m_FPS(0)
+	, m_FPSCounter(0)
 {}
-
-inline float ngenius::TimeSettings::GetElapsed() const
-{
-	return m_ElapsedTime;
-}
 
 void ngenius::TimeSettings::Update()
 {
 	const TimePoint currentTime{ Clock::now() };
-	m_ElapsedTime = std::chrono::duration<float>(currentTime - m_LastTimePoint).count();
+	float deltaT{ std::chrono::duration<float>(currentTime - m_LastTimePoint).count() };
 	m_LastTimePoint = currentTime;
+	m_Lag += deltaT;
 
-	m_FixedElapsedTime = USEFIXFRAMETIME ? float(FRAMETIME) : m_ElapsedTime;
-	m_FixedElapsedTime = std::clamp(m_FixedElapsedTime, 0.f, float(MAXFRAMETIME));
-	
-	m_Lag += m_FixedElapsedTime;
+	m_ElapsedTime = USEFIXEDFRAMETIME ? float(FRAMETIMEMS * 0.001f) : deltaT;
+	m_ElapsedTime = std::clamp(m_ElapsedTime, 0.f, float(MAXFRAMETIMEMS * 0.001f));
+
+	m_FPSTimerCount += deltaT;
+	++m_FPSCounter;
+
+	if (m_FPSTimerCount >= 1.f)
+	{
+		m_FPSTimerCount = m_FPSTimerCount - 1.f;
+		m_FPS = m_FPSCounter;
+		m_FPSCounter = 0;
+	}
 }
 
 bool ngenius::TimeSettings::CatchUp()
 {
-	const bool shouldCatchup{ m_Lag >= float(m_FixedElapsedTime) };
+	const bool shouldCatchup{ m_Lag >= m_ElapsedTime };
 
 	if (shouldCatchup)
-		m_Lag -= m_FixedElapsedTime;
+	{
+		m_Lag -= m_ElapsedTime;
+	}
 	
 	return shouldCatchup;
 }

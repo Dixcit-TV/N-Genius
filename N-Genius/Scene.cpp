@@ -15,15 +15,23 @@ void ngenius::Scene::Update()
 {
 	for(auto& object : m_Objects)
 	{
-		object->Update();
+		GameObject::Components& components{ object->GetComponents() };
+		for (auto& comp : components)
+		{
+			comp->Receive(eComponentMessage::UPDATE, object);
+		}
 	}
 }
 
 void ngenius::Scene::Render() const
 {
-	for (const auto& object : m_Objects)
+	for (auto& object : m_Objects)
 	{
-		object->Render();
+		const GameObject::Components& components{ object->GetComponents() };
+		for (const auto& comp : components)
+		{
+			comp->Receive(eComponentMessage::RENDER, object);
+		}
 	}
 }
 

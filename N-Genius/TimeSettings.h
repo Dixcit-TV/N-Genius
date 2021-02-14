@@ -15,7 +15,8 @@ namespace ngenius
 		void Update();
 		bool CatchUp();
 
-		float GetElapsed() const;
+		float GetElapsed() const { return m_ElapsedTime; }
+		unsigned int GetFPS() const { return m_FPS; }
 	
 	private:
 		friend class Singleton<TimeSettings>;
@@ -26,13 +27,15 @@ namespace ngenius
 
 		TimePoint m_LastTimePoint;
 		
-		const bool USEFIXFRAMETIME = true;
-		const int FRAMETIME = 16;
-		const int MAXFRAMETIME = 100;
+		const bool USEFIXEDFRAMETIME = true;
+		const int FRAMETIMEMS = 16;
+		const int MAXFRAMETIMEMS = 100;
 		
 		float m_ElapsedTime;
-		float m_FixedElapsedTime;
 		float m_Lag;
+		float m_FPSTimerCount;
+		unsigned int m_FPS;
+		unsigned int m_FPSCounter;
 	};
 }
 

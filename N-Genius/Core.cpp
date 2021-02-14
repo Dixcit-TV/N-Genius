@@ -5,10 +5,11 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
-#include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "TextComponent.h"
 #include "TimeSettings.h"
+#include "TextureComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -44,18 +45,20 @@ void ngenius::Core::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
+	go->AddComponent<TextureComponent>("background.jpg");
+	go->AddComponent<TransformComponent>(0.f, 0.f);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
+	go->AddComponent<TextureComponent>("logo.png");
+	go->AddComponent<TransformComponent>(216.f, 180.f);
 	scene.Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetTextPosition(80, 20);
-	scene.Add(to);
+	auto pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto pGoFps = std::make_shared<GameObject>();
+	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, TransformComponent(20.f, 20.f));
+	pGoFps->AddComponent<TransformComponent>(0.f, 0.f);
+	scene.Add(pGoFps);
 }
 
 void ngenius::Core::Cleanup()

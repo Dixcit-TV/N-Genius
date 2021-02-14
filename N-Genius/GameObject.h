@@ -1,27 +1,48 @@
 #pragma once
-#include "Transform.h"
+#include "IComponent.h"
 
 namespace ngenius
 {
-	class Texture2D;
-	class GameObject
+	class GameObject final
 	{
 	public:
-		void Update();
-		void Render() const;
 
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
-
+		using Components = std::vector<std::unique_ptr<IComponent>>;
+		
 		explicit GameObject() = default;
-		virtual ~GameObject();
+		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		template<typename COMPONENT_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE>>>
+		void AddComponent(std::unique_ptr<COMPONENT_TYPE>&& pNewComponent)
+		{
+			m_ComponentPtrs.push_back(std::move(pNewComponent));
+		}
+
+		template<typename COMPONENT_TYPE, typename... ARG_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE>>>
+		void AddComponent(ARG_TYPE&&... arguments)
+		{
+			m_ComponentPtrs.push_back(std::make_unique<COMPONENT_TYPE>(std::forward<ARG_TYPE>(arguments)...));
+		}
+
+		const Components& GetComponents() const { return m_ComponentPtrs; };
+		Components& GetComponents() { return m_ComponentPtrs; };
+
+		template<typename COMPONENT_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE>>>
+		const COMPONENT_TYPE& GetComponent() const
+		{
+			auto it{ std::find_if(std::cbegin(m_ComponentPtrs), std::cend(m_ComponentPtrs), [](const std::unique_ptr<IComponent>& c) { return dynamic_cast<COMPONENT_TYPE*>(c.get()); }) };
+
+			if (it == std::cend(m_ComponentPtrs))
+				throw "Could not find component";	
+			
+			return *static_cast<COMPONENT_TYPE*>(it->get());
+		}
+		
 	private:
-		Transform m_Transform;
-		std::shared_ptr<Texture2D> m_Texture{};
+		Components m_ComponentPtrs;
 	};
 }
