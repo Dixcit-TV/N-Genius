@@ -55,8 +55,14 @@ void ngenius::Core::LoadGame() const
 	scene.Add(go);
 
 	auto pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto pGoTitle = std::make_shared<GameObject>();
+	pGoTitle->AddComponent<TextComponent>("Programming 4 Assignment", nullptr, pfont);
+	pGoTitle->AddComponent<TransformComponent>(80.f, 20.f);
+	scene.Add(pGoTitle);
+
+	pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	auto pGoFps = std::make_shared<GameObject>();
-	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, TransformComponent(20.f, 20.f));
+	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 5.f));
 	pGoFps->AddComponent<TransformComponent>(0.f, 0.f);
 	scene.Add(pGoFps);
 }

@@ -1,16 +1,16 @@
 #include "PCH.h"
 #include "TextComponent.h"
 
-#include <SDL_pixels.h>
 #include <SDL_ttf.h>
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
 #include "GameObject.h"
 
-ngenius::TextComponent::TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const TransformComponent& transform)
+ngenius::TextComponent::TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color, const TransformComponent& transform)
 	: IComponent()
 	, m_LocalTransform(transform)
+	, m_Color(color)
 	, m_pFont(pfont)
 	, m_pTexture(nullptr)
 	, m_pTextBindFnc(pTextBindFnc)
@@ -22,8 +22,7 @@ ngenius::TextComponent::TextComponent(const std::string& text, const std::functi
 
 void ngenius::TextComponent::SetTextTexture()
 {
-	const SDL_Color color = { 255,255,255 }; // only white text is supported now
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
+	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -55,12 +54,7 @@ void ngenius::TextComponent::Update()
 	std::cout << std::boolalpha << "Should Update: " << m_NeedsUpdate << std::endl;
 	if (m_pTextBindFnc)
 	{
-		const std::string newText{ m_pTextBindFnc() };
-		if (newText != m_Text)
-		{
-			m_Text = newText;
-			m_NeedsUpdate = true;
-		}
+		SetText(m_pTextBindFnc());
 	}
 
 	if (m_NeedsUpdate)
@@ -80,11 +74,24 @@ void ngenius::TextComponent::Render(const TransformComponent& parentTransform) c
 // This implementation uses the "dirty flag" pattern
 void ngenius::TextComponent::SetText(const std::string& text)
 {
-	m_Text = text;
-	m_NeedsUpdate = true;
+	if (text != m_Text)
+	{
+		m_Text = text;
+		m_NeedsUpdate = true;
+	}
 }
 
-void ngenius::TextComponent::SetTextPosition(const float x, const float y)
+void ngenius::TextComponent::SetPosition(const float x, const float y)
 {
 	m_LocalTransform.SetPosition(x, y);
+}
+
+void ngenius::TextComponent::SetColor(const SDL_Color& newColor)
+{
+	m_Color.r = newColor.r;
+	m_Color.g = newColor.g;
+	m_Color.b = newColor.b;
+	m_Color.a = newColor.a;
+
+	m_NeedsUpdate = true;
 }
