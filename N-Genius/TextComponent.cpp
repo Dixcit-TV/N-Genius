@@ -44,7 +44,7 @@ void ngenius::TextComponent::Receive(eComponentMessage message, const std::share
 			Update();
 			break;
 		case eComponentMessage::RENDER:
-			Render(pParentGo->GetComponent<TransformComponent>());
+			Render(*pParentGo->GetTransform());
 			break;
 	}
 }

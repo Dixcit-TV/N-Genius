@@ -15,7 +15,7 @@ void ngenius::TextureComponent::Receive(eComponentMessage message, const std::sh
 	switch (message)
 	{
 	case eComponentMessage::RENDER:
-		Render(pParentGo->GetComponent<TransformComponent>());
+		Render(*pParentGo->GetTransform());
 		break;
 	default: break;
 	}

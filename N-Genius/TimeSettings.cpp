@@ -13,7 +13,7 @@ ngenius::TimeSettings::TimeSettings()
 void ngenius::TimeSettings::Update()
 {
 	const TimePoint currentTime{ Clock::now() };
-	float deltaT{ std::chrono::duration<float>(currentTime - m_LastTimePoint).count() };
+	const float deltaT{ std::chrono::duration<float>(currentTime - m_LastTimePoint).count() };
 	m_LastTimePoint = currentTime;
 	m_Lag += deltaT;
 

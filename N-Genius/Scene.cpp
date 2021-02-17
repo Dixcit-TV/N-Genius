@@ -13,10 +13,10 @@ void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object)
 
 void ngenius::Scene::Update()
 {
-	for(auto& object : m_Objects)
+	for(auto object : m_Objects)
 	{
-		GameObject::Components& components{ object->GetComponents() };
-		for (auto& comp : components)
+		const GameObject::Components& components{ object->GetAllComponents() };
+		for (auto comp : components)
 		{
 			comp->Receive(eComponentMessage::UPDATE, object);
 		}
@@ -27,7 +27,7 @@ void ngenius::Scene::Render() const
 {
 	for (auto& object : m_Objects)
 	{
-		const GameObject::Components& components{ object->GetComponents() };
+		const GameObject::Components& components{ object->GetAllComponents() };
 		for (const auto& comp : components)
 		{
 			comp->Receive(eComponentMessage::RENDER, object);
