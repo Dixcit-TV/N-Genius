@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "Input.h"
+#include "PhysicsComponent.h"
 
 namespace ngenius
 {
@@ -27,6 +28,70 @@ namespace ngenius
 			auto pos{ m_pGameObject->GetTransform()->GetPosition() };
 			auto newPos{ pos + inputData.value };
 			m_pGameObject->GetTransform()->SetPosition(newPos.x, newPos.y);
+		}
+	};
+
+	class KillPlayerCommand final : public ICommand
+	{
+	public:
+		explicit KillPlayerCommand(std::shared_ptr<GameObject> pTargetObject) : ICommand(std::move(pTargetObject)) {}
+
+		void Execute(const InputData& inputData) override
+		{
+			if (inputData.state == InputState::PRESSED)
+			{
+				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
+				if (physxComp)
+					physxComp->SimulateOnCollision(Event::PLAYER_HIT);
+			}
+		}
+	};
+
+	class JumpCommand final : public ICommand
+	{
+	public:
+		explicit JumpCommand(std::shared_ptr<GameObject> pTargetObject) : ICommand(std::move(pTargetObject)) {}
+
+		void Execute(const InputData& inputData) override
+		{
+			if (inputData.state == InputState::PRESSED)
+			{
+				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
+				if (physxComp)
+					physxComp->SimulateOnCollision(Event::BLOCK_HIT);
+			}
+		}
+	};
+
+	class AttackCommand final : public ICommand
+	{
+	public:
+		explicit AttackCommand(std::shared_ptr<GameObject> pTargetObject) : ICommand(std::move(pTargetObject)) {}
+
+		void Execute(const InputData& inputData) override
+		{
+			if (inputData.state == InputState::PRESSED)
+			{
+				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
+				if (physxComp)
+					physxComp->SimulateOnCollision(Event::COILY_HIT);
+			}
+		}
+	};
+
+	class CatchCommand final : public ICommand
+	{
+	public:
+		explicit CatchCommand(std::shared_ptr<GameObject> pTargetObject) : ICommand(std::move(pTargetObject)) {}
+
+		void Execute(const InputData& inputData) override
+		{
+			if (inputData.state == InputState::PRESSED)
+			{
+				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
+				if (physxComp)
+					physxComp->SimulateOnCollision(Event::SLICK_SAM_CAUGHT);
+			}
 		}
 	};
 

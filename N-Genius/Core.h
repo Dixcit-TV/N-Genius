@@ -11,5 +11,7 @@ namespace ngenius
 		void Run();
 	private:
 		SDL_Window* m_Window{};
+
+		void PrintCommands() const;
 	};
 }

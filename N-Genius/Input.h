@@ -23,7 +23,7 @@ namespace ngenius
 
 	enum class InputState : uint8_t
 	{
-		NONE, PRESSED, RELEASED
+		NONE, PRESSED, RELEASED, HELD
 	};
 
 	enum class InputType : uint8_t

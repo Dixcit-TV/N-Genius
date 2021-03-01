@@ -121,13 +121,16 @@ ngenius::InputState ngenius::InputManager::GetButtonStateChange(const Input& inp
 		isPressed = m_KeyboardState[input.key] & 0xF0;
 	}
 
-	if (isPressed && prevState != InputState::PRESSED)
+	if (isPressed && (prevState == InputState::NONE || prevState == InputState::RELEASED))
 		return InputState::PRESSED;
 
-	if (!isPressed && prevState == InputState::PRESSED)
+	if (isPressed && prevState == InputState::PRESSED)
+		return InputState::HELD;
+
+	if (!isPressed && (prevState == InputState::PRESSED || prevState == InputState::HELD))
 		return InputState::RELEASED;
 
-	if (isPressed && prevState == InputState::RELEASED)
+	if (!isPressed && prevState == InputState::RELEASED)
 		return InputState::NONE;
 
 	return prevState;

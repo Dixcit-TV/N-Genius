@@ -8,3 +8,8 @@ enum class eComponentMessage
 {
 	UPDATE, RENDER
 };
+
+enum class Event
+{
+	PLAYER_HIT, BLOCK_HIT, COILY_HIT, REMAINING_DISKS, SLICK_SAM_CAUGHT
+};

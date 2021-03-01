@@ -29,6 +29,12 @@
     <Filter Include="Common\Rendering">
       <UniqueIdentifier>{5df94c13-4501-443f-8ede-2a8dfba025ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{3294469d-348e-45ff-ab24-35c6fbd199c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode">
+      <UniqueIdentifier>{c6d82a40-3d02-4ef5-87d7-2f1434b624af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -115,6 +121,18 @@
     <ClInclude Include="Texture2D.h">
       <Filter>Common\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -188,6 +206,18 @@
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Common\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="IObserver.h">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>GameCode</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

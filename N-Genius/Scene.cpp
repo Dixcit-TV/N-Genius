@@ -18,7 +18,7 @@ void ngenius::Scene::Update()
 		const GameObject::Components& components{ object->GetAllComponents() };
 		for (auto comp : components)
 		{
-			comp->Receive(eComponentMessage::UPDATE, object);
+			comp->Update();
 		}
 	}
 
@@ -35,7 +35,7 @@ void ngenius::Scene::Render() const
 		const GameObject::Components& components{ object->GetAllComponents() };
 		for (const auto& comp : components)
 		{
-			comp->Receive(eComponentMessage::RENDER, object);
+			comp->Render();
 		}
 	}
 }

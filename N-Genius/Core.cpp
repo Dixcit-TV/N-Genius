@@ -6,10 +6,13 @@
 #include "ResourceManager.h"
 #include <SDL.h>
 #include "GameObject.h"
+#include "HealthComponent.h"
 #include "Scene.h"
 #include "TextComponent.h"
 #include "TimeSettings.h"
 #include "TextureComponent.h"
+#include "PhysicsComponent.h"
+#include "ScoreComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -53,15 +56,59 @@ void ngenius::Core::LoadGame() const
 	go->AddComponent<TextureComponent>("logo.png");
 	scene.Add(go);
 
-	auto pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto pGoTitle = std::make_shared<GameObject>(std::make_shared<TransformComponent>(80.f, 20.f));
-	pGoTitle->AddComponent<TextComponent>("Programming 4 Assignment", nullptr, pfont);
-	scene.Add(pGoTitle);
-
-	pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	auto pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	auto pGoFps = std::make_shared<GameObject>();
 	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 5.f));
 	scene.Add(pGoFps);
+
+	//QBERT1 
+	auto QbertGo = std::make_shared<GameObject>();
+	auto healthComponent{ QbertGo->AddComponent<HealthComponent>(5) };
+	auto physicsComponent{ QbertGo->AddComponent<PhysicsComponent>() };
+	auto scoreComponent{ QbertGo->AddComponent<ScoreComponent>() };
+	physicsComponent->AddCollisionListener(healthComponent);
+	physicsComponent->AddCollisionListener(scoreComponent);
+
+	//QBERT1 UI
+	auto pfont36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto pGoHealth1 = std::make_shared<GameObject>();
+	pGoHealth1->AddComponent<TextComponent>("", [healthComponent]() { return "P1 Health: " + std::to_string(healthComponent->GetHealth()); }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 0.f));
+	pGoHealth1->GetTransform()->SetPosition(0.f, 450.f);
+	scene.Add(pGoHealth1);
+
+	auto pGoScore1 = std::make_shared<GameObject>();
+	pGoScore1->AddComponent<TextComponent>("", [scoreComponent]() { return "P1 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 0.f));
+	pGoScore1->GetTransform()->SetPosition(0.f, 410.f);
+	scene.Add(pGoScore1);
+
+	//QBERT2
+	auto Qbert2Go = std::make_shared<GameObject>();
+	healthComponent = Qbert2Go->AddComponent<HealthComponent>(5);
+	physicsComponent = Qbert2Go->AddComponent<PhysicsComponent>();
+	scoreComponent = Qbert2Go->AddComponent<ScoreComponent>();
+	physicsComponent->AddCollisionListener(healthComponent);
+	physicsComponent->AddCollisionListener(scoreComponent);
+
+	//QBERT2 UI
+	auto pGoHealth2 = std::make_shared<GameObject>();
+	pGoHealth2->AddComponent<TextComponent>("", [healthComponent]() { return "P2 Health: " + std::to_string(healthComponent->GetHealth()); }, pfont, SDL_Color{ 196, 174, 29 });
+	pGoHealth2->GetTransform()->SetPosition(500.f, 450.f);
+	scene.Add(pGoHealth2);
+
+	auto pGoScore2 = std::make_shared<GameObject>();
+	pGoScore2->AddComponent<TextComponent>("", [scoreComponent]() { return "P2 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 0.f));
+	pGoScore2->GetTransform()->SetPosition(500.f, 410.f);
+	scene.Add(pGoScore2);
+
+	InputManager::GetInstance().BindInput("Player_Kill", new KillPlayerCommand(QbertGo), { Input('K', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Player_Move", new JumpCommand(QbertGo), { Input('W', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Player_Attack", new AttackCommand(QbertGo), { Input(VK_SPACE, 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Player_Catch", new CatchCommand(QbertGo), { Input('R', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	const int newGamePadId{ InputManager::GetInstance().RegisterGamepad() };
+	InputManager::GetInstance().BindInput("Player2_Kill", new KillPlayerCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_Y, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
+	InputManager::GetInstance().BindInput("Player2_Move", new JumpCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_DPAD_UP, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
+	InputManager::GetInstance().BindInput("Player2_Attack", new AttackCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_A, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
+	InputManager::GetInstance().BindInput("Player2_Catch", new CatchCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_B, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
 }
 
 void ngenius::Core::Cleanup()
@@ -101,4 +148,20 @@ void ngenius::Core::Run()
 	}
 
 	Cleanup();
+}
+
+void ngenius::Core::PrintCommands() const
+{
+	std::cout << "----------- HOW TO PLAY ----------\n";
+	std::cout << "Player1:\n";
+	std::cout << "	- Kill player:			K\n";
+	std::cout << "	- Change Color Points:	W\n";
+	std::cout << "	- Kill Coily:			SPACE\n";
+	std::cout << "	- Catch:				R\n";
+	std::cout << "\n";
+	std::cout << "Player2:\n";
+	std::cout << "	- Kill player:			GAMEPAD FACE UP\n";
+	std::cout << "	- Change Color Points:	GAMEPAD DPAD UP\n";
+	std::cout << "	- Kill Coily:			GAMEPAD FACE DOWN\n";
+	std::cout << "	- Catch:				GAMEPAD FACE RIGHT\n";
 }
