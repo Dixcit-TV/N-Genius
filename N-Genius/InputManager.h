@@ -37,7 +37,7 @@ namespace ngenius
 		using ControllerMap = std::map<DWORD, XINPUT_STATE>;
 		using InputBindings = std::map<std::string, InputBinding>;
 		
-		~InputManager() override = default;
+		~InputManager() override{ delete[] m_KeyboardState; };
 		InputManager(const InputManager& other) = delete;
 		InputManager(InputManager&& other) = delete;
 		InputManager& operator=(const InputManager& other) = delete;
