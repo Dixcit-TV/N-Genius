@@ -13,7 +13,8 @@ namespace ngenius
 		TimeSettings& operator=(TimeSettings && other) = delete;
 
 		void Update();
-		bool CatchUp();
+		void TrySleep() const;
+		//bool CatchUp();
 
 		float GetElapsed() const { return m_ElapsedTime; }
 		unsigned int GetFPS() const { return m_FPS; }
@@ -27,15 +28,16 @@ namespace ngenius
 
 		TimePoint m_LastTimePoint;
 		
-		const bool USEFIXEDFRAMETIME = true;
-		const int FRAMETIMEMS = 16;
-		const int MAXFRAMETIMEMS = 100;
-		
 		float m_ElapsedTime;
 		float m_Lag;
 		float m_FPSTimerCount;
 		unsigned int m_FPS;
 		unsigned int m_FPSCounter;
+
+		const float FIXEDDELTATIME = 0.2f;
+		const float MAXFRAMETIME = 0.1f;
+		const int FRAMETIMEMS = 16;
+		const bool USEFIXEDFRAMETIME = true;
 	};
 }
 

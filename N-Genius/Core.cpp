@@ -92,13 +92,10 @@ void ngenius::Core::Run()
 			timeSettings.Update();
 			
 			doContinue = input.ProcessInput();
-
-			while(timeSettings.CatchUp())
-			{
-				sceneManager.Update();
-			}
-			
+			sceneManager.Update();
 			renderer.Render();
+
+			timeSettings.TrySleep();
 		}
 	}
 
