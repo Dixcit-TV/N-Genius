@@ -44,6 +44,8 @@ namespace ngenius
 		std::shared_ptr<TransformComponent> GetTransform() const { return m_pTransform; }
 
 		void Delete() { m_MarkedForDeletion = true; };
+
+		bool IsMarkedForDeleteion() const { return m_MarkedForDeletion; };
 	
 	private:
 		Components m_ComponentPtrs;
