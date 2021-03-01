@@ -33,20 +33,7 @@ void ngenius::TextComponent::SetTextTexture()
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
-	m_pTexture = std::make_shared<ngenius::Texture2D>(texture);
-}
-
-void ngenius::TextComponent::Receive(eComponentMessage message, const std::shared_ptr<GameObject>& pParentGo)
-{
-	switch (message)
-	{
-		case eComponentMessage::UPDATE:
-			Update();
-			break;
-		case eComponentMessage::RENDER:
-			Render(*pParentGo->GetTransform());
-			break;
-	}
+	m_pTexture = std::make_shared<Texture2D>(texture);
 }
 
 void ngenius::TextComponent::Update()
@@ -64,10 +51,10 @@ void ngenius::TextComponent::Update()
 	}
 }
 
-void ngenius::TextComponent::Render(const TransformComponent& parentTransform) const
+void ngenius::TextComponent::Render() const
 {
 	const auto pos = m_LocalTransform.GetPosition();
-	const auto parentPos = parentTransform.GetPosition();
+	const auto parentPos = m_pGameObject.lock()->GetTransform()->GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_pTexture, parentPos.x + pos.x, parentPos.y + pos.y);
 }
 

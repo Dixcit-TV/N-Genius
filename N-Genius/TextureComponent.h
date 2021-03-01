@@ -11,10 +11,12 @@ namespace ngenius
 	public:
 		explicit TextureComponent() = default;
 		explicit TextureComponent(const std::string& textureName, const TransformComponent& localTransform = TransformComponent{});
+		TextureComponent(const TextureComponent& rhs) = delete;
+		TextureComponent(TextureComponent&& rhs) noexcept = delete;
+		TextureComponent& operator=(const TextureComponent& rhs) = delete;
+		TextureComponent& operator=(TextureComponent&& rhs) noexcept = delete;
 
-		void Receive(eComponentMessage message, const std::shared_ptr<GameObject>& pParentGo) override;
-
-		void Render(const TransformComponent& parentTransform) const;
+		void Render() const override;
 
 	private:
 		TransformComponent m_LocalTransform;

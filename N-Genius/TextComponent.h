@@ -14,11 +14,13 @@ namespace ngenius
 	{
 	public:
 		explicit TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 }, const TransformComponent& transform = TransformComponent{});
-
-		void Receive(eComponentMessage message, const std::shared_ptr<GameObject>& pParentGo) override;
+		TextComponent(const TextComponent& rhs) = delete;
+		TextComponent(TextComponent&& rhs) noexcept = delete;
+		TextComponent& operator=(const TextComponent& rhs) = delete;
+		TextComponent& operator=(TextComponent&& rhs) noexcept = delete;
 		
-		void Update();
-		void Render(const TransformComponent& parentTransform) const;
+		void Update() override;
+		void Render() const override;
 
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);

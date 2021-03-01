@@ -2,10 +2,11 @@
 #include "IComponent.h"
 #include "TransformComponent.h"
 #include <vector>
+#include <memory>
 
 namespace ngenius
 {
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 
@@ -18,16 +19,13 @@ namespace ngenius
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		template<typename COMPONENT_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE> && !std::is_same_v<COMPONENT_TYPE, TransformComponent>>>
-		void AddComponent(const std::shared_ptr<COMPONENT_TYPE>& pNewComponent)
-		{
-			m_ComponentPtrs.push_back(pNewComponent);
-		}
-
 		template<typename COMPONENT_TYPE, typename... ARG_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE> && !std::is_same_v<COMPONENT_TYPE, TransformComponent>>>
-		void AddComponent(ARG_TYPE&&... arguments)
+		std::shared_ptr<COMPONENT_TYPE> AddComponent(ARG_TYPE&&... arguments)
 		{
-			m_ComponentPtrs.push_back(std::make_shared<COMPONENT_TYPE>(std::forward<ARG_TYPE>(arguments)...));
+			auto newComp{ std::make_shared<COMPONENT_TYPE>(std::forward<ARG_TYPE>(arguments)...) };
+			newComp->SetParentGo(shared_from_this());
+			m_ComponentPtrs.push_back(newComp);
+			return newComp;
 		}
 
 		template<typename COMPONENT_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE>>>

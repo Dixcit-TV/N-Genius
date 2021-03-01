@@ -15,8 +15,6 @@ namespace ngenius
 		explicit TransformComponent(float x, float y) : IComponent(), m_Position(x, y) {}
 		explicit TransformComponent(const glm::vec2& position) : IComponent(), m_Position(position) {};
 
-		void Receive(eComponentMessage message, const std::shared_ptr<GameObject>& pParentGo) override;
-		
 		const glm::vec2& GetPosition() const { return m_Position; }
 		void SetPosition(float x, float y);
 	
