@@ -21,6 +21,11 @@ void ngenius::Scene::Update()
 			comp->Receive(eComponentMessage::UPDATE, object);
 		}
 	}
+
+	m_Objects.erase(std::remove_if(std::begin(m_Objects), std::end(m_Objects), [](std::shared_ptr<GameObject> pGO)
+	{
+		return pGO->IsMarkedForDeleteion();
+	}), std::end(m_Objects));
 }
 
 void ngenius::Scene::Render() const

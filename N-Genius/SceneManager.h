@@ -15,6 +15,9 @@ namespace ngenius
 		
 		Scene& CreateScene(const std::string& name);
 
+		void SetCurrentScene(int id);
+		void SetCurrentScene(const std::string& sceneName);
+
 		void Update();
 		void Render();
 	private:
@@ -22,5 +25,6 @@ namespace ngenius
 		explicit SceneManager() = default;
 		
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		int m_CurrentSceneId = -1;
 	};
 }

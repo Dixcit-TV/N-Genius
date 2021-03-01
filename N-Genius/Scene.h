@@ -12,6 +12,7 @@ namespace ngenius
 
 		void Update();
 		void Render() const;
+		const std::string& GetName() const { return m_Name; };
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;

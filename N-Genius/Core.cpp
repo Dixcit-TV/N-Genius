@@ -43,6 +43,7 @@ void ngenius::Core::Initialize()
 void ngenius::Core::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	SceneManager::GetInstance().SetCurrentScene(0);
 
 	auto go = std::make_shared<GameObject>();
 	go->AddComponent<TextureComponent>("background.jpg");
