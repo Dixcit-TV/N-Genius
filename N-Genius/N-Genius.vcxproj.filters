@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -24,13 +20,19 @@
     <Filter Include="Common">
       <UniqueIdentifier>{50c47bdf-6f76-45b8-8aa2-b2cad3fa4577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{b58c9018-f978-4d86-8082-765b8234abbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Inputs">
+      <UniqueIdentifier>{15c6569b-2ebc-448c-b0ee-75a463c0d6a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Rendering">
+      <UniqueIdentifier>{5df94c13-4501-443f-8ede-2a8dfba025ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Managers</Filter>
@@ -46,12 +48,6 @@
     </ClInclude>
     <ClInclude Include="PCH.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Managers</Filter>
@@ -80,13 +76,49 @@
     <ClInclude Include="Scene.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imconfig.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imgui.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imgui_internal.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_sdl.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Managers\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Managers\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Common\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Common\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Managers</Filter>
@@ -106,12 +138,6 @@
     <ClCompile Include="PCH.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -126,6 +152,42 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_demo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_draw.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_sdl.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Managers\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Managers\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Common\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Common\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include "IComponent.h"
 #include "TransformComponent.h"
+#include <vector>
 
 namespace ngenius
 {
