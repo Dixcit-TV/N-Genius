@@ -12,7 +12,7 @@ namespace ngenius
 		virtual ~ICommand() = default;
 		virtual void Execute(const InputData& inputData) = 0;
 	protected:
-		explicit ICommand(std::shared_ptr<GameObject> pTargetObject) : m_pGameObject(pTargetObject) {}
+		explicit ICommand(std::shared_ptr<GameObject> pTargetObject) : m_pGameObject(std::move(pTargetObject)) {}
 
 		std::shared_ptr<GameObject> m_pGameObject;
 	};
@@ -20,7 +20,7 @@ namespace ngenius
 	class MoveCommand final : public ICommand
 	{
 	public:
-		explicit MoveCommand(std::shared_ptr<GameObject> pTargetObject) : ICommand(pTargetObject){}
+		explicit MoveCommand(std::shared_ptr<GameObject> pTargetObject) : ICommand(std::move(pTargetObject)){}
 
 		void Execute(const InputData& inputData) override
 		{
