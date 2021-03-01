@@ -49,3 +49,9 @@ void ngenius::Renderer::RenderTexture(const Texture2D& texture, const float x, c
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
+
+void ngenius::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect* pSrcRect, SDL_Rect* pDestRect) const
+{
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &pDestRect->w, &pDestRect->h);
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), pSrcRect, pDestRect);
+}
