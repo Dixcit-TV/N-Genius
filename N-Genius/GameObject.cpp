@@ -9,4 +9,5 @@ ngenius::GameObject::GameObject(const std::shared_ptr<TransformComponent>& pTran
 	, m_MarkedForDeletion{ false }
 {
 	m_ComponentPtrs.push_back(m_pTransform);
+	m_pTransform->SetParentGo(this);
 }

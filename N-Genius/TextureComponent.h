@@ -10,7 +10,8 @@ namespace ngenius
 	{
 	public:
 		explicit TextureComponent() = default;
-		explicit TextureComponent(const std::string& textureName, const TransformComponent& localTransform = TransformComponent{});
+		explicit TextureComponent(const std::string& textureName);
+		~TextureComponent() override = default;
 		TextureComponent(const TextureComponent& rhs) = delete;
 		TextureComponent(TextureComponent&& rhs) noexcept = delete;
 		TextureComponent& operator=(const TextureComponent& rhs) = delete;
@@ -19,7 +20,6 @@ namespace ngenius
 		void Render() const override;
 
 	private:
-		TransformComponent m_LocalTransform;
 		std::shared_ptr<Texture2D> m_pTexture{};
 	};
 }

@@ -13,7 +13,7 @@ namespace ngenius
 	class TextComponent final : public IComponent
 	{
 	public:
-		explicit TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 }, const TransformComponent& transform = TransformComponent{});
+		explicit TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 });
 		TextComponent(const TextComponent& rhs) = delete;
 		TextComponent(TextComponent&& rhs) noexcept = delete;
 		TextComponent& operator=(const TextComponent& rhs) = delete;
@@ -23,11 +23,9 @@ namespace ngenius
 		void Render() const override;
 
 		void SetText(const std::string& text);
-		void SetPosition(float x, float y);
 		void SetColor(const SDL_Color& newColor);
 
 	private:
-		TransformComponent m_LocalTransform;
 		SDL_Color m_Color;
 		std::shared_ptr<Font> m_pFont;
 		std::shared_ptr<Texture2D> m_pTexture; 

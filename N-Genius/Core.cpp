@@ -58,7 +58,7 @@ void ngenius::Core::LoadGame() const
 
 	auto pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	auto pGoFps = std::make_shared<GameObject>();
-	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 5.f));
+	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, SDL_Color{ 196, 174, 29 });
 	scene.Add(pGoFps);
 
 	//QBERT1 
@@ -72,12 +72,12 @@ void ngenius::Core::LoadGame() const
 	//QBERT1 UI
 	auto pfont36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto pGoHealth1 = std::make_shared<GameObject>();
-	pGoHealth1->AddComponent<TextComponent>("", [healthComponent]() { return "P1 Health: " + std::to_string(healthComponent->GetHealth()); }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 0.f));
+	pGoHealth1->AddComponent<TextComponent>("", [healthComponent]() { return "P1 Health: " + std::to_string(healthComponent->GetHealth()); }, pfont, SDL_Color{ 196, 174, 29 });
 	pGoHealth1->GetTransform()->SetPosition(0.f, 450.f);
 	scene.Add(pGoHealth1);
 
 	auto pGoScore1 = std::make_shared<GameObject>();
-	pGoScore1->AddComponent<TextComponent>("", [scoreComponent]() { return "P1 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 0.f));
+	pGoScore1->AddComponent<TextComponent>("", [scoreComponent]() { return "P1 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 });
 	pGoScore1->GetTransform()->SetPosition(0.f, 410.f);
 	scene.Add(pGoScore1);
 
@@ -96,7 +96,7 @@ void ngenius::Core::LoadGame() const
 	scene.Add(pGoHealth2);
 
 	auto pGoScore2 = std::make_shared<GameObject>();
-	pGoScore2->AddComponent<TextComponent>("", [scoreComponent]() { return "P2 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 }, TransformComponent(5.f, 0.f));
+	pGoScore2->AddComponent<TextComponent>("", [scoreComponent]() { return "P2 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 });
 	pGoScore2->GetTransform()->SetPosition(500.f, 410.f);
 	scene.Add(pGoScore2);
 
@@ -109,6 +109,8 @@ void ngenius::Core::LoadGame() const
 	InputManager::GetInstance().BindInput("Player2_Move", new JumpCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_DPAD_UP, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
 	InputManager::GetInstance().BindInput("Player2_Attack", new AttackCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_A, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
 	InputManager::GetInstance().BindInput("Player2_Catch", new CatchCommand(Qbert2Go), { Input(XINPUT_GAMEPAD_B, 0, InputType::BUTTON, InputSource::GAMEPAD, newGamePadId) });
+
+	PrintCommands();
 }
 
 void ngenius::Core::Cleanup()
@@ -154,14 +156,14 @@ void ngenius::Core::PrintCommands() const
 {
 	std::cout << "----------- HOW TO PLAY ----------\n";
 	std::cout << "Player1:\n";
-	std::cout << "	- Kill player:			K\n";
-	std::cout << "	- Change Color Points:	W\n";
-	std::cout << "	- Kill Coily:			SPACE\n";
-	std::cout << "	- Catch:				R\n";
+	std::cout << "	- Kill player: K\n";
+	std::cout << "	- Change Color Points: W\n";
+	std::cout << "	- Kill Coily: SPACE\n";
+	std::cout << "	- Catch: R\n";
 	std::cout << "\n";
 	std::cout << "Player2:\n";
-	std::cout << "	- Kill player:			GAMEPAD FACE UP\n";
-	std::cout << "	- Change Color Points:	GAMEPAD DPAD UP\n";
-	std::cout << "	- Kill Coily:			GAMEPAD FACE DOWN\n";
-	std::cout << "	- Catch:				GAMEPAD FACE RIGHT\n";
+	std::cout << "	- Kill player: GAMEPAD FACE UP\n";
+	std::cout << "	- Change Color Points: GAMEPAD DPAD UP\n";
+	std::cout << "	- Kill Coily: GAMEPAD FACE DOWN\n";
+	std::cout << "	- Catch: GAMEPAD FACE RIGHT\n";
 }

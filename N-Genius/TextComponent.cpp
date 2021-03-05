@@ -7,9 +7,8 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 
-ngenius::TextComponent::TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color, const TransformComponent& transform)
+ngenius::TextComponent::TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color)
 	: IComponent()
-	, m_LocalTransform(transform)
 	, m_Color(color)
 	, m_pFont(pfont)
 	, m_pTexture(nullptr)
@@ -38,7 +37,6 @@ void ngenius::TextComponent::SetTextTexture()
 
 void ngenius::TextComponent::Update()
 {
-	std::cout << std::boolalpha << "Should Update: " << m_NeedsUpdate << std::endl;
 	if (m_pTextBindFnc)
 	{
 		SetText(m_pTextBindFnc());
@@ -53,9 +51,8 @@ void ngenius::TextComponent::Update()
 
 void ngenius::TextComponent::Render() const
 {
-	const auto pos = m_LocalTransform.GetPosition();
-	const auto parentPos = m_pGameObject.lock()->GetTransform()->GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, parentPos.x + pos.x, parentPos.y + pos.y);
+	const auto parentPos = m_pGameObject->GetTransform()->GetPosition();
+	Renderer::GetInstance().RenderTexture(*m_pTexture, parentPos.x, parentPos.y);
 }
 
 // This implementation uses the "dirty flag" pattern
@@ -66,11 +63,6 @@ void ngenius::TextComponent::SetText(const std::string& text)
 		m_Text = text;
 		m_NeedsUpdate = true;
 	}
-}
-
-void ngenius::TextComponent::SetPosition(const float x, const float y)
-{
-	m_LocalTransform.SetPosition(x, y);
 }
 
 void ngenius::TextComponent::SetColor(const SDL_Color& newColor)

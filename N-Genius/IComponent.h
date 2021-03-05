@@ -12,16 +12,19 @@ namespace ngenius {
 		virtual void Update() {}
 		virtual void Render() const {}
 
-		void SetParentGo(std::weak_ptr<GameObject> pParent) { m_pGameObject = pParent; }
-
-	protected:
+	protected:		
 		explicit IComponent() = default;
 		IComponent(const IComponent& rhs) = default;
 		IComponent(IComponent&& rhs) noexcept = default;
 		IComponent& operator=(const IComponent& rhs) = default;
 		IComponent& operator=(IComponent&& rhs) noexcept = default;
 
-		std::weak_ptr<GameObject> m_pGameObject;
+		GameObject* m_pGameObject;
+
+	private:
+		friend class GameObject;
+		
+		void SetParentGo(GameObject* pParent) { m_pGameObject = pParent; }
 	};
 }
 

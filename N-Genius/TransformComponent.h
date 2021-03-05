@@ -15,6 +15,12 @@ namespace ngenius
 		explicit TransformComponent(float x, float y) : IComponent(), m_Position(x, y) {}
 		explicit TransformComponent(const glm::vec2& position) : IComponent(), m_Position(position) {};
 
+		~TransformComponent() override = default;
+		TransformComponent(const TransformComponent& rhs) = delete;
+		TransformComponent(TransformComponent&& rhs) noexcept = delete;
+		TransformComponent& operator=(const TransformComponent& rhs) = delete;
+		TransformComponent& operator=(TransformComponent&& rhs) noexcept = delete;
+
 		const glm::vec2& GetPosition() const { return m_Position; }
 		void SetPosition(float x, float y);
 	
