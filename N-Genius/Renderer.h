@@ -30,6 +30,9 @@ namespace ngenius
 		explicit Renderer() = default;
 		
 		SDL_Renderer* m_Renderer{};
+		SDL_Window* m_pWindow{};
+
+		int GetOpenGLDriverIndex() const;
 	};
 }
 
