@@ -25,9 +25,9 @@ namespace ngenius
 
 		void Execute(const InputData& inputData) override
 		{
-			auto pos{ m_pGameObject->GetTransform()->GetPosition() };
+			auto pos{ m_pGameObject->GetTransform().GetPosition() };
 			auto newPos{ pos + inputData.value };
-			m_pGameObject->GetTransform()->SetPosition(newPos.x, newPos.y);
+			m_pGameObject->GetTransform().SetPosition(newPos.x, newPos.y);
 		}
 	};
 
@@ -42,7 +42,7 @@ namespace ngenius
 			{
 				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
 				if (physxComp)
-					physxComp->SimulateOnCollision(Event::PLAYER_HIT);
+					physxComp->SimulateOnCollision(MessageType::PLAYER_HIT);
 			}
 		}
 	};
@@ -58,7 +58,7 @@ namespace ngenius
 			{
 				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
 				if (physxComp)
-					physxComp->SimulateOnCollision(Event::BLOCK_HIT);
+					physxComp->SimulateOnCollision(MessageType::BLOCK_HIT);
 			}
 		}
 	};
@@ -74,7 +74,7 @@ namespace ngenius
 			{
 				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
 				if (physxComp)
-					physxComp->SimulateOnCollision(Event::COILY_HIT);
+					physxComp->SimulateOnCollision(MessageType::COILY_HIT);
 			}
 		}
 	};
@@ -90,7 +90,7 @@ namespace ngenius
 			{
 				auto physxComp{ m_pGameObject->GetComponent<PhysicsComponent>() };
 				if (physxComp)
-					physxComp->SimulateOnCollision(Event::SLICK_SAM_CAUGHT);
+					physxComp->SimulateOnCollision(MessageType::SLICK_SAM_CAUGHT);
 			}
 		}
 	};

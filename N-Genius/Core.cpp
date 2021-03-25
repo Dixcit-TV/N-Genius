@@ -52,13 +52,13 @@ void ngenius::Core::LoadGame() const
 	go->AddComponent<TextureComponent>("background.jpg");
 	scene.Add(go);
 
-	go = std::make_shared<GameObject>(std::make_shared<TransformComponent>(216.f, 180.f));
+	go = std::make_shared<GameObject>(Transform(216.f, 180.f));
 	go->AddComponent<TextureComponent>("logo.png");
 	scene.Add(go);
-
-	auto pfont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	auto pGoFps = std::make_shared<GameObject>();
-	pGoFps->AddComponent<TextComponent>("", []() { return std::to_string(TimeSettings::GetInstance().GetFPS()) + " FPS"; }, pfont, SDL_Color{ 196, 174, 29 });
+	
+	auto pfont = ResourceManager::GetInstance().LoadResource<Font>("Lingua.otf", 20);
+	auto pGoFps = std::make_shared<GameObject>(Transform(5.f, 5.f));
+	pGoFps->AddComponent<TextComponent>("", pfont, SDL_Color{ 196, 174, 29 });
 	scene.Add(pGoFps);
 
 	//QBERT1 
@@ -70,15 +70,13 @@ void ngenius::Core::LoadGame() const
 	physicsComponent->AddCollisionListener(scoreComponent);
 
 	//QBERT1 UI
-	auto pfont36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto pGoHealth1 = std::make_shared<GameObject>();
-	pGoHealth1->AddComponent<TextComponent>("", [healthComponent]() { return "P1 Health: " + std::to_string(healthComponent->GetHealth()); }, pfont, SDL_Color{ 196, 174, 29 });
-	pGoHealth1->GetTransform()->SetPosition(0.f, 450.f);
+	pfont = ResourceManager::GetInstance().LoadResource<Font>("Lingua.otf", 20);
+	auto pGoHealth1 = std::make_shared<GameObject>(Transform(5.f, 450.f));
+	pGoHealth1->AddComponent<TextComponent>("", pfont, SDL_Color{ 196, 174, 29 });
 	scene.Add(pGoHealth1);
 
-	auto pGoScore1 = std::make_shared<GameObject>();
-	pGoScore1->AddComponent<TextComponent>("", [scoreComponent]() { return "P1 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 });
-	pGoScore1->GetTransform()->SetPosition(0.f, 410.f);
+	auto pGoScore1 = std::make_shared<GameObject>(Transform(5.f, 410.f));
+	pGoScore1->AddComponent<TextComponent>("", pfont, SDL_Color{ 196, 174, 29 });
 	scene.Add(pGoScore1);
 
 	//QBERT2
@@ -90,14 +88,12 @@ void ngenius::Core::LoadGame() const
 	physicsComponent->AddCollisionListener(scoreComponent);
 
 	//QBERT2 UI
-	auto pGoHealth2 = std::make_shared<GameObject>();
-	pGoHealth2->AddComponent<TextComponent>("", [healthComponent]() { return "P2 Health: " + std::to_string(healthComponent->GetHealth()); }, pfont, SDL_Color{ 196, 174, 29 });
-	pGoHealth2->GetTransform()->SetPosition(500.f, 450.f);
+	auto pGoHealth2 = std::make_shared<GameObject>(Transform(500.f, 450.f));
+	pGoHealth2->AddComponent<TextComponent>("", pfont, SDL_Color{ 196, 174, 29 });
 	scene.Add(pGoHealth2);
 
-	auto pGoScore2 = std::make_shared<GameObject>();
-	pGoScore2->AddComponent<TextComponent>("", [scoreComponent]() { return "P2 Score: " + std::to_string(scoreComponent->GetScore()); }, pfont, SDL_Color{ 196, 174, 29 });
-	pGoScore2->GetTransform()->SetPosition(500.f, 410.f);
+	auto pGoScore2 = std::make_shared<GameObject>(Transform(500.f, 410.f));
+	pGoScore2->AddComponent<TextComponent>("", pfont, SDL_Color{ 196, 174, 29 });
 	scene.Add(pGoScore2);
 
 	InputManager::GetInstance().BindInput("Player_Kill", new KillPlayerCommand(QbertGo), { Input('K', 0, InputType::BUTTON, InputSource::KEYBOARD) });

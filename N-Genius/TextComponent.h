@@ -3,7 +3,7 @@
 
 #include "IComponent.h"
 #include "Delegate.h"
-#include "TransformComponent.h"
+#include "Transform.h"
 
 namespace ngenius
 {
@@ -13,7 +13,8 @@ namespace ngenius
 	class TextComponent final : public IComponent
 	{
 	public:
-		explicit TextComponent(const std::string& text, const std::function<std::string()>& pTextBindFnc, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 });
+		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 });
+		~TextComponent() override = default;
 		TextComponent(const TextComponent& rhs) = delete;
 		TextComponent(TextComponent&& rhs) noexcept = delete;
 		TextComponent& operator=(const TextComponent& rhs) = delete;
@@ -29,7 +30,6 @@ namespace ngenius
 		SDL_Color m_Color;
 		std::shared_ptr<Font> m_pFont;
 		std::shared_ptr<Texture2D> m_pTexture; 
-		std::function<std::string()> m_pTextBindFnc;
 		std::string m_Text;
 		bool m_NeedsUpdate;
 

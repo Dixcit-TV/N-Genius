@@ -1,6 +1,6 @@
 #pragma once
 #include "IComponent.h"
-#include "TransformComponent.h"
+#include "Transform.h"
 #include <vector>
 #include <memory>
 
@@ -12,14 +12,14 @@ namespace ngenius
 
 		using Components = std::vector<std::shared_ptr<IComponent>>;
 		
-		explicit GameObject(const std::shared_ptr<TransformComponent>& pTransform = std::make_shared<TransformComponent>());
+		explicit GameObject(const Transform& transform = Transform());
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		template<typename COMPONENT_TYPE, typename... ARG_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE> && !std::is_same_v<COMPONENT_TYPE, TransformComponent>>>
+		template<typename COMPONENT_TYPE, typename... ARG_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE>>>
 		std::shared_ptr<COMPONENT_TYPE> AddComponent(ARG_TYPE&&... arguments)
 		{
 			auto newComp{ std::make_shared<COMPONENT_TYPE>(std::forward<ARG_TYPE>(arguments)...) };
@@ -39,7 +39,8 @@ namespace ngenius
 		const Components& GetAllComponents() const { return m_ComponentPtrs; }
 		Components& GetAllComponents() { return m_ComponentPtrs; }
 
-		std::shared_ptr<TransformComponent> GetTransform() const { return m_pTransform; }
+		const Transform& GetTransform() const { return m_Transform; }
+		Transform& GetTransform() { return m_Transform; }
 
 		void Delete() { m_MarkedForDeletion = true; };
 
@@ -47,7 +48,7 @@ namespace ngenius
 	
 	private:
 		Components m_ComponentPtrs;
-		std::shared_ptr<TransformComponent> m_pTransform;
+		Transform m_Transform;
 		bool m_MarkedForDeletion;
 	};
 }
