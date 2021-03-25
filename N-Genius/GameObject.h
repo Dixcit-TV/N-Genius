@@ -44,7 +44,7 @@ namespace ngenius
 
 		void Delete() { m_MarkedForDeletion = true; };
 
-		bool IsMarkedForDeleteion() const { return m_MarkedForDeletion; };
+		bool IsMarkedForDeletion() const { return m_MarkedForDeletion; };
 	
 	private:
 		Components m_ComponentPtrs;

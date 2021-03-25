@@ -24,7 +24,7 @@ void ngenius::Scene::Update()
 
 	m_Objects.erase(std::remove_if(std::begin(m_Objects), std::end(m_Objects), [](std::shared_ptr<GameObject> pGO)
 	{
-		return pGO->IsMarkedForDeleteion();
+		return pGO->IsMarkedForDeletion();
 	}), std::end(m_Objects));
 }
 
