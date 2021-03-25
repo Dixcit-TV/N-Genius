@@ -13,7 +13,7 @@ public:
 	HealthComponent& operator=(const HealthComponent& rhs) = delete;
 	HealthComponent& operator=(HealthComponent&& rhs) noexcept = delete;
 	
-	void OnNotify(Event event, void* pPayload) override;
+	void OnNotify(MessageType event, void* pPayload) override;
 
 	int GetHealth() const { return m_HealthCount; }
 

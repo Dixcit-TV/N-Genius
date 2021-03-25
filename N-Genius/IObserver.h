@@ -7,6 +7,6 @@ namespace ngenius
 	{
 	public:
 		virtual ~IObserver() = default;
-		virtual void OnNotify(Event event, void* pPayload) = 0;
+		virtual void OnNotify(MessageType event, void* pPayload) = 0;
 	};
 }

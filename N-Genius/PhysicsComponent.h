@@ -17,7 +17,7 @@ public:
 	PhysicsComponent& operator=(const PhysicsComponent& rhs) = delete;
 	PhysicsComponent& operator=(PhysicsComponent&& rhs) noexcept = delete;
 
-	void SimulateOnCollision(Event event) const;
+	void SimulateOnCollision(MessageType event) const;
 
 	void AddCollisionListener(std::weak_ptr<ngenius::IObserver> pObserver) const;
 

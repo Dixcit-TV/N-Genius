@@ -12,7 +12,7 @@ public:
 	ScoreComponent& operator=(const ScoreComponent& rhs) = delete;
 	ScoreComponent& operator=(ScoreComponent&& rhs) noexcept = delete;
 
-	void OnNotify(Event event, void* pPayload) override;
+	void OnNotify(MessageType event, void* pPayload) override;
 
 	int GetScore() const { return m_Score; }
 

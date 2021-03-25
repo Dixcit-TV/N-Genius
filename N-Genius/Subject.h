@@ -14,7 +14,7 @@ namespace ngenius
 
 		void AddObserver(std::weak_ptr<IObserver> pNewObserver) { m_Observers.push_back(std::move(pNewObserver)); }
 
-		void Notify(Event event, void* pPayload)
+		void Notify(MessageType event, void* pPayload)
 		{
 			bool needCleanup{ false };
 

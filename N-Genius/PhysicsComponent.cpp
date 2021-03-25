@@ -6,7 +6,7 @@ PhysicsComponent::PhysicsComponent()
 	, m_OnCollisionSubject(std::make_unique<ngenius::Subject>())
 {}
 
-void PhysicsComponent::SimulateOnCollision(Event event) const
+void PhysicsComponent::SimulateOnCollision(MessageType event) const
 {
 	m_OnCollisionSubject->Notify(event, nullptr);
 }
