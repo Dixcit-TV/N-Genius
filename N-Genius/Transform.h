@@ -9,7 +9,7 @@ namespace ngenius
 	class Transform final
 	{
 	public:
-		explicit Transform() = default;
+		explicit Transform() : Transform(0.f, 0.f) {}
 		explicit Transform(float x, float y) : m_Position(x, y), m_Scale(1.f, 1.f), m_Rotation(0.f) {}
 		explicit Transform(const glm::vec2& position) : m_Position(position), m_Scale(1.f, 1.f), m_Rotation(0.f) {};
 
