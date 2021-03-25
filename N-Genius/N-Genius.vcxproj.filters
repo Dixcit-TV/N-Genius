@@ -26,14 +26,14 @@
     <Filter Include="Managers\Inputs">
       <UniqueIdentifier>{15c6569b-2ebc-448c-b0ee-75a463c0d6a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Rendering">
-      <UniqueIdentifier>{5df94c13-4501-443f-8ede-2a8dfba025ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Interfaces">
       <UniqueIdentifier>{3294469d-348e-45ff-ab24-35c6fbd199c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameCode">
       <UniqueIdentifier>{c6d82a40-3d02-4ef5-87d7-2f1434b624af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{fb712fc2-ea2c-4378-a116-80dd821e4cc3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +68,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="TextureComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
@@ -115,12 +112,6 @@
     <ClInclude Include="Input.h">
       <Filter>Managers\Inputs</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Common\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Common\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -132,6 +123,27 @@
     </ClInclude>
     <ClInclude Include="ScoreComponent.h">
       <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheet.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IResource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoaders.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +172,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
@@ -201,12 +210,6 @@
     <ClCompile Include="Input.cpp">
       <Filter>Managers\Inputs</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Common\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Common\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="IObserver.h">
       <Filter>Interfaces</Filter>
     </ClCompile>
@@ -218,6 +221,24 @@
     </ClCompile>
     <ClCompile Include="ScoreComponent.cpp">
       <Filter>GameCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheet.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="IResource.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

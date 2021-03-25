@@ -6,11 +6,11 @@
 
 ngenius::TextureComponent::TextureComponent(const std::string& textureName)
 	: IComponent()
-	, m_pTexture(ResourceManager::GetInstance().LoadTexture(textureName))
+	, m_pTexture(ResourceManager::GetInstance().LoadResource<Texture2D>(textureName))
 {};
 
 void ngenius::TextureComponent::Render() const
 {
-	const auto parentPos = m_pGameObject->GetTransform()->GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, parentPos.x, parentPos.y);
+	const auto& parent = m_pGameObject->GetTransform();
+	Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), parent.GetPosition(), m_pTexture->GetTextureSize(), parent.GetScale());
 }

@@ -216,8 +216,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Core.h" />
+    <ClInclude Include="IResource.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="ResourceLoaders.h" />
     <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="Renderer.h" />
@@ -229,7 +233,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TimeSettings.h" />
-    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.cpp" />
@@ -246,6 +250,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="IObserver.h" />
+    <ClCompile Include="IResource.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="PCH.cpp">
@@ -261,11 +266,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="TimeSettings.cpp" />
-    <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

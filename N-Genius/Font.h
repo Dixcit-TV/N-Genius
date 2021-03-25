@@ -1,4 +1,5 @@
 #pragma once
+#include "IResource.h"
 
 struct _TTF_Font;
 namespace ngenius
@@ -6,10 +7,9 @@ namespace ngenius
 	/**
 	 * Simple RAII wrapper for an _TTF_Font
 	 */
-	class Font
+	class Font final : public IResource
 	{
 	public:
-		_TTF_Font* GetFont() const;
 		explicit Font(const std::string& fullPath, unsigned int size);
 		~Font();
 
@@ -17,6 +17,8 @@ namespace ngenius
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
+
+		_TTF_Font* GetFont() const;
 	private:
 		_TTF_Font* m_Font;
 		unsigned int m_Size;

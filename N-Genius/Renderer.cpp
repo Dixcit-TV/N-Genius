@@ -53,29 +53,19 @@ void ngenius::Renderer::Destroy()
 	}
 }
 
-void ngenius::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const glm::vec2& position, const glm::ivec2& size, const glm::vec2& scale) const
 {
 	SDL_Rect dst;
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	dst.x = static_cast<int>(position.x);
+	dst.y = static_cast<int>(position.y);
+	dst.w = static_cast<int>(size.x * scale.x);
+	dst.h = static_cast<int>(size.y * scale.y);
+	SDL_RenderCopy(GetSDLRenderer(), pTexture, nullptr, &dst);
 }
 
-void ngenius::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const SDL_Rect& srcRect, const SDL_Rect& destRect) const
 {
-	SDL_Rect dst;
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-}
-
-void ngenius::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect* pSrcRect, SDL_Rect* pDestRect) const
-{
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &pDestRect->w, &pDestRect->h);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), pSrcRect, pDestRect);
+	SDL_RenderCopy(GetSDLRenderer(), pTexture, &srcRect, &destRect);
 }
 
 int ngenius::Renderer::GetOpenGLDriverIndex() const
