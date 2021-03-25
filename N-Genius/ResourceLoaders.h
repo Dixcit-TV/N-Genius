@@ -39,7 +39,7 @@ namespace Loaders
 	};
 
 	template<>
-	struct LoaderWrapper<ngenius::Texture2D, void>
+	struct LoaderWrapper<ngenius::Texture2D>
 	{
 		static std::shared_ptr<ngenius::Texture2D> Load(std::map<std::string, std::shared_ptr<ngenius::IResource>>& resourceMap, const std::string& file, const std::string& resourceFolder)
 		{
