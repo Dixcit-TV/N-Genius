@@ -162,9 +162,6 @@
     <ClCompile Include="Core.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="PCH.cpp">
       <Filter>Core</Filter>
     </ClCompile>

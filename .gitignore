@@ -11,3 +11,8 @@
 /x64/Release
 /N-Genius/Win32
 /Win32
+/Release
+/Game/x64
+/Game/Release
+/Game/Debug
+/Debug
