@@ -1,0 +1,3 @@
+D:/OneDrive - Hogeschool West-Vlaanderen/Programming 4/GameEngine/N-Genius/3rdParty/glm/glm/out/build/x64-Debug (default)/CMakeFiles/glm_dummy.dir
+D:/OneDrive - Hogeschool West-Vlaanderen/Programming 4/GameEngine/N-Genius/3rdParty/glm/glm/out/build/x64-Debug (default)/CMakeFiles/edit_cache.dir
+D:/OneDrive - Hogeschool West-Vlaanderen/Programming 4/GameEngine/N-Genius/3rdParty/glm/glm/out/build/x64-Debug (default)/CMakeFiles/rebuild_cache.dir

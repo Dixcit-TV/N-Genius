@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning(push)
 #pragma warning (disable:4201)
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #pragma warning(pop)
 #include <cstdint>
 #include "Texture2D.h"

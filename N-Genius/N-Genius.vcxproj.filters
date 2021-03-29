@@ -29,9 +29,6 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{3294469d-348e-45ff-ab24-35c6fbd199c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode">
-      <UniqueIdentifier>{c6d82a40-3d02-4ef5-87d7-2f1434b624af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{fb712fc2-ea2c-4378-a116-80dd821e4cc3}</UniqueIdentifier>
     </Filter>
@@ -114,15 +111,6 @@
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>GameCode</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>GameCode</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>GameObjects</Filter>
@@ -209,15 +197,6 @@
     </ClCompile>
     <ClCompile Include="IObserver.h">
       <Filter>Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>GameCode</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>GameCode</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>GameCode</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>GameObjects</Filter>

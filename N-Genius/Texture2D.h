@@ -2,7 +2,7 @@
 #include "IResource.h"
 #pragma warning(push)
 #pragma warning (disable:4201)
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #pragma warning(pop)
 
 struct SDL_Texture;

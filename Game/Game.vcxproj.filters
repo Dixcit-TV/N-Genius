@@ -5,18 +5,76 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="LabCode">
+      <UniqueIdentifier>{06676004-7a94-477a-b42c-efd30792b888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LabCode\ServiceLocator">
+      <UniqueIdentifier>{88b39392-2014-4290-add3-8bac08c0567c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LabCode\ServiceLocator\SoundService">
+      <UniqueIdentifier>{6d345d4c-1c73-4ad5-af25-95c83d3db165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LabCode\ServiceLocator\SoundService\Derived">
+      <UniqueIdentifier>{79444fd1-f248-44c5-86c7-ffee740ef5e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\N-Genius\HealthComponent.cpp">
+      <Filter>LabCode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\N-Genius\PhysicsComponent.cpp">
+      <Filter>LabCode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\N-Genius\ScoreComponent.cpp">
+      <Filter>LabCode</Filter>
+    </ClCompile>
+    <ClCompile Include="SdlSoundService.cpp">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingSoundService.cpp">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\N-Genius\HealthComponent.h">
+      <Filter>LabCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\N-Genius\PhysicsComponent.h">
+      <Filter>LabCode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\N-Genius\ScoreComponent.h">
+      <Filter>LabCode</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>LabCode\ServiceLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="ISoundService.h">
+      <Filter>LabCode\ServiceLocator\SoundService</Filter>
+    </ClInclude>
+    <ClInclude Include="NullSoundService.h">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="SdlSoundService.h">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingSoundService.h">
+      <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>LabCode</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

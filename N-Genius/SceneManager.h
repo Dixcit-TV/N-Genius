@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <memory>
 #include "Singleton.h"
 
 namespace ngenius

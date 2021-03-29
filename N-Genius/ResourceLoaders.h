@@ -9,7 +9,6 @@
 #include "SpriteSheet.h"
 #include "IResource.h"
 
-
 namespace Loaders
 {
 	template<typename RESOURCE_TYPE, typename... ARG_TYPE>
