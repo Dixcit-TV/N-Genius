@@ -11,9 +11,10 @@ public:
 	ISoundService& operator=(ISoundService&&) noexcept = delete;
 
 	virtual void PlaySound(const std::string& soundFile, int volume) = 0;
-	virtual void Update() = 0;
 
 protected:
 	explicit ISoundService() = default;
+
+	virtual void Update() = 0;
 };
 

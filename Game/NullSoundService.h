@@ -8,6 +8,8 @@ public:
 	~NullSoundService() override = default;
 	
 	void PlaySound(const std::string&, int) override {}
+
+private:
 	void Update() override {}
 };
 

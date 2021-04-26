@@ -19,6 +19,11 @@ public:
 	{
 		return m_pSDLSoundService;
 	}
+
+	static void UnRegister()
+	{
+		RegisterSoundService(nullptr);
+	}
 };
 
 NullSoundService ServiceLocator::m_NullSoundService;

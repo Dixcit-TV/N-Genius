@@ -12,7 +12,6 @@ public:
 	~SdlSoundService() override;;
 
 	void PlaySound(const std::string& soundFile, int volume) override;
-	void Update() override;
 
 private:
 	struct SoundRequest
@@ -26,7 +25,9 @@ private:
 	std::mutex m_SoundMutex;
 	std::condition_variable m_WorkerVariable;
 	std::atomic_bool m_IsThreadRunning;
+	std::thread m_SoundThread;
 
 	void Play(const SoundRequest& soundRequest);
+	void Update() override;
 };
 

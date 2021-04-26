@@ -9,9 +9,10 @@ public:
 	~LoggingSoundService() override = default;
 
 	void PlaySound(const std::string& soundFile, int volume) override;
-	void Update() override;
 
 private:
 	ISoundService* m_pSoundService;
+
+	void Update() override;
 };
 

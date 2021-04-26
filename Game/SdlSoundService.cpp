@@ -7,8 +7,7 @@ SdlSoundService::SdlSoundService()
 	, m_WorkerVariable()
 	, m_IsThreadRunning(true)
 {
-	std::thread newThread([this]() { Update(); });
-	newThread.detach();
+	m_SoundThread = std::thread([this]() { Update(); });
 }
 
 SdlSoundService::~SdlSoundService()
@@ -16,6 +15,9 @@ SdlSoundService::~SdlSoundService()
 	SoundEffect::StopAll();
 	m_IsThreadRunning.store(false);
 	m_WorkerVariable.notify_one();
+
+	if (m_SoundThread.joinable())
+		m_SoundThread.join();
 }
 
 void SdlSoundService::PlaySound(const std::string& soundFile, int volume)

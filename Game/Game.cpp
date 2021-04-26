@@ -6,6 +6,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#include <Memory>
 #include <Core.h>
 #include <SceneManager.h>
 #include <Scene.h>
@@ -43,7 +44,7 @@ int main(int, char* [])
 	LoadGame();
     core.Run();
 
-	delete ServiceLocator::GetSoundService();
+	ServiceLocator::UnRegister();
 	Mix_Quit();
     return 0;
 }
@@ -65,6 +66,9 @@ void LoadGame()
 	InputManager::GetInstance().BindInput("Menu_Sound", new PlayMenuSoundCommand(nullptr), { Input('M', 0, InputType::BUTTON, InputSource::KEYBOARD) });
 	InputManager::GetInstance().BindInput("Sdl_Audio_Switch", new SDLAudioCommand(nullptr), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
 	InputManager::GetInstance().BindInput("Logging_Audio_Switch", new LoggingAudioCommand(nullptr), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+
+
+	
 	PrintInfo();
 }
 

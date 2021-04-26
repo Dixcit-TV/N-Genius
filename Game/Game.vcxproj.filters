@@ -26,15 +26,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\N-Genius\HealthComponent.cpp">
-      <Filter>LabCode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\N-Genius\PhysicsComponent.cpp">
-      <Filter>LabCode</Filter>
-    </ClCompile>
-    <ClCompile Include="..\N-Genius\ScoreComponent.cpp">
-      <Filter>LabCode</Filter>
-    </ClCompile>
     <ClCompile Include="SdlSoundService.cpp">
       <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
     </ClCompile>
@@ -46,15 +37,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\N-Genius\HealthComponent.h">
-      <Filter>LabCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\N-Genius\PhysicsComponent.h">
-      <Filter>LabCode</Filter>
-    </ClInclude>
-    <ClInclude Include="..\N-Genius\ScoreComponent.h">
-      <Filter>LabCode</Filter>
-    </ClInclude>
     <ClInclude Include="ServiceLocator.h">
       <Filter>LabCode\ServiceLocator</Filter>
     </ClInclude>
