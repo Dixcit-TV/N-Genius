@@ -6,7 +6,6 @@
 #include "Texture2D.h"
 #include "Font.h"
 #include "Renderer.h"
-#include "SpriteSheet.h"
 #include "IResource.h"
 
 namespace Loaders
@@ -53,28 +52,6 @@ namespace Loaders
 				throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 			}
 			auto newResource{ std::make_shared<ngenius::Texture2D>(texture) };
-			resourceMap.emplace(file, newResource);
-
-			return newResource;
-		}
-	};
-
-	template<typename... ARG_TYPE>
-	struct LoaderWrapper<ngenius::SpriteSheet, ARG_TYPE&&...>
-	{
-		static std::shared_ptr<ngenius::SpriteSheet> Load(std::map<std::string, std::shared_ptr<ngenius::IResource>>& resourceMap, const std::string& file, const std::string& resourceFolder, ARG_TYPE&&... args)
-		{
-			auto resourceIt{ resourceMap.find(file) };
-			if (resourceIt != resourceMap.end())
-				return std::static_pointer_cast<ngenius::SpriteSheet>(resourceIt->second);
-
-			const std::string& fullPath{ resourceFolder + file };
-			auto texture = IMG_LoadTexture(ngenius::Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
-			if (texture == nullptr)
-			{
-				throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
-			}
-			auto newResource{ std::make_shared<ngenius::SpriteSheet>(texture, std::forward<ARG_TYPE>(args)...) };
 			resourceMap.emplace(file, newResource);
 
 			return newResource;
