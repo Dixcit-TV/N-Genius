@@ -2,8 +2,6 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-unsigned int ngenius::Scene::m_IdCounter = 0;
-
 ngenius::Scene::Scene(const std::string& name) : m_Name(name) {}
 
 void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object)

@@ -12,7 +12,7 @@ namespace ngenius
 
 		void Update();
 		void Render() const;
-		const std::string& GetName() const { return m_Name; };
+		const std::string& GetName() const { return m_Name; }
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;
@@ -25,8 +25,6 @@ namespace ngenius
 
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};
-
-		static unsigned int m_IdCounter; 
 	};
 
 }

@@ -1,7 +1,7 @@
 #pragma once
+#include "Singleton.h"
 #include <vector>
 #include <memory>
-#include "Singleton.h"
 
 namespace ngenius
 {
@@ -26,7 +26,7 @@ namespace ngenius
 		friend class Singleton<SceneManager>;
 		explicit SceneManager() = default;
 		
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::vector<std::shared_ptr<Scene>> m_Scenes{};
 		int m_CurrentSceneId = -1;
 	};
 }

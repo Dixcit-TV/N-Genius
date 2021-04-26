@@ -1,9 +1,7 @@
 #pragma once
 #include <iostream>
-
 #include "GameObject.h"
 #include "Input.h"
-#include "PhysicsComponent.h"
 
 namespace ngenius
 {
