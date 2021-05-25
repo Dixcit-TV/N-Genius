@@ -6,13 +6,16 @@
 
 namespace ngenius
 {
+	class Scene;
+
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
+		friend class Scene;
 	public:
 
 		using Components = std::vector<std::shared_ptr<IComponent>>;
 		
-		explicit GameObject(const Transform& transform = Transform());
+		explicit GameObject(const Transform& transform = Transform(), const std::string& name = "GameObject");
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -49,6 +52,9 @@ namespace ngenius
 	private:
 		Components m_ComponentPtrs;
 		Transform m_Transform;
+		std::string m_Name;
+		std::string m_Tag;
+		std::shared_ptr<Scene> m_pParentScene;
 		bool m_MarkedForDeletion;
 	};
 }

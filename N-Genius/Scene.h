@@ -4,7 +4,7 @@
 namespace ngenius
 {
 	class GameObject;
-	class Scene
+	class Scene : public std::enable_shared_from_this<Scene>
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
@@ -13,6 +13,9 @@ namespace ngenius
 		void Update();
 		void Render() const;
 		const std::string& GetName() const { return m_Name; }
+
+		std::shared_ptr<GameObject> GetGameObjectWithName(const std::string& name) const;
+		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const;
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;
