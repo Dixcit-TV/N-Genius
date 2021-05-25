@@ -21,6 +21,9 @@
     <Filter Include="LabCode\ServiceLocator\SoundService\Derived">
       <UniqueIdentifier>{79444fd1-f248-44c5-86c7-ffee740ef5e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert">
+      <UniqueIdentifier>{8b3f0192-7b8d-4d70-8d74-1187105e7f29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -34,6 +37,9 @@
     </ClCompile>
     <ClCompile Include="LoggingSoundService.cpp">
       <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>Qbert</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +63,9 @@
     </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>LabCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>Qbert</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

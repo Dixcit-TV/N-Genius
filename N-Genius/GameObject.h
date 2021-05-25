@@ -6,7 +6,7 @@
 
 namespace ngenius
 {
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 
@@ -23,7 +23,7 @@ namespace ngenius
 		std::shared_ptr<COMPONENT_TYPE> AddComponent(ARG_TYPE&&... arguments)
 		{
 			auto newComp{ std::make_shared<COMPONENT_TYPE>(std::forward<ARG_TYPE>(arguments)...) };
-			newComp->SetParentGo(this);
+			newComp->SetParentGo(shared_from_this());
 			m_ComponentPtrs.push_back(newComp);
 			return newComp;
 		}

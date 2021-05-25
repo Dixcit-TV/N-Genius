@@ -12,6 +12,9 @@ using namespace std::chrono;
 
 void ngenius::Core::Initialize(const std::string& windowName, int width, int height)
 {
+	if (m_IsInit)
+		return;
+	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -25,12 +28,15 @@ void ngenius::Core::Initialize(const std::string& windowName, int width, int hei
 		height,
 		SDL_WINDOW_OPENGL
 	);
+	
 	if (m_Window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+
+	m_IsInit = true;
 }
 
 void ngenius::Core::Cleanup()
@@ -43,6 +49,11 @@ void ngenius::Core::Cleanup()
 
 void ngenius::Core::Run()
 {
+	if (!m_IsInit)
+	{
+		std::cerr << "Core::Run > Core not Initialized";
+	}
+	
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();

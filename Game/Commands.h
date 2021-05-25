@@ -2,7 +2,7 @@
 #include "LoggingSoundService.h"
 #include "SdlSoundService.h"
 #include "ServiceLocator.h"
-#include "../N-Genius/Command.h"
+#include <Command.h>
 
 class PlayHitSoundCommand final : public ngenius::ICommand
 {

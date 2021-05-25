@@ -19,12 +19,12 @@ namespace ngenius {
 		IComponent& operator=(const IComponent& rhs) = default;
 		IComponent& operator=(IComponent&& rhs) noexcept = default;
 
-		GameObject* m_pGameObject;
+		std::shared_ptr<GameObject> m_pGameObject;
 
 	private:
 		friend class GameObject;
 		
-		void SetParentGo(GameObject* pParent) { m_pGameObject = pParent; }
+		void SetParentGo(std::shared_ptr<GameObject> pParent) { m_pGameObject = pParent; }
 	};
 }
 

@@ -37,8 +37,7 @@ int main(int, char* [])
 	}
 
 	
-	Core core;
-	core.Initialize("Programming 4 - N-Genius", 640, 480);
+	Core core{ "Q-bert", 640, 480 };
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");	
 	LoadGame();
@@ -67,8 +66,6 @@ void LoadGame()
 	InputManager::GetInstance().BindInput("Sdl_Audio_Switch", new SDLAudioCommand(nullptr), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
 	InputManager::GetInstance().BindInput("Logging_Audio_Switch", new LoggingAudioCommand(nullptr), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
 
-
-	
 	PrintInfo();
 }
 

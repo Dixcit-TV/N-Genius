@@ -9,6 +9,11 @@ namespace ngenius
 	{
 	public:
 		virtual ~ICommand() = default;
+		ICommand(const ICommand&) = default;
+		ICommand(ICommand&&) noexcept = default;
+		ICommand& operator=(const ICommand&) = default;
+		ICommand& operator=(ICommand&&) noexcept = default;
+		
 		virtual void Execute(const InputData& inputData) = 0;
 	protected:
 		explicit ICommand(std::shared_ptr<GameObject> pTargetObject) : m_pGameObject(std::move(pTargetObject)) {}
