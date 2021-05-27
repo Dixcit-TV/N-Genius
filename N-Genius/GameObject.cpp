@@ -6,6 +6,6 @@ ngenius::GameObject::GameObject(const Transform& transform, const std::string& n
 	, m_Transform{ transform }
 	, m_Name{ name }
 	, m_Tag{ "" }
-	, m_pParentScene{ nullptr }
+	, m_pParentScene{ }
 	, m_MarkedForDeletion{ false }
 {}

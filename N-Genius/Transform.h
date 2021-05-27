@@ -15,12 +15,14 @@ namespace ngenius
 
 		const glm::vec2& GetPosition() const;
 		void SetPosition(float x, float y);
+		void SetPosition(const glm::vec2& position);
 
 		float GetRotation() const;
 		void SetRotation(float rad);
 
 		const glm::vec2& GetScale() const;
 		void SetScale(float x, float y);
+		void SetScale(const glm::vec2& scale);
 	
 	private:
 		glm::vec2 m_Position;

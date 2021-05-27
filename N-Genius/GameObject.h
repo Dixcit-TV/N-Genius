@@ -1,12 +1,15 @@
 #pragma once
-#include "IComponent.h"
 #include "Transform.h"
 #include <vector>
 #include <memory>
+#include <string>
+
+#include "Scene.h"
 
 namespace ngenius
 {
 	class Scene;
+	class IComponent;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
@@ -26,7 +29,7 @@ namespace ngenius
 		std::shared_ptr<COMPONENT_TYPE> AddComponent(ARG_TYPE&&... arguments)
 		{
 			auto newComp{ std::make_shared<COMPONENT_TYPE>(std::forward<ARG_TYPE>(arguments)...) };
-			newComp->SetParentGo(shared_from_this());
+			newComp->SetParentGo(weak_from_this());
 			m_ComponentPtrs.push_back(newComp);
 			return newComp;
 		}
@@ -45,6 +48,9 @@ namespace ngenius
 		const Transform& GetTransform() const { return m_Transform; }
 		Transform& GetTransform() { return m_Transform; }
 
+		std::shared_ptr<GameObject> GetGameObjectWithName(const std::string& name) const { return m_pParentScene.lock()->GetGameObjectWithName(name); }
+		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const { return m_pParentScene.lock()->GetAllGameObjectsWithName(name); }
+
 		void Delete() { m_MarkedForDeletion = true; };
 
 		bool IsMarkedForDeletion() const { return m_MarkedForDeletion; };
@@ -54,7 +60,7 @@ namespace ngenius
 		Transform m_Transform;
 		std::string m_Name;
 		std::string m_Tag;
-		std::shared_ptr<Scene> m_pParentScene;
+		std::weak_ptr<Scene> m_pParentScene;
 		bool m_MarkedForDeletion;
 	};
 }

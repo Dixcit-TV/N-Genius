@@ -1,15 +1,16 @@
 #include "PCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "IComponent.h"
 
 ngenius::Scene::Scene(const std::string& name) : m_Name(name) {}
 
 void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object)
 {
-	assert(object->m_pParentScene == nullptr);
+	assert(object->m_pParentScene.expired() || object->m_pParentScene.lock() == nullptr);
 	
 	m_Objects.push_back(object);
-	object->m_pParentScene = shared_from_this();
+	object->m_pParentScene = weak_from_this();
 }
 
 void ngenius::Scene::Update()
