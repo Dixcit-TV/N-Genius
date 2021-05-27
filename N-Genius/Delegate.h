@@ -12,10 +12,10 @@ namespace ngenius
 		using MCFunction = RET_TYPE(TARGET_TYPE::* const)(ARG_TYPE...) const;
 
 		explicit Delegate(TARGET_TYPE* pTarget, MFunction function)
-			: std::function<RET_TYPE(ARG_TYPE...)>([=](ARG_TYPE&&... args) -> RET_TYPE { return (pTarget->*function)(std::forward<ARG_TYPE>(args)...); }) {};
+			: std::function<RET_TYPE(ARG_TYPE...)>([=](ARG_TYPE&&... args) -> RET_TYPE { return (pTarget->*function)(std::forward<ARG_TYPE>(args)...); }) {}
 
 		explicit Delegate(TARGET_TYPE* pTarget, MCFunction function)
-			: std::function<RET_TYPE(ARG_TYPE...)>([=](ARG_TYPE&&... args) -> RET_TYPE { return (pTarget->*function)(std::forward<ARG_TYPE>(args)...); }) {};
+			: std::function<RET_TYPE(ARG_TYPE...)>([=](ARG_TYPE&&... args) -> RET_TYPE { return (pTarget->*function)(std::forward<ARG_TYPE>(args)...); }) {}
 
 		explicit Delegate(TARGET_TYPE& target, MFunction function) : Delegate(&target, function) {}
 
@@ -45,7 +45,7 @@ namespace ngenius
 	{
 		return Delegate<RET_TYPE, TARGET_TYPE, ARG_TYPE...>(target, function);
 	}
-
+	
 	template<typename... ARG_TYPE>
 	class Event
 	{
@@ -61,14 +61,14 @@ namespace ngenius
 				m_pCallbacks.erase(it);
 		}
 
-		void Invoke(ARG_TYPE&&...) const;
+		void Invoke(ARG_TYPE...) const;
 
 	private:
 		std::map<std::string, std::function<void(ARG_TYPE...)>> m_pCallbacks;
 	};
 
 	template<typename... ARG_TYPE>
-	void Event<ARG_TYPE...>::Invoke(ARG_TYPE&&... args) const
+	void Event<ARG_TYPE...>::Invoke(ARG_TYPE... args) const
 	{
 		for (const auto& callBackPair : m_pCallbacks)
 			callBackPair.second(std::forward<ARG_TYPE>(args)...);
