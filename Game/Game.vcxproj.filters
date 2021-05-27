@@ -41,6 +41,9 @@
     <ClCompile Include="Pyramid.cpp">
       <Filter>Qbert</Filter>
     </ClCompile>
+    <ClCompile Include="Qbert.cpp">
+      <Filter>Qbert</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServiceLocator.h">
@@ -61,10 +64,13 @@
     <ClInclude Include="LoggingSoundService.h">
       <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Commands.h">
-      <Filter>LabCode</Filter>
-    </ClInclude>
     <ClInclude Include="Pyramid.h">
+      <Filter>Qbert</Filter>
+    </ClInclude>
+    <ClInclude Include="Qbert.h">
+      <Filter>Qbert</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
       <Filter>Qbert</Filter>
     </ClInclude>
   </ItemGroup>

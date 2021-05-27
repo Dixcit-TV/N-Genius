@@ -6,6 +6,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#include <functional>
 #include <Memory>
 #include <Core.h>
 #include <SceneManager.h>
@@ -18,6 +19,8 @@
 #include <TextureComponent.h>
 
 #include "Commands.h"
+#include "Pyramid.h"
+#include "Qbert.h"
 
 using namespace ngenius;
 
@@ -37,7 +40,7 @@ int main(int, char* [])
 	}
 
 	
-	Core core{ "Q-bert", 640, 480 };
+	Core core{ "Q-bert", 960, 720 };
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");	
 	LoadGame();
@@ -53,20 +56,24 @@ void LoadGame()
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 	SceneManager::GetInstance().SetCurrentScene(0);
 
-	auto go = std::make_shared<GameObject>();
-	go->AddComponent<TextureComponent>("background.jpg");
-	scene.Add(go);
+	auto pyramid = std::make_shared<GameObject>(Transform(200.f, 520.f), "Pyramid");
+	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
+	scene.Add(pyramid);
 
-	go = std::make_shared<GameObject>(Transform(216.f, 180.f));
-	go->AddComponent<TextureComponent>("logo.png");
-	scene.Add(go);
+	auto qbertGO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition()), "Player1");
+	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f);
+	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1));
+	qbertGO->AddComponent<TextureComponent>("Sprites/Character.png");
+	qbertGO->GetTransform().SetPosition(pyramidComp->GetTopPosition());
+	scene.Add(qbertGO);
+	
 
-	InputManager::GetInstance().BindInput("Hit_Sound", new PlayHitSoundCommand(nullptr), { Input('H', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Menu_Sound", new PlayMenuSoundCommand(nullptr), { Input('M', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Sdl_Audio_Switch", new SDLAudioCommand(nullptr), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Logging_Audio_Switch", new LoggingAudioCommand(nullptr), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_NortWest", new MoveCommand(qbertGO, {-1, 1}), { Input('W', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_SouthWest", new MoveCommand(qbertGO, { 0, -1 }), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_SouthEast", new MoveCommand(qbertGO, { 1, -1 }), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_NortEast", new MoveCommand(qbertGO, { 0, 1 }), { Input('D', 0, InputType::BUTTON, InputSource::KEYBOARD) });
 
-	PrintInfo();
+	//PrintInfo();
 }
 
 void PrintInfo()
