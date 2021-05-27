@@ -11,6 +11,6 @@ ngenius::TextureComponent::TextureComponent(const std::string& textureName)
 
 void ngenius::TextureComponent::Render() const
 {
-	const auto& parent = m_pGameObject->GetTransform();
+	const auto& parent = GetTransform();
 	Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), parent.GetPosition(), m_pTexture->GetTextureSize(), parent.GetScale());
 }

@@ -54,7 +54,7 @@ void ngenius::TextComponent::Render() const
 {
 	if (m_pTexture)
 	{
-		const auto parentPos = m_pGameObject->GetTransform().GetPosition();
+		const auto parentPos = GetTransform().GetPosition();
 		
 		Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), parentPos, m_pTexture->GetTextureSize());
 	}

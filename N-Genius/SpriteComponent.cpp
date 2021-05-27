@@ -76,7 +76,7 @@ void ngenius::SpriteComponent::Render() const
 	src.x = src.w * (m_StartColumn + m_CurrFrame % m_NumColumns);
 	src.y = src.h * (m_StartRow + m_CurrFrame / m_NumColumns);
 
-	const Transform& parentTransform = m_pGameObject->GetTransform();
+	const Transform& parentTransform = GetTransform();
 	const auto& scale = parentTransform.GetScale();
 	const auto& pos = parentTransform.GetPosition();
 	
