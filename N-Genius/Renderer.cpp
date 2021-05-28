@@ -29,13 +29,13 @@ void ngenius::Renderer::Render() const
 
 	SceneManager::GetInstance().Render();
 
-	bool showDemo{true};
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame(m_pWindow);
-	ImGui::NewFrame();
-	ImGui::ShowDemoWindow(&showDemo);
-	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	//bool showDemo{true};
+	//ImGui_ImplOpenGL2_NewFrame();
+	//ImGui_ImplSDL2_NewFrame(m_pWindow);
+	//ImGui::NewFrame();
+	//ImGui::ShowDemoWindow(&showDemo);
+	//ImGui::Render();
+	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_RenderPresent(m_Renderer);
 }

@@ -138,15 +138,22 @@ ngenius::InputState ngenius::InputManager::GetButtonStateChange(const Input& inp
 
 void ngenius::InputManager::BindInput(const std::string& bindingName, ICommand* pCommand, std::initializer_list<Input> inpuList)
 {
-	m_InputBindings.try_emplace(bindingName, bindingName, pCommand, inpuList);
+	auto emplacePair{ m_InputBindings.try_emplace(bindingName, bindingName, pCommand, inpuList) };
+	if (!emplacePair.second)
+	{
+		std::cout << (emplacePair.first != m_InputBindings.end() ? bindingName + " input already exists !" : " Could not add input " + bindingName) << std::endl;
+	}
 }
 
 int ngenius::InputManager::RegisterGamepad(int id)
 {
-	if (id == -1)
-		id = int(m_ControllerMap.size());
+	if (id < 0)
+		id = static_cast<int>(m_ControllerMap.size());
 	
-	m_ControllerMap.emplace(id, XINPUT_STATE{});
+	if (!m_ControllerMap.try_emplace(id, XINPUT_STATE{}).second)
+	{
+		std::cout << "Controller with ID " << id << " was already registered";
+	}
 
 	return id;
 }

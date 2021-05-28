@@ -16,8 +16,8 @@ namespace ngenius
 		
 		virtual void Execute(const InputData& inputData) = 0;
 	protected:
-		explicit ICommand(std::shared_ptr<GameObject> pTargetObject) : m_pGameObject(std::move(pTargetObject)) {}
+		explicit ICommand(std::weak_ptr<GameObject> pTargetObject) : m_pGameObject(std::move(pTargetObject)) {}
 
-		std::shared_ptr<GameObject> m_pGameObject;
+		std::weak_ptr<GameObject> m_pGameObject;
 	};
 }
