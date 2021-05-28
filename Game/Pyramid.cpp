@@ -1,7 +1,6 @@
 #include "Pyramid.h"
 
 #include <iostream>
-
 #include "Renderer.h"
 #include "ResourceManager.h"
 
@@ -49,27 +48,34 @@ void Pyramid::Render() const
 	}
 }
 
-void Pyramid::UpdateCell(const glm::vec2& playerPosition)
+void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 {
-	const size_t celIdx{ GetCellIdxFromWorldPos(playerPosition) };
-	std::cout << "Updated Cell: " << celIdx << std::endl;
-	const CellState prevCellState{ m_Blocks[celIdx] };
+	const size_t cellIdx{ GetCellIdxFromWorldPos(playerPosition) };
+
+	if (cellIdx < 0 || cellIdx > m_Blocks.size())
+	{
+		std::cout << "Cell Out of Range" << std::endl;
+		return;
+	}
+	
+	std::cout << "Updated Cell: " << cellIdx << std::endl;
+	const CellState prevCellState{ m_Blocks[cellIdx] };
 	CellState newState{ prevCellState };
 	
 	switch (prevCellState)
 	{
 	case CellState::INITIAL:
-		newState = m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::FINAL;
+		newState = forceRevertColor ? (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::FINAL) : newState;
 		break;
 	case CellState::INTERMEDIATE:
-		newState = CellState::FINAL;
+		newState = forceRevertColor ? CellState::INITIAL : CellState::FINAL;
 		break;
 	case CellState::FINAL:
-		newState = m_IsCellReverting ? (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::INITIAL) : newState;
+		newState = m_IsCellReverting || forceRevertColor ? (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::INITIAL) : newState;
 		break;
 	}
 
-	m_Blocks[celIdx] = newState;
+	m_Blocks[cellIdx] = newState;
 	const bool needCheck{ newState != prevCellState && newState == CellState::FINAL };
 	
 	if (needCheck && CheckCompletion())
@@ -78,11 +84,11 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition)
 
 size_t Pyramid::GetCellIdxFromWorldPos(const glm::vec2& position) const
 {
-	size_t r, c;
+	int r, c;
 	GetRowAndColumnFormPosition(position, r, c);
 
-	size_t rTotal{ 0 };
-	for (size_t r2{ 0 }; r2 < r; ++r2)
+	int rTotal{ 0 };
+	for (int r2{ 0 }; r2 < r; ++r2)
 		rTotal += r2;
 	
 	return c + r * m_RowCount - rTotal;
@@ -90,12 +96,12 @@ size_t Pyramid::GetCellIdxFromWorldPos(const glm::vec2& position) const
 
 glm::vec2 Pyramid::GetTargetPosition(const glm::vec2& position, const glm::vec2& direction) const
 {
-	size_t r, c;
+	int r, c;
 	GetRowAndColumnFormPosition(position, r, c); 
 	c += static_cast<size_t>(direction.x);
 	r += static_cast<size_t>(direction.y);
 	
 	std::cout << "Targeted Cell =====> r: " << r << ", c: " << c << std::endl;
 	
-	return GetTopFacePosition(r, c); //Add 0.5f * m_CellSize to offset the target position to the "center" of the top face of the cube
+	return GetTopFacePosition(r, c);
 }

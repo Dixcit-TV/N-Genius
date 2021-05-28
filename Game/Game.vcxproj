@@ -204,6 +204,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)N-Genius;$(SolutionDir)3rdParty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
+    <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="LoggingSoundService.cpp" />
     <ClCompile Include="Qbert.cpp" />
     <ClCompile Include="SdlSoundService.cpp" />
@@ -212,6 +213,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="LoggingSoundService.h" />
     <ClInclude Include="NullSoundService.h" />
     <ClInclude Include="Qbert.h" />

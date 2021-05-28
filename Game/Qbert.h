@@ -1,11 +1,7 @@
 #pragma once
 #include "Delegate.h"
+#include "Enums.h"
 #include "IComponent.h"
-
-enum class QBertState
-{
-	IDLE, MOVING, ONDISK, DEAD
-};
 
 class Qbert final : public ngenius::IComponent
 {

@@ -7,15 +7,8 @@
 #pragma warning(pop)
 
 #include <algorithm>
-
 #include "Delegate.h"
-
-enum class CellState
-{
-	INITIAL
-	, INTERMEDIATE
-	, FINAL
-};
+#include "Enums.h"
 
 class Pyramid final: public ngenius::IComponent
 {
@@ -29,13 +22,13 @@ public:
 	Pyramid& operator=(Pyramid&& rhs) noexcept = default;
 	void Render() const override;
 
-	void UpdateCell(const glm::vec2& playerPosition);
+	void UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor);
 	void RegisterCompletionEvent(const std::string& evtName, const std::function<void()>& callback) { m_CompletionEvent.Register(evtName, callback); }
 
 	size_t GetCellIdxFromWorldPos(const glm::vec2& position) const;
 	glm::vec2 GetTargetPosition(const glm::vec2& position, const glm::vec2& direction) const;
 
-	glm::vec2 GetTopPosition() const { return GetTopFacePosition(m_RowCount - 1, 0); }
+	glm::vec2 GetTopPosition() const { return GetTopFacePosition(static_cast<int>(m_RowCount - 1), 0); }
 
 private:
 	std::vector<CellState> m_Blocks;
@@ -45,20 +38,20 @@ private:
 	bool m_IsCellReverting;
 	bool m_HasIntermediateColor;
 
-	glm::vec2 GetPosition(size_t row, size_t column) const
+	glm::vec2 GetPosition(int row, int column) const
 	{
 		const glm::vec2& gridPosition{ GetTransform().GetPosition() };
 		return gridPosition + glm::vec2(m_CellSize * (2.f * column + row)
 			, -m_CellSize * (3.f / 2.f * row));
 	}
 
-	glm::vec2 GetTopFacePosition(size_t row, size_t column) const
+	glm::vec2 GetTopFacePosition(int row, int column) const
 	{
-		glm::vec2 position{ GetPosition(row, column) };
+		const glm::vec2 position{ GetPosition(row, column) };
 		return position + glm::vec2(m_CellSize, 0.f);
 	}
 
-	void GetRowAndColumnFormPosition(const glm::vec2& position, size_t& r, size_t& c) const
+	void GetRowAndColumnFormPosition(const glm::vec2& position, int& r, int& c) const
 	{
 		const glm::vec2& gridPosition{ GetTransform().GetPosition() };
 		glm::vec2 diff{ position - gridPosition };

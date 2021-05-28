@@ -15,12 +15,14 @@
 #include <GameObject.h>
 #include <InputManager.h>
 #include <ResourceManager.h>
+#include <SDL_mixer.h>
 #include <TextComponent.h>
 #include <TextureComponent.h>
 
 #include "Commands.h"
 #include "Pyramid.h"
 #include "Qbert.h"
+#include "ServiceLocator.h"
 
 using namespace ngenius;
 
@@ -62,16 +64,16 @@ void LoadGame()
 
 	auto qbertGO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition()), "Player1");
 	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f);
-	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1));
+	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
 	qbertGO->AddComponent<TextureComponent>("Sprites/Character.png");
 	qbertGO->GetTransform().SetPosition(pyramidComp->GetTopPosition());
 	scene.Add(qbertGO);
 	
 
-	InputManager::GetInstance().BindInput("Move_NortWest", new MoveCommand(qbertGO, {-1, 1}), { Input('W', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Move_SouthWest", new MoveCommand(qbertGO, { 0, -1 }), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Move_SouthEast", new MoveCommand(qbertGO, { 1, -1 }), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Move_NortEast", new MoveCommand(qbertGO, { 0, 1 }), { Input('D', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_NortWest", new MoveCommand(qbertGO, Direction::NORTH_WEST), { Input('W', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_SouthWest", new MoveCommand(qbertGO, Direction::SOUTH_WEST), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_SouthEast", new MoveCommand(qbertGO, Direction::SOUTH_EAST), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
+	InputManager::GetInstance().BindInput("Move_NortEast", new MoveCommand(qbertGO, Direction::NORTH_EAST), { Input('D', 0, InputType::BUTTON, InputSource::KEYBOARD) });
 
 	//PrintInfo();
 }
