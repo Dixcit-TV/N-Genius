@@ -210,6 +210,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="SdlSoundService.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
@@ -223,6 +224,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="ISoundService.h" />
     <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="Stats.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

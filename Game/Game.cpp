@@ -23,6 +23,7 @@
 #include "Pyramid.h"
 #include "Qbert.h"
 #include "ServiceLocator.h"
+#include "Stats.h"
 
 using namespace ngenius;
 
@@ -62,19 +63,39 @@ void LoadGame()
 	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
 	scene.Add(pyramid);
 
+	auto pfont = ResourceManager::GetInstance().LoadResource<Font>("Lingua.otf", 20);
+	auto scoreTextGo{ std::make_shared<GameObject>(Transform(20.f, 20.f), "Score_UI") };
+	auto textComp = scoreTextGo->AddComponent<TextComponent>("Score: 0", pfont);
+	scene.Add(scoreTextGo);
+
 	auto qbertGO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition()), "Player1");
 	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f);
 	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
 	qbertGO->AddComponent<TextureComponent>("Sprites/Character.png");
-	qbertGO->GetTransform().SetPosition(pyramidComp->GetTopPosition());
+	auto statComp = qbertGO->AddComponent<Stats>(3);
+	statComp->RegisterScoreUpdateEvent("ScoreTextUpdateEvent", std::bind(&TextComponent::SetText, textComp, std::placeholders::_1));
 	scene.Add(qbertGO);
+
+	auto qbert2GO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition()), "Player2");
+	auto qbert2Comp = qbert2GO->AddComponent<Qbert>(10.f);
+	qbert2Comp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
+	qbert2GO->AddComponent<TextureComponent>("Sprites/Character.png");
+	scene.Add(qbert2GO);
+
+	pyramidComp->RegisterColorChangeEvent("UpdateScoreEvent", std::bind(&Stats::UpdateScore, statComp, std::placeholders::_1));
+
+	int gamepadId{ InputManager::GetInstance().RegisterGamepad() };
+	InputManager::GetInstance().BindInput("Move_NortWest", new MoveCommand(qbertGO, Direction::NORTH_WEST), { Input('W', 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_UP, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+	InputManager::GetInstance().BindInput("Move_SouthWest", new MoveCommand(qbertGO, Direction::SOUTH_WEST), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_LEFT, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+	InputManager::GetInstance().BindInput("Move_SouthEast", new MoveCommand(qbertGO, Direction::SOUTH_EAST), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_DOWN, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+	InputManager::GetInstance().BindInput("Move_NortEast", new MoveCommand(qbertGO, Direction::NORTH_EAST), { Input('D', 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_RIGHT, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+
+	gamepadId = InputManager::GetInstance().RegisterGamepad();
+	InputManager::GetInstance().BindInput("Move2_NortWest", new MoveCommand(qbert2GO, Direction::NORTH_WEST), { Input(VK_UP, 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_UP, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+	InputManager::GetInstance().BindInput("Move2_SouthWest", new MoveCommand(qbert2GO, Direction::SOUTH_WEST), { Input(VK_LEFT, 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_LEFT, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+	InputManager::GetInstance().BindInput("Move2_SouthEast", new MoveCommand(qbert2GO, Direction::SOUTH_EAST), { Input(VK_DOWN, 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_DOWN, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
+	InputManager::GetInstance().BindInput("Move2_NortEast", new MoveCommand(qbert2GO, Direction::NORTH_EAST), { Input(VK_RIGHT, 0, InputType::BUTTON, InputSource::KEYBOARD), Input(XINPUT_GAMEPAD_DPAD_RIGHT, 0, InputType::BUTTON, InputSource::GAMEPAD, gamepadId) });
 	
-
-	InputManager::GetInstance().BindInput("Move_NortWest", new MoveCommand(qbertGO, Direction::NORTH_WEST), { Input('W', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Move_SouthWest", new MoveCommand(qbertGO, Direction::SOUTH_WEST), { Input('A', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Move_SouthEast", new MoveCommand(qbertGO, Direction::SOUTH_EAST), { Input('S', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-	InputManager::GetInstance().BindInput("Move_NortEast", new MoveCommand(qbertGO, Direction::NORTH_EAST), { Input('D', 0, InputType::BUTTON, InputSource::KEYBOARD) });
-
 	//PrintInfo();
 }
 

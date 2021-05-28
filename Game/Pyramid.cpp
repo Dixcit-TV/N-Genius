@@ -52,7 +52,7 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 {
 	const size_t cellIdx{ GetCellIdxFromWorldPos(playerPosition) };
 
-	if (cellIdx < 0 || cellIdx > m_Blocks.size())
+	if (cellIdx >= m_Blocks.size())
 	{
 		std::cout << "Cell Out of Range" << std::endl;
 		return;
@@ -61,24 +61,30 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 	std::cout << "Updated Cell: " << cellIdx << std::endl;
 	const CellState prevCellState{ m_Blocks[cellIdx] };
 	CellState newState{ prevCellState };
+	bool hasReverted{ false };
 	
 	switch (prevCellState)
 	{
 	case CellState::INITIAL:
-		newState = forceRevertColor ? (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::FINAL) : newState;
+		newState = forceRevertColor ? newState : (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::FINAL);
 		break;
 	case CellState::INTERMEDIATE:
-		newState = forceRevertColor ? CellState::INITIAL : CellState::FINAL;
+		hasReverted = forceRevertColor;
+		newState = hasReverted ? CellState::INITIAL : CellState::FINAL;
 		break;
 	case CellState::FINAL:
-		newState = m_IsCellReverting || forceRevertColor ? (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::INITIAL) : newState;
+		hasReverted = m_IsCellReverting || forceRevertColor;
+		newState = hasReverted ? (m_HasIntermediateColor ? CellState::INTERMEDIATE : CellState::INITIAL) : newState;
 		break;
 	}
 
 	m_Blocks[cellIdx] = newState;
-	const bool needCheck{ newState != prevCellState && newState == CellState::FINAL };
 	
-	if (needCheck && CheckCompletion())
+	if (newState != prevCellState && !hasReverted)
+		m_ColorChangeEvent.Invoke(ScoreEventType::COLOR_CHANGE);
+	
+	if (newState != prevCellState && newState == CellState::FINAL 
+		&& CheckCompletion())
 		m_CompletionEvent.Invoke();
 }
 

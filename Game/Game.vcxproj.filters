@@ -27,6 +27,9 @@
     <Filter Include="Qbert\Common">
       <UniqueIdentifier>{23f8640a-8964-438f-99bc-216d5ad50cc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert\Player">
+      <UniqueIdentifier>{9835ab26-e6e2-40a7-9ef3-75129c33e056}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -44,11 +47,14 @@
     <ClCompile Include="Pyramid.cpp">
       <Filter>Qbert</Filter>
     </ClCompile>
-    <ClCompile Include="Qbert.cpp">
-      <Filter>Qbert</Filter>
-    </ClCompile>
     <ClCompile Include="HelperFunctions.cpp">
       <Filter>Qbert\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats.cpp">
+      <Filter>Qbert\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Qbert.cpp">
+      <Filter>Qbert\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,16 +79,19 @@
     <ClInclude Include="Pyramid.h">
       <Filter>Qbert</Filter>
     </ClInclude>
-    <ClInclude Include="Qbert.h">
-      <Filter>Qbert</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands.h">
-      <Filter>Qbert</Filter>
-    </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Qbert\Common</Filter>
     </ClInclude>
     <ClInclude Include="HelperFunctions.h">
+      <Filter>Qbert\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
+      <Filter>Qbert\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Qbert.h">
+      <Filter>Qbert\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
       <Filter>Qbert\Common</Filter>
     </ClInclude>
   </ItemGroup>

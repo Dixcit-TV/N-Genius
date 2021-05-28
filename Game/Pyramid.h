@@ -24,7 +24,10 @@ public:
 
 	void UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor);
 	void RegisterCompletionEvent(const std::string& evtName, const std::function<void()>& callback) { m_CompletionEvent.Register(evtName, callback); }
-
+	void UnregisterCompletionEvent(const std::string& evtName) { m_CompletionEvent.Unregister(evtName); }
+	void RegisterColorChangeEvent(const std::string& evtName, const std::function<void(ScoreEventType)>& callback) { m_ColorChangeEvent.Register(evtName, callback); }
+	void UnregisterColorChangeEvent(const std::string& evtName) { m_ColorChangeEvent.Unregister(evtName); }
+	
 	size_t GetCellIdxFromWorldPos(const glm::vec2& position) const;
 	glm::vec2 GetTargetPosition(const glm::vec2& position, const glm::vec2& direction) const;
 
@@ -32,6 +35,7 @@ public:
 
 private:
 	std::vector<CellState> m_Blocks;
+	ngenius::Event<ScoreEventType> m_ColorChangeEvent;
 	ngenius::Event<> m_CompletionEvent;
 	size_t m_RowCount;
 	float m_CellSize;
@@ -58,8 +62,8 @@ private:
 		diff.y *= -1;
 		diff.y += 1;
 		
-		c = static_cast<size_t>((0.5f * diff.x - 1.f / 3.f * diff.y) / m_CellSize);
-		r = static_cast<size_t>(2.f / 3.f * diff.y / m_CellSize);
+		c = static_cast<int>((0.5f * diff.x - 1.f / 3.f * diff.y) / m_CellSize);
+		r = static_cast<int>(2.f / 3.f * diff.y / m_CellSize);
 	}
 
 	bool CheckCompletion() const
