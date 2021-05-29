@@ -32,6 +32,8 @@ public:
 	glm::vec2 GetTargetPosition(const glm::vec2& position, const glm::vec2& direction) const;
 
 	glm::vec2 GetTopPosition() const { return GetTopFacePosition(static_cast<int>(m_RowCount - 1), 0); }
+	glm::vec2 GetBottomLeftPosition() const { return GetTopFacePosition(0, 0); }
+	glm::vec2 GetBottomRightPosition() const { return GetTopFacePosition(0, static_cast<int>(m_RowCount - 1)); }
 
 private:
 	std::vector<CellState> m_Blocks;

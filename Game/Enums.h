@@ -1,4 +1,10 @@
 #pragma once
+enum class PlayerTag
+{
+	PLAYER1
+	, PLAYER2
+};
+
 enum class CellState
 {
 	INITIAL

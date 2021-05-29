@@ -33,6 +33,9 @@
     <Filter Include="Qbert\Scenes">
       <UniqueIdentifier>{0d805a51-d15c-4308-a6f3-be700614a277}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert\Factory">
+      <UniqueIdentifier>{a781b9ca-f629-4584-9ea4-40d049bb2e3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="LevelScene.cpp">
       <Filter>Qbert\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryMethod.cpp">
+      <Filter>Qbert\Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="LevelScene.h">
       <Filter>Qbert\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryMethod.h">
+      <Filter>Qbert\Factory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
