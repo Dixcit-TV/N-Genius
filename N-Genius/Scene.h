@@ -1,12 +1,13 @@
 #pragma once
-#include "SceneManager.h"
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace ngenius
 {
 	class GameObject;
 	class Scene : public std::enable_shared_from_this<Scene>
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
 
@@ -17,13 +18,17 @@ namespace ngenius
 		std::shared_ptr<GameObject> GetGameObjectWithName(const std::string& name) const;
 		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const;
 
-		~Scene() = default;
+		virtual ~Scene() = default;
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	private: 
+		virtual void Initialise() {}
+		virtual void Activate() {}
+		virtual void Deactivate() {}
+
+	protected:
 		explicit Scene(const std::string& name);
 
 		std::string m_Name;

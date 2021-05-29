@@ -1,11 +1,14 @@
 #pragma once
+#include <cassert>
+
 #include "Singleton.h"
 #include <vector>
 #include <memory>
 
+#include "Scene.h"
+
 namespace ngenius
 {
-	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
@@ -14,8 +17,9 @@ namespace ngenius
 		SceneManager(SceneManager&& other) = delete;
 		SceneManager& operator=(const SceneManager& other) = delete;
 		SceneManager& operator=(SceneManager&& other) = delete;
-		
-		Scene& CreateScene(const std::string& name);
+
+		template<typename SCENE_TYPE>
+		void AddScene(const std::string& name);
 
 		void SetCurrentScene(int id);
 		void SetCurrentScene(const std::string& sceneName);
@@ -27,6 +31,18 @@ namespace ngenius
 		explicit SceneManager() = default;
 		
 		std::vector<std::shared_ptr<Scene>> m_Scenes{};
-		int m_CurrentSceneId = -1;
+		int m_CurrentSceneId = -1;		
 	};
+
+	template<typename SCENE_TYPE>
+	void SceneManager::AddScene(const std::string& name)
+	{
+		assert(std::find_if(std::cbegin(m_Scenes), std::cend(m_Scenes), [&name](const auto pScene)
+			{
+				return pScene->GetName() == name;
+			}) == std::cend(m_Scenes) && "A scene already exists with the name !");
+		
+		m_Scenes.push_back(std::make_shared<SCENE_TYPE>(name));
+		m_Scenes.back()->Initialise();
+	}
 }

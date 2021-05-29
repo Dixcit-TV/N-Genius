@@ -30,6 +30,9 @@
     <Filter Include="Qbert\Player">
       <UniqueIdentifier>{9835ab26-e6e2-40a7-9ef3-75129c33e056}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert\Scenes">
+      <UniqueIdentifier>{0d805a51-d15c-4308-a6f3-be700614a277}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -55,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="Qbert.cpp">
       <Filter>Qbert\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelScene.cpp">
+      <Filter>Qbert\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Qbert\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelScene.h">
+      <Filter>Qbert\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

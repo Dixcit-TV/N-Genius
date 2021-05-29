@@ -1,15 +1,21 @@
 #include "PCH.h"
 #include "SceneManager.h"
+#include <cassert>
 #include "Scene.h"
 
 void ngenius::SceneManager::SetCurrentScene(int id)
 {
-	if (id < 0 || id >= int(m_Scenes.size()))
+	if (id < 0 || id >= static_cast<int>(m_Scenes.size()))
 	{
-		throw std::runtime_error("Scene" + std::to_string(id) + " does not exist.");
+		std::cout << "Scene " + std::to_string(id) + " does not exist. Current scene was not changed!" << std::endl;
+		return;
 	}
 
+	if (m_CurrentSceneId >= 0 && m_CurrentSceneId < static_cast<int>(m_Scenes.size()))
+		m_Scenes[m_CurrentSceneId]->Deactivate();
+	
 	m_CurrentSceneId = id;
+	m_Scenes[m_CurrentSceneId]->Activate();
 }
 
 void ngenius::SceneManager::SetCurrentScene(const std::string& sceneName)
@@ -19,7 +25,7 @@ void ngenius::SceneManager::SetCurrentScene(const std::string& sceneName)
 			return pScene->GetName() == sceneName;
 		});
 
-	SetCurrentScene(int(std::distance(std::cbegin(m_Scenes), sceneIt)));
+	SetCurrentScene(static_cast<int>(std::distance(std::cbegin(m_Scenes), sceneIt)));
 }
 
 void ngenius::SceneManager::Update()
@@ -30,11 +36,4 @@ void ngenius::SceneManager::Update()
 void ngenius::SceneManager::Render()
 {
 	m_Scenes[m_CurrentSceneId]->Render();
-}
-
-ngenius::Scene& ngenius::SceneManager::CreateScene(const std::string& name)
-{
-	const auto scene = std::shared_ptr<Scene>(new Scene(name));
-	m_Scenes.push_back(scene);
-	return *scene;
 }
