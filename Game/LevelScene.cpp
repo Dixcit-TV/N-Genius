@@ -1,17 +1,9 @@
 #include "LevelScene.h"
 #include <GameObject.h>
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
 #include "Commands.h"
-#include "InputManager.h"
 #include "Pyramid.h"
-#include "Qbert.h"
 #include "ResourceManager.h"
-#include "Stats.h"
 #include "TextComponent.h"
-#include "TextureComponent.h"
 #include "FactoryMethod.h"
 
 void LevelScene::Initialise()

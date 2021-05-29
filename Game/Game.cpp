@@ -6,25 +6,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <functional>
-#include <Memory>
 #include <Core.h>
 #include <SceneManager.h>
-#include <Scene.h>
-
-#include <GameObject.h>
 #include <InputManager.h>
 #include <ResourceManager.h>
 #include <SDL_mixer.h>
-#include <TextComponent.h>
-#include <TextureComponent.h>
 
 #include "Commands.h"
 #include "LevelScene.h"
-#include "Pyramid.h"
-#include "Qbert.h"
 #include "ServiceLocator.h"
-#include "Stats.h"
 
 using namespace ngenius;
 
