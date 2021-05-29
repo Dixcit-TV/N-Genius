@@ -18,8 +18,17 @@ namespace ngenius
 		SceneManager& operator=(const SceneManager& other) = delete;
 		SceneManager& operator=(SceneManager&& other) = delete;
 
-		template<typename SCENE_TYPE>
-		void AddScene(const std::string& name);
+		template<typename SCENE_TYPE, typename = std::enable_if_t<std::is_base_of_v<Scene, SCENE_TYPE>>>
+		void AddScene(const std::string& name)
+		{
+			assert(std::find_if(std::cbegin(m_Scenes), std::cend(m_Scenes), [&name](const auto pScene)
+				{
+					return pScene->GetName() == name;
+				}) == std::cend(m_Scenes) && "A scene already exists with the name !");
+
+			m_Scenes.push_back(std::make_shared<SCENE_TYPE>(name));
+			m_Scenes.back()->Initialise();
+		}
 
 		void SetCurrentScene(int id);
 		void SetCurrentScene(const std::string& sceneName);
@@ -33,16 +42,4 @@ namespace ngenius
 		std::vector<std::shared_ptr<Scene>> m_Scenes{};
 		int m_CurrentSceneId = -1;		
 	};
-
-	template<typename SCENE_TYPE>
-	void SceneManager::AddScene(const std::string& name)
-	{
-		assert(std::find_if(std::cbegin(m_Scenes), std::cend(m_Scenes), [&name](const auto pScene)
-			{
-				return pScene->GetName() == name;
-			}) == std::cend(m_Scenes) && "A scene already exists with the name !");
-		
-		m_Scenes.push_back(std::make_shared<SCENE_TYPE>(name));
-		m_Scenes.back()->Initialise();
-	}
 }

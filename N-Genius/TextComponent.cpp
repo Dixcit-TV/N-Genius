@@ -7,9 +7,10 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 
-ngenius::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color)
+ngenius::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color, const glm::vec2& pivot)
 	: IComponent()
 	, m_Color(color)
+	, m_Pivot(pivot)
 	, m_pFont(pfont)
 	, m_pTexture(nullptr)
 	, m_Text("")
@@ -57,7 +58,7 @@ void ngenius::TextComponent::Render() const
 		const auto& parentTransform = GetTransform();
 		
 		Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), parentTransform.GetPosition()
-			, m_pTexture->GetTextureSize(), parentTransform.GetScale(), parentTransform.GetRotation());
+			, m_pTexture->GetTextureSize(), parentTransform.GetScale(), parentTransform.GetRotation(), m_Pivot);
 	}
 }
 

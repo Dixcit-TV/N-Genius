@@ -13,7 +13,7 @@ namespace ngenius
 	class TextComponent final : public IComponent
 	{
 	public:
-		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 });
+		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 }, const glm::vec2& pivot = {0.f, 0.f});
 		~TextComponent() override = default;
 		TextComponent(const TextComponent& rhs) = delete;
 		TextComponent(TextComponent&& rhs) noexcept = delete;
@@ -28,6 +28,7 @@ namespace ngenius
 
 	private:
 		SDL_Color m_Color;
+		glm::vec2 m_Pivot;
 		std::shared_ptr<Font> m_pFont;
 		std::shared_ptr<Texture2D> m_pTexture; 
 		std::string m_Text;

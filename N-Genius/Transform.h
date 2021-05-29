@@ -10,7 +10,7 @@ namespace ngenius
 	{
 	public:
 		explicit Transform() = default;
-		explicit Transform(const glm::vec2& position, const glm::vec2& scale = {}, float rotation = 0.f)
+		explicit Transform(const glm::vec2& position, const glm::vec2& scale = {1.f, 1.f}, float rotation = 0.f)
 			: m_Position(position), m_Scale(scale), m_Rotation(rotation) {};
 
 		const glm::vec2& GetPosition() const;
