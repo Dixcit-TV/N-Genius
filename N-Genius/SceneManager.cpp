@@ -30,10 +30,14 @@ void ngenius::SceneManager::SetCurrentScene(const std::string& sceneName)
 
 void ngenius::SceneManager::Update()
 {
+	assert(m_CurrentSceneId >= 0 && m_CurrentSceneId < static_cast<int>(m_Scenes.size()));
+	
 	m_Scenes[m_CurrentSceneId]->Update();
 }
 
 void ngenius::SceneManager::Render()
 {
+	assert(m_CurrentSceneId >= 0 && m_CurrentSceneId < static_cast<int>(m_Scenes.size()));
+	
 	m_Scenes[m_CurrentSceneId]->Render();
 }
