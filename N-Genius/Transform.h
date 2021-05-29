@@ -9,9 +9,9 @@ namespace ngenius
 	class Transform final
 	{
 	public:
-		explicit Transform() : Transform(0.f, 0.f) {}
-		explicit Transform(float x, float y) : m_Position(x, y), m_Scale(1.f, 1.f), m_Rotation(0.f) {}
-		explicit Transform(const glm::vec2& position) : m_Position(position), m_Scale(1.f, 1.f), m_Rotation(0.f) {};
+		explicit Transform() = default;
+		explicit Transform(const glm::vec2& position, const glm::vec2& scale = {}, float rotation = 0.f)
+			: m_Position(position), m_Scale(scale), m_Rotation(rotation) {};
 
 		const glm::vec2& GetPosition() const;
 		void SetPosition(float x, float y);
