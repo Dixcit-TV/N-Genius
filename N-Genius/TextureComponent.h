@@ -1,7 +1,6 @@
 #pragma once
 #include "IComponent.h"
 #include "ResourceManager.h"
-#include "Transform.h"
 
 namespace ngenius
 {
@@ -9,8 +8,7 @@ namespace ngenius
 	class TextureComponent final : public IComponent
 	{
 	public:
-		explicit TextureComponent() = default;
-		explicit TextureComponent(const std::string& textureName);
+		explicit TextureComponent(const std::string& textureName, const glm::vec2& pivot = { 0.f, 0.f });
 		~TextureComponent() override = default;
 		TextureComponent(const TextureComponent& rhs) = delete;
 		TextureComponent(TextureComponent&& rhs) noexcept = delete;
@@ -20,6 +18,7 @@ namespace ngenius
 		void Render() const override;
 
 	private:
+		glm::vec2 m_Pivot;
 		std::shared_ptr<Texture2D> m_pTexture{};
 	};
 }

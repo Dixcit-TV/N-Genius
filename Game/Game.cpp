@@ -59,27 +59,27 @@ void LoadGame()
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 	SceneManager::GetInstance().SetCurrentScene(0);
 
-	auto pyramid = std::make_shared<GameObject>(Transform(200.f, 520.f), "Pyramid");
+	auto pyramid = std::make_shared<GameObject>(Transform(glm::vec2(200.f, 520.f)), "Pyramid");
 	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
 	scene.Add(pyramid);
 
 	auto pfont = ResourceManager::GetInstance().LoadResource<Font>("Lingua.otf", 20);
-	auto scoreTextGo{ std::make_shared<GameObject>(Transform(20.f, 20.f), "Score_UI") };
+	auto scoreTextGo{ std::make_shared<GameObject>(Transform(glm::vec2(20.f, 20.f)), "Score_UI") };
 	auto textComp = scoreTextGo->AddComponent<TextComponent>("Score: 0", pfont);
 	scene.Add(scoreTextGo);
 
-	auto qbertGO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition()), "Player1");
+	auto qbertGO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition(), glm::vec2(2.f, 2.f)), "Player1");
 	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f);
 	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
-	qbertGO->AddComponent<TextureComponent>("Sprites/Character.png");
+	qbertGO->AddComponent<TextureComponent>("Sprites/Character.png", glm::vec2(0.5f, 0.4f));
 	auto statComp = qbertGO->AddComponent<Stats>(3);
 	statComp->RegisterScoreUpdateEvent("ScoreTextUpdateEvent", std::bind(&TextComponent::SetText, textComp, std::placeholders::_1));
 	scene.Add(qbertGO);
 
-	auto qbert2GO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition()), "Player2");
+	auto qbert2GO = std::make_shared<GameObject>(Transform(pyramidComp->GetTopPosition(), glm::vec2(2.f, 2.f)), "Player2");
 	auto qbert2Comp = qbert2GO->AddComponent<Qbert>(10.f);
 	qbert2Comp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
-	qbert2GO->AddComponent<TextureComponent>("Sprites/Character.png");
+	qbert2GO->AddComponent<TextureComponent>("Sprites/Character.png", glm::vec2(0.5f, 0.4f));
 	scene.Add(qbert2GO);
 
 	pyramidComp->RegisterColorChangeEvent("UpdateScoreEvent", std::bind(&Stats::UpdateScore, statComp, std::placeholders::_1));

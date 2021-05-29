@@ -35,6 +35,7 @@ public:
 
 private:
 	std::vector<CellState> m_Blocks;
+	std::vector<bool> m_Disks;
 	ngenius::Event<ScoreEventType> m_ColorChangeEvent;
 	ngenius::Event<> m_CompletionEvent;
 	size_t m_RowCount;
@@ -52,7 +53,7 @@ private:
 	glm::vec2 GetTopFacePosition(int row, int column) const
 	{
 		const glm::vec2 position{ GetPosition(row, column) };
-		return position + glm::vec2(m_CellSize, 0.f);
+		return position + glm::vec2(m_CellSize, -m_CellSize * 0.f);
 	}
 
 	void GetRowAndColumnFormPosition(const glm::vec2& position, int& r, int& c) const

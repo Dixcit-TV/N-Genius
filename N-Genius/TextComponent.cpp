@@ -54,9 +54,10 @@ void ngenius::TextComponent::Render() const
 {
 	if (m_pTexture)
 	{
-		const auto parentPos = GetTransform().GetPosition();
+		const auto& parentTransform = GetTransform();
 		
-		Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), parentPos, m_pTexture->GetTextureSize());
+		Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), parentTransform.GetPosition()
+			, m_pTexture->GetTextureSize(), parentTransform.GetScale(), parentTransform.GetRotation());
 	}
 }
 

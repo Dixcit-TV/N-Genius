@@ -53,19 +53,24 @@ void ngenius::Renderer::Destroy()
 	}
 }
 
-void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const glm::vec2& position, const glm::ivec2& size, const glm::vec2& scale) const
+void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const glm::vec2& position, const glm::ivec2& size, const glm::vec2& scale, float rotation, const glm::vec2& pivot) const
 {
 	SDL_Rect dst;
-	dst.x = static_cast<int>(position.x);
-	dst.y = static_cast<int>(position.y);
 	dst.w = static_cast<int>(size.x * scale.x);
 	dst.h = static_cast<int>(size.y * scale.y);
-	SDL_RenderCopy(GetSDLRenderer(), pTexture, nullptr, &dst);
+	const SDL_Point centerOffset{ static_cast<int>(dst.w * pivot.x), static_cast<int>(dst.h * pivot.y) };
+	
+	dst.x = static_cast<int>(position.x) - centerOffset.x;
+	dst.y = static_cast<int>(position.y) - centerOffset.y;
+
+	SDL_Point rotCenter{ dst.x, dst.y };
+	SDL_RenderCopyEx(GetSDLRenderer(), pTexture, nullptr, &dst, static_cast<double>(rotation), &rotCenter, SDL_FLIP_NONE);
 }
 
-void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const SDL_Rect& srcRect, const SDL_Rect& destRect) const
+void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const SDL_Rect& srcRect, const SDL_Rect& destRect, float rotation, const glm::vec2& pivot) const
 {
-	SDL_RenderCopy(GetSDLRenderer(), pTexture, &srcRect, &destRect);
+	const SDL_Point center{ static_cast<int>(destRect.x + destRect.w * pivot.x), static_cast<int>(destRect.y + destRect.h * pivot.y) };
+	SDL_RenderCopyEx(GetSDLRenderer(), pTexture, &srcRect, &destRect, static_cast<double>(rotation), &center, SDL_FLIP_NONE);
 }
 
 int ngenius::Renderer::GetOpenGLDriverIndex() const
