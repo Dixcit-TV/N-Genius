@@ -24,6 +24,9 @@ namespace ngenius {
 		Transform& GetTransform() { return m_pGameObject.lock()->GetTransform(); }
 		const Transform& GetTransform() const { return m_pGameObject.lock()->GetTransform(); }
 
+		template<typename COMPONENT_TYPE, typename = std::enable_if_t<std::is_base_of_v<IComponent, COMPONENT_TYPE>>>
+		std::shared_ptr<COMPONENT_TYPE> GetComponent() const { return m_pGameObject.lock()->GetComponent<COMPONENT_TYPE>(); }
+
 	private:
 		friend class GameObject;
 		

@@ -51,6 +51,8 @@ namespace ngenius
 		std::shared_ptr<GameObject> GetGameObjectWithName(const std::string& name) const { return m_pParentScene.lock()->GetGameObjectWithName(name); }
 		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const { return m_pParentScene.lock()->GetAllGameObjectsWithName(name); }
 
+		std::shared_ptr<Scene> GetScene() const { return m_pParentScene.lock(); }
+
 		void Delete() { m_MarkedForDeletion = true; };
 
 		bool IsMarkedForDeletion() const { return m_MarkedForDeletion; };
