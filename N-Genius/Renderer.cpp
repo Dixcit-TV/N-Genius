@@ -63,13 +63,13 @@ void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const glm::vec2& po
 	dst.x = static_cast<int>(position.x) - centerOffset.x;
 	dst.y = static_cast<int>(position.y) - centerOffset.y;
 
-	SDL_Point rotCenter{ dst.x, dst.y };
-	SDL_RenderCopyEx(GetSDLRenderer(), pTexture, nullptr, &dst, static_cast<double>(rotation), &rotCenter, SDL_FLIP_NONE);
+	const SDL_Point center{ static_cast<int>(dst.w * pivot.x), static_cast<int>(dst.h * pivot.y) };
+	SDL_RenderCopyEx(GetSDLRenderer(), pTexture, nullptr, &dst, static_cast<double>(rotation), &center, SDL_FLIP_NONE);
 }
 
 void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const SDL_Rect& srcRect, const SDL_Rect& destRect, float rotation, const glm::vec2& pivot) const
 {
-	const SDL_Point center{ static_cast<int>(destRect.x + destRect.w * pivot.x), static_cast<int>(destRect.y + destRect.h * pivot.y) };
+	const SDL_Point center{ static_cast<int>(destRect.w * pivot.x), static_cast<int>(destRect.h * pivot.y) };
 	SDL_RenderCopyEx(GetSDLRenderer(), pTexture, &srcRect, &destRect, static_cast<double>(rotation), &center, SDL_FLIP_NONE);
 }
 

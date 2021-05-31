@@ -18,7 +18,7 @@ namespace ngenius
 		void SetPosition(const glm::vec2& position);
 
 		float GetRotation() const;
-		void SetRotation(float rad);
+		void SetRotation(float angle, bool isDegree = true);
 
 		const glm::vec2& GetScale() const;
 		void SetScale(float x, float y);

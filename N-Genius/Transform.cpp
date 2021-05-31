@@ -22,9 +22,9 @@ float ngenius::Transform::GetRotation() const
 	return m_Rotation;
 }
 
-void ngenius::Transform::SetRotation(float rad)
+void ngenius::Transform::SetRotation(float angle, bool isDegree)
 {
-	m_Rotation = rad;
+	m_Rotation = isDegree ? angle : glm::degrees<float>(angle);
 }
 
 const glm::vec2& ngenius::Transform::GetScale() const
