@@ -16,10 +16,10 @@ public:
 	explicit Pyramid(size_t rowCount, float cellSize, bool cellReverting = false, bool intermediateColor = false);
 	~Pyramid() override = default;
 	
-	Pyramid(const Pyramid& rhs) = default;
-	Pyramid(Pyramid&& rhs) noexcept = default;
-	Pyramid& operator=(const Pyramid& rhs) = default;
-	Pyramid& operator=(Pyramid&& rhs) noexcept = default;
+	Pyramid(const Pyramid& rhs) = delete;
+	Pyramid(Pyramid&& rhs) noexcept = delete;
+	Pyramid& operator=(const Pyramid& rhs) = delete;
+	Pyramid& operator=(Pyramid&& rhs) noexcept = delete;
 	void Update() override;
 	void Render() const override;
 
@@ -32,6 +32,7 @@ public:
 	size_t GetCellIdxFromWorldPos(const glm::vec2& position) const;
 	glm::vec2 GetTargetPosition(const glm::vec2& position, const glm::vec2& direction, CellFace face = CellFace::TOP) const;
 
+	glm::vec2 GetFacePosition(int row, int column, CellFace face = CellFace::TOP) const;
 	glm::vec2 GetTopPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(static_cast<int>(m_RowCount - 1), 0, face); }
 	glm::vec2 GetBottomLeftPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(0, 0, face); }
 	glm::vec2 GetBottomRightPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(0, static_cast<int>(m_RowCount - 1), face); }
@@ -48,7 +49,6 @@ private:
 	bool m_HasIntermediateColor;
 
 	glm::vec2 GetPosition(int row, int column, CellFace face = CellFace::TOP) const;
-	glm::vec2 GetFacePosition(int row, int column, CellFace face = CellFace::TOP) const;
 	void GetRowAndColumnFromPosition(const glm::vec2& position, int& r, int& c) const;
 
 	bool CheckCompletion() const

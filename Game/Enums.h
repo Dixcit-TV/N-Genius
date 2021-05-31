@@ -40,3 +40,9 @@ enum class QBertState
 	IDLE, MOVING, ONDISK, DEAD
 };
 
+enum class EnemyType
+{
+	SLICK, SAM, UGG, WRONGWAY, COILY, EGG
+};
+
+

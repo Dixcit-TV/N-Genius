@@ -194,6 +194,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyController.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="FactoryMethod.cpp" />
     <ClCompile Include="Game.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)N-Genius;$(SolutionDir)3rdParty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -216,6 +218,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="EnemyController.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FactoryMethod.h" />
     <ClInclude Include="HelperFunctions.h" />

@@ -23,6 +23,8 @@ void LoadGame();
 
 int main(int, char* [])
 {
+	srand(unsigned(time(nullptr)));
+	
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 	{
 		std::cerr << "error when calling SDL_Init: " << SDL_GetError() << std::endl;

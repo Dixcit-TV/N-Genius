@@ -9,10 +9,10 @@ public:
 	explicit Qbert(float moveSpeed, CellFace face);
 	~Qbert() override = default;
 
-	Qbert(const Qbert& rhs) = default;
-	Qbert(Qbert&& rhs) noexcept = default;
-	Qbert& operator=(const Qbert& rhs) = default;
-	Qbert& operator=(Qbert&& rhs) noexcept = default;
+	Qbert(const Qbert& rhs) = delete;
+	Qbert(Qbert&& rhs) noexcept = delete;
+	Qbert& operator=(const Qbert& rhs) = delete;
+	Qbert& operator=(Qbert&& rhs) noexcept = delete;
 
 	void Update() override;
 

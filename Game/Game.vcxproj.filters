@@ -36,6 +36,12 @@
     <Filter Include="Qbert\Factory">
       <UniqueIdentifier>{a781b9ca-f629-4584-9ea4-40d049bb2e3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert\Enemies">
+      <UniqueIdentifier>{dd66fc26-fc74-4b35-b219-a0e00bd4e885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qbert\Level">
+      <UniqueIdentifier>{69c22be9-f221-451a-83e0-0c58329e61c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -49,9 +55,6 @@
     </ClCompile>
     <ClCompile Include="LoggingSoundService.cpp">
       <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
-    </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>Qbert</Filter>
     </ClCompile>
     <ClCompile Include="HelperFunctions.cpp">
       <Filter>Qbert\Common</Filter>
@@ -67,6 +70,15 @@
     </ClCompile>
     <ClCompile Include="FactoryMethod.cpp">
       <Filter>Qbert\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyController.cpp">
+      <Filter>Qbert\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>Qbert\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Qbert\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +100,6 @@
     <ClInclude Include="LoggingSoundService.h">
       <Filter>LabCode\ServiceLocator\SoundService\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>Qbert</Filter>
-    </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Qbert\Common</Filter>
     </ClInclude>
@@ -111,6 +120,15 @@
     </ClInclude>
     <ClInclude Include="FactoryMethod.h">
       <Filter>Qbert\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyController.h">
+      <Filter>Qbert\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>Qbert\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Qbert\Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

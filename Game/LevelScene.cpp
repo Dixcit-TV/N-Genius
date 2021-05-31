@@ -3,6 +3,7 @@
 #include <gtc/constants.hpp>
 
 #include "Commands.h"
+#include "EnemySpawner.h"
 #include "Pyramid.h"
 #include "ResourceManager.h"
 #include "TextComponent.h"
@@ -12,6 +13,7 @@ void LevelScene::Initialise()
 {
 	auto pyramid = std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(200.f, 600.f)), "Pyramid");
 	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
+	pyramid->AddComponent<EnemySpawner>();
 	Add(pyramid);
 
 	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", 20);
