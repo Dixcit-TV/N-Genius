@@ -16,10 +16,12 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	, std::shared_ptr<ngenius::TextComponent> scoreTextComp
 	, const std::string& name, PlayerTag tag)
 {
+	CellFace face{ CellFace::TOP };
+	
 	auto qbertGO = std::make_shared<ngenius::GameObject>(transform, name);
-	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f);
+	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f, face);
 	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
-	qbertGO->AddComponent<ngenius::TextureComponent>("Sprites/Character.png", glm::vec2(0.5f, 0.4f));
+	qbertGO->AddComponent<ngenius::TextureComponent>("Sprites/Character.png", glm::vec2(0.5f, 1.f));
 	auto statComp = qbertGO->AddComponent<Stats>(3);
 	statComp->RegisterScoreUpdateEvent("ScoreTextUpdateEvent", std::bind(&ngenius::TextComponent::SetText, scoreTextComp, std::placeholders::_1));
 

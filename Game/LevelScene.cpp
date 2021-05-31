@@ -1,5 +1,7 @@
 #include "LevelScene.h"
 #include <GameObject.h>
+#include <gtc/constants.hpp>
+
 #include "Commands.h"
 #include "Pyramid.h"
 #include "ResourceManager.h"
@@ -8,7 +10,7 @@
 
 void LevelScene::Initialise()
 {
-	auto pyramid = std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(200.f, 520.f)), "Pyramid");
+	auto pyramid = std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(200.f, 600.f)), "Pyramid");
 	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
 	Add(pyramid);
 

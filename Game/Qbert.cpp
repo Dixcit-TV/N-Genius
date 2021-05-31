@@ -7,12 +7,13 @@
 
 #include "TimeSettings.h"
 
-Qbert::Qbert(float moveSpeed)
+Qbert::Qbert(float moveSpeed, CellFace face)
 	: IComponent()
-	,  m_TargetPosition()
+	, m_TargetPosition()
 	, m_OnEndMovementEvent()
 	, m_MovementSpeed(moveSpeed)
 	, m_State(QBertState::IDLE)
+	, m_Face(face)
 {}
 
 void Qbert::Update()

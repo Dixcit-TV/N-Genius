@@ -8,5 +8,5 @@
 
 namespace Helpers
 {
-	glm::vec2 EnumToDirection(Direction direction);
+	glm::vec2 EnumToDirection(Direction direction, CellFace face = CellFace::TOP);
 }

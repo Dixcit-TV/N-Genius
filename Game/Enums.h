@@ -12,6 +12,13 @@ enum class CellState
 	, FINAL
 };
 
+enum class CellFace
+{
+	TOP
+	, LEFT
+	, RIGHT
+};
+
 enum class Direction
 {
 	NORTH_EAST

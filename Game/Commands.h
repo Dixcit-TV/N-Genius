@@ -27,8 +27,9 @@ public:
 					return;
 				
 				const glm::vec2& goPos{ characterGo->GetTransform().GetPosition() };
-				const glm::vec2 dir{ Helpers::EnumToDirection(m_Direction) };
-				const glm::vec2 targetPos{ pyramidComp->GetTargetPosition(goPos, dir) };
+				CellFace face{ characterComp->GetCellFace() };
+				const glm::vec2 dir{ Helpers::EnumToDirection(m_Direction, face) };
+				const glm::vec2 targetPos{ pyramidComp->GetTargetPosition(goPos, dir, face) };
 				characterComp->SetTargetPosition(targetPos);
 				characterComp->SetState(QBertState::MOVING);
 			}

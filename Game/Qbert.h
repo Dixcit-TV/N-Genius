@@ -6,7 +6,7 @@
 class Qbert final : public ngenius::IComponent
 {
 public:
-	explicit Qbert(float moveSpeed);
+	explicit Qbert(float moveSpeed, CellFace face);
 	~Qbert() override = default;
 
 	Qbert(const Qbert& rhs) = default;
@@ -20,11 +20,13 @@ public:
 	void SetTargetPosition(const glm::vec2& targetPos) { m_TargetPosition = targetPos; }
 	void SetState(QBertState newSTate){ m_State = newSTate; }
 	QBertState GetState() const { return m_State; }
+	CellFace GetCellFace() const { return m_Face; }
 
 private:
 	glm::vec2 m_TargetPosition;
 	ngenius::Event<glm::vec2> m_OnEndMovementEvent;
 	float m_MovementSpeed;
 	QBertState m_State;
+	CellFace m_Face;
 };
 
