@@ -47,6 +47,8 @@ namespace ngenius
 
 		void BindInput(const std::string& bindingName, ICommand* pCommand, std::initializer_list<Input> inpuList);
 		int RegisterGamepad(int id = -1);
+
+		static glm::ivec2 GetMousePosition();
 	
 	private:
 		friend class Singleton<InputManager>;

@@ -157,3 +157,10 @@ int ngenius::InputManager::RegisterGamepad(int id)
 
 	return id;
 }
+
+glm::ivec2 ngenius::InputManager::GetMousePosition()
+{
+	glm::ivec2 mousePos{};
+	SDL_GetMouseState(&mousePos.x, &mousePos.y);
+	return mousePos;
+}
