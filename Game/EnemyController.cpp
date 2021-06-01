@@ -1,8 +1,8 @@
 #include "EnemyController.h"
 #include <Command.h>
 
-EnemyController::EnemyController()
-	: IComponent()
+EnemyController::EnemyController(float moveSpeed, CellFace face)
+	: CharacterController(moveSpeed, face)
 	, m_pMoveCommands()
 {}
 
@@ -12,7 +12,17 @@ EnemyController::~EnemyController()
 		delete commandPair.second;
 }
 
-void EnemyController::TriggerNextMovement(const glm::vec2&) const
+void EnemyController::Update()
+{
+	if (m_State == CharacterState::IDLE)
+	{
+		TriggerNextMovement();
+	}
+
+	CharacterController::Update();
+}
+
+void EnemyController::TriggerNextMovement() const
 {
 	const int moveCount{ static_cast<int>(m_pMoveCommands.size()) };
 	if (moveCount == 0)

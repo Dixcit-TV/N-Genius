@@ -62,7 +62,7 @@
     <ClCompile Include="Stats.cpp">
       <Filter>Qbert\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Qbert.cpp">
+    <ClCompile Include="CharacterController.cpp">
       <Filter>Qbert\Player</Filter>
     </ClCompile>
     <ClCompile Include="LevelScene.cpp">
@@ -109,7 +109,7 @@
     <ClInclude Include="Stats.h">
       <Filter>Qbert\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Qbert.h">
+    <ClInclude Include="CharacterController.h">
       <Filter>Qbert\Player</Filter>
     </ClInclude>
     <ClInclude Include="Commands.h">

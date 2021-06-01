@@ -7,7 +7,7 @@
 #include "EnemyController.h"
 #include "InputManager.h"
 #include "Pyramid.h"
-#include "Qbert.h"
+#include "CharacterController.h"
 #include "Stats.h"
 #include "TextComponent.h"
 #include "TextureComponent.h"
@@ -20,7 +20,8 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	CellFace face{ CellFace::TOP };
 	
 	auto qbertGO = std::make_shared<ngenius::GameObject>(transform, name);
-	auto qbertComp = qbertGO->AddComponent<Qbert>(10.f, face);
+	qbertGO->GetTransform().SetScale(2.f, 2.f);
+	auto qbertComp = qbertGO->AddComponent<CharacterController>(10.f, face);
 	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, false));
 	qbertGO->AddComponent<ngenius::TextureComponent>("Sprites/Character.png", glm::vec2(0.5f, 1.f));
 	auto statComp = qbertGO->AddComponent<Stats>(3);
@@ -79,13 +80,11 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateSlickSam(const ngenius
 {
 	std::string name{ type == EnemyType::SAM ? "Sam" : "Slick" };
 	auto slickSamGO = std::make_shared<ngenius::GameObject>(transform, name);
-	auto enemyController = slickSamGO->AddComponent<EnemyController>();
+	slickSamGO->GetTransform().SetScale(2.f, 2.f);
+	auto enemyController = slickSamGO->AddComponent<EnemyController>(5.f, CellFace::TOP);
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(slickSamGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(slickSamGO, Direction::SOUTH_WEST));
-	
-	auto qbertComp = slickSamGO->AddComponent<Qbert>(10.f, CellFace::TOP);
-	qbertComp->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, true));
-	qbertComp->RegisterEndMoveEvent("PickNewMovementEvent", std::bind(&EnemyController::TriggerNextMovement, enemyController, std::placeholders::_1));
+	enemyController->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, true));
 	
 	slickSamGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
 
@@ -96,12 +95,10 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateEgg(const ngenius::Tra
 {
 	std::string name{ "Egg" };
 	auto eggGO = std::make_shared<ngenius::GameObject>(transform, name);
-	auto enemyController = eggGO->AddComponent<EnemyController>();
+	eggGO->GetTransform().SetScale(2.f, 2.f);
+	auto enemyController = eggGO->AddComponent<EnemyController>(5.f, CellFace::TOP);
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(eggGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(eggGO, Direction::SOUTH_WEST));
-	
-	auto qbertComp = eggGO->AddComponent<Qbert>(10.f, CellFace::TOP);
-	qbertComp->RegisterEndMoveEvent("PickNewMovementEvent", std::bind(&EnemyController::TriggerNextMovement, enemyController, std::placeholders::_1));
 	eggGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
 
 	return eggGO;
@@ -111,14 +108,12 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const ngenius::T
 {
 	std::string name{ "Coily" };
 	auto coilyGO = std::make_shared<ngenius::GameObject>(transform, name);
-	auto enemyController = coilyGO->AddComponent<EnemyController>();
+	coilyGO->GetTransform().SetScale(2.f, 2.f);
+	auto enemyController = coilyGO->AddComponent<EnemyController>(5.f, CellFace::TOP);
 	enemyController->RegisterMoveCommand(Direction::NORTH_EAST, new MoveCommand(coilyGO, Direction::NORTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::NORTH_WEST, new MoveCommand(coilyGO, Direction::NORTH_WEST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(coilyGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(coilyGO, Direction::SOUTH_WEST));
-	
-	auto qbertComp = coilyGO->AddComponent<Qbert>(10.f, CellFace::TOP);
-	qbertComp->RegisterEndMoveEvent("PickNewMovementEvent", std::bind(&EnemyController::TriggerNextMovement, enemyController, std::placeholders::_1));
 	coilyGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
 
 	return coilyGO;
@@ -128,15 +123,14 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateUggWrongWay(const ngen
 {
 	std::string name{ type == EnemyType::UGG ? "Ugg" : "WrongWay" };
 	CellFace face{ type == EnemyType::UGG ? CellFace::RIGHT : CellFace::LEFT };
+	glm::vec2 texPivot{ type == EnemyType::UGG ? glm::vec2{0.f, 0.5f} : glm::vec2{1.f, 0.5f} };
 	auto UggWrongWayGO = std::make_shared<ngenius::GameObject>(transform, name);
-	auto enemyController = UggWrongWayGO->AddComponent<EnemyController>();
-	enemyController->RegisterMoveCommand(Direction::NORTH_EAST, new MoveCommand(UggWrongWayGO, Direction::NORTH_EAST));
-	enemyController->RegisterMoveCommand(Direction::NORTH_WEST, new MoveCommand(UggWrongWayGO, Direction::NORTH_WEST));
+	UggWrongWayGO->GetTransform().SetScale(2.f, 2.f);
+	auto enemyController = UggWrongWayGO->AddComponent<EnemyController>(5.f, face);
+	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(UggWrongWayGO, Direction::SOUTH_EAST));
+	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(UggWrongWayGO, Direction::SOUTH_WEST));
 	
-	auto qbertComp = UggWrongWayGO->AddComponent<Qbert>(10.f, face);
-	qbertComp->RegisterEndMoveEvent("PickNewMovementEvent", std::bind(&EnemyController::TriggerNextMovement, enemyController, std::placeholders::_1));
-	
-	UggWrongWayGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
+	UggWrongWayGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", texPivot);
 
 	return UggWrongWayGO;
 }

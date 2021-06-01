@@ -1,17 +1,17 @@
 #pragma once
-#include <IComponent.h>
 #include <map>
 
 #include "Enums.h"
+#include "CharacterController.h"
 
 namespace ngenius {
 	class ICommand;
 }
 
-class EnemyController : public ngenius::IComponent
+class EnemyController final : public CharacterController
 {
 public:
-	explicit EnemyController();
+	explicit EnemyController(float moveSpeed, CellFace face);
 	virtual ~EnemyController() override;
 
 	EnemyController(const EnemyController& rhs) = delete;
@@ -19,8 +19,10 @@ public:
 	EnemyController& operator=(const EnemyController& rhs) = delete;
 	EnemyController& operator=(EnemyController&& rhs) noexcept = delete;
 
+	void Update() override;
+
 	void RegisterMoveCommand(Direction, ngenius::ICommand* pCommand);
-	void TriggerNextMovement(const glm::vec2& position) const;
+	void TriggerNextMovement() const;
 
 private:
 	std::map<Direction, ngenius::ICommand*> m_pMoveCommands;

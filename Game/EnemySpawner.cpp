@@ -56,7 +56,7 @@ void EnemySpawner::Update()
 				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomLeftPosition(CellFace::LEFT)), timer.spawnType);
 				break;
 			case EnemyType::EGG:
-				pGo = FactoryMethod::CreateEgg(ngenius::Transform(pyramidComp->GetBottomLeftPosition(CellFace::LEFT)), timer.spawnType);
+				pGo = FactoryMethod::CreateEgg(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), timer.spawnType);
 				break;
 			case EnemyType::COILY: break;
 			}

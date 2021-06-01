@@ -25,12 +25,12 @@ void LevelScene::Initialise()
 	auto textComp2 = scoreText2Go->AddComponent<ngenius::TextComponent>("Score: 0", pfont, SDL_Color{255, 255, 255}, glm::vec2{1.f, 0.f});
 	Add(scoreText2Go);
 
-	auto qbert1 = FactoryMethod::CreateQbert(ngenius::Transform(pyramidComp->GetBottomLeftPosition(), glm::vec2(2.f, 2.f))
+	auto qbert1 = FactoryMethod::CreateQbert(ngenius::Transform(pyramidComp->GetBottomLeftPosition())
 		, pyramidComp
 		, textComp
 		, "Player1", PlayerTag::PLAYER1);
 
-	auto qbert2 = FactoryMethod::CreateQbert(ngenius::Transform(pyramidComp->GetBottomRightPosition(), glm::vec2(2.f, 2.f))
+	auto qbert2 = FactoryMethod::CreateQbert(ngenius::Transform(pyramidComp->GetBottomRightPosition())
 		, pyramidComp
 		, textComp2
 		, "Player2", PlayerTag::PLAYER2);

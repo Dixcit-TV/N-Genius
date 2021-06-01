@@ -35,7 +35,7 @@ enum class ScoreEventType
 	, SLICK_SAM_CAUGHT
 };
 
-enum class QBertState
+enum class CharacterState
 {
 	IDLE, MOVING, ONDISK, DEAD
 };
