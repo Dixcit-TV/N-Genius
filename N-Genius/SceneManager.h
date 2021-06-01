@@ -27,7 +27,7 @@ namespace ngenius
 				}) == std::cend(m_Scenes) && "A scene already exists with the name !");
 
 			m_Scenes.push_back(std::make_shared<SCENE_TYPE>(name));
-			m_Scenes.back()->Initialise();
+			m_Scenes.back()->RootInitialise();
 		}
 
 		void SetCurrentScene(int id);

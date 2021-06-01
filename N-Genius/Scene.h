@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -9,7 +10,8 @@ namespace ngenius
 	class Scene : public std::enable_shared_from_this<Scene>
 	{
 	public:
-		void Add(const std::shared_ptr<GameObject>& object);
+		void Add(const std::shared_ptr<GameObject>& object, bool force = false);
+		void Remove(const std::shared_ptr<GameObject>& object, bool force = false);
 
 		void Update();
 		void Render() const;
@@ -23,16 +25,26 @@ namespace ngenius
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
-
+		
 		virtual void Initialise() {}
 		virtual void Activate() {}
 		virtual void Deactivate() {}
 
 	protected:
+		friend class SceneManager;
+		
 		explicit Scene(const std::string& name);
 
+		void RootInitialise()
+		{
+			Initialise();
+			m_Initalized = true;
+		}
+
 		std::string m_Name;
-		std::vector<std::shared_ptr<GameObject>> m_Objects{};
+		std::vector<std::shared_ptr<GameObject>> m_Objects;
+		std::vector<std::function<void()>> m_SceneQueue;
+		bool m_Initalized;
 	};
 
 }

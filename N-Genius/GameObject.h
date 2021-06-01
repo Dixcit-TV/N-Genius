@@ -53,9 +53,7 @@ namespace ngenius
 
 		std::shared_ptr<Scene> GetScene() const { return m_pParentScene.lock(); }
 
-		void Delete() { m_MarkedForDeletion = true; };
-
-		bool IsMarkedForDeletion() const { return m_MarkedForDeletion; };
+		void Delete() { m_pParentScene.lock()->Remove(shared_from_this()); };
 	
 	private:
 		Components m_ComponentPtrs;
@@ -63,6 +61,5 @@ namespace ngenius
 		std::string m_Name;
 		std::string m_Tag;
 		std::weak_ptr<Scene> m_pParentScene;
-		bool m_MarkedForDeletion;
 	};
 }
