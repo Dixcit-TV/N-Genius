@@ -14,6 +14,7 @@ CharacterController::CharacterController(float moveSpeed, CellFace face)
 	, m_MovementSpeed(moveSpeed)
 	, m_State(CharacterState::IDLE)
 	, m_Face(face)
+	, m_IsJumpingOut(false)
 {}
 
 void CharacterController::Update()
@@ -29,9 +30,10 @@ void CharacterController::Update()
 	else if (m_State == CharacterState::MOVING)
 	{
 		if (m_IsJumpingOut)
-			m_OnJumpOutMovementEvent.Invoke(INT32_MAX);
+			m_OnJumpOutMovementEvent.Invoke();
 		
 		m_State = CharacterState::IDLE;
 		m_OnEndMovementEvent.Invoke(position);
+		m_IsJumpingOut = false;
 	}
 }

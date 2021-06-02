@@ -17,7 +17,7 @@ public:
 	virtual void Update() override;
 
 	void RegisterEndMoveEvent(const std::string& evtName, const std::function<void(glm::vec2)>& callback) { m_OnEndMovementEvent.Register(evtName, callback); }
-	void RegisterJumpOutEvent(const std::string& evtName, const std::function<void(int)>& callback) { m_OnJumpOutMovementEvent.Register(evtName, callback); }
+	void RegisterJumpOutEvent(const std::string& evtName, const std::function<void()>& callback) { m_OnJumpOutMovementEvent.Register(evtName, callback); }
 	void SetTargetPosition(const glm::vec2& targetPos, bool isJumpingOut) { m_TargetPosition = targetPos; m_IsJumpingOut = isJumpingOut;  }
 	void SetState(CharacterState newSTate){ m_State = newSTate; }
 	CharacterState GetState() const { return m_State; }
@@ -26,7 +26,7 @@ public:
 protected:
 	glm::vec2 m_TargetPosition;
 	ngenius::Event<glm::vec2> m_OnEndMovementEvent;
-	ngenius::Event<int> m_OnJumpOutMovementEvent;
+	ngenius::Event<> m_OnJumpOutMovementEvent;
 	float m_MovementSpeed;
 	CharacterState m_State;
 	CellFace m_Face;

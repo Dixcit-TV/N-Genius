@@ -19,9 +19,25 @@ EnemySpawner::EnemySpawner()
 	QueueSpawn(EnemyType::EGG);
 }
 
-void EnemySpawner::QueueSpawn(EnemyType eType)
+void EnemySpawner::QueueSpawn(EnemyType eType, bool instantSpawn)
 {
-	m_SpawnQueue.push_back(SpawnTimer{ Helpers::RandValue(m_MinTimerDuration, m_MaxTimerDuration), 0.f, eType });
+	if (eType == EnemyType::SAM)
+	{
+		if (m_WasSamSpawned)
+			return;
+
+		m_WasSamSpawned = true;
+	}
+
+	if (eType == EnemyType::SLICK)
+	{
+		if (m_WasSlickSpawned)
+			return;
+
+		m_WasSlickSpawned = true;
+	}
+	
+	m_SpawnQueue.push_back(SpawnTimer{ instantSpawn ? 0.f : Helpers::RandValue(m_MinTimerDuration, m_MaxTimerDuration), 0.f, eType });
 }
 
 void EnemySpawner::Update()

@@ -23,7 +23,7 @@ public:
 
 	void Update() override;
 
-	void QueueSpawn(EnemyType eType);
+	void QueueSpawn(EnemyType eType, bool instantSpawn = false);
 
 private:
 	std::vector<SpawnTimer> m_SpawnQueue;

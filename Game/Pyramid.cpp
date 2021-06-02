@@ -56,14 +56,13 @@ void Pyramid::Render() const
 
 void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 {
-	const size_t cellIdx{ GetCellIdxFromWorldPos(playerPosition) };
-
-	if (cellIdx >= m_Blocks.size())
+	if (!IsInBound(playerPosition))
 	{
 		std::cout << "Cell Out of Range" << std::endl;
 		return;
 	}
-	
+
+	const size_t cellIdx{ GetCellIdxFromWorldPos(playerPosition) };
 	std::cout << "Updated Cell: " << cellIdx << std::endl;
 	const CellState prevCellState{ m_Blocks[cellIdx] };
 	CellState newState{ prevCellState };
@@ -98,11 +97,6 @@ size_t Pyramid::GetCellIdxFromWorldPos(const glm::vec2& position) const
 {
 	int r, c;
 	GetRowAndColumnFromPosition(position, r, c);
-
-	int rTotal{ 0 };
-	for (int r2{ 0 }; r2 < r; ++r2)
-		rTotal += r2;
-	
 	return GetIndex(r, c);
 }
 
@@ -123,7 +117,7 @@ void Pyramid::GetTargetPosition(const glm::vec2& position, const glm::vec2& dire
 	r += static_cast<int>(direction.y);
 
 	targetPos = GetFacePosition(r, c, face);
-	isTargetOut = r < 0 || r >= static_cast<int>(m_RowCount) || c < 0 || c > static_cast<int>(m_RowCount) - (r + 1);
+	isTargetOut = !IsInBound(r, c);
 }
 
 glm::vec2 Pyramid::GetPosition(int row, int column, CellFace) const
@@ -171,6 +165,18 @@ void Pyramid::GetRowAndColumnFromPosition(const glm::vec2& position, int& r, int
 	const float t1 = diff.y / m_CellSize, t2 = floorf(x + t1);
 	r = static_cast<int>(floorf((floorf(t1 - x) + t2) / 3.f));
 	c = static_cast<int>(floorf((floorf(2.f * x + 1.f) + t2) / 3.f)) - r + 1;
+}
+
+bool Pyramid::IsInBound(const glm::vec2& position) const
+{
+	int r, c;
+	GetRowAndColumnFromPosition(position, r, c);
+	return IsInBound(r, c);
+}
+
+bool Pyramid::IsInBound(int row, int col) const
+{
+	return row >= 0 && row < static_cast<int>(m_RowCount) && col >= 0 && col <= static_cast<int>(m_RowCount) - (row + 1);
 }
 
 void Pyramid::Update()

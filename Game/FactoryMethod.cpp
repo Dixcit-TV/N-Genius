@@ -32,7 +32,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	scoreComp->RegisterScoreUpdateEvent("ScoreTextUpdateEvent", Make_Delegate(std::weak_ptr(scoreTextComp), &ngenius::TextComponent::SetText));
 	auto lifeComp = qbertGO->AddComponent<LifeComponent>(3);
 	//lifeComp->RegisterUpdateEvent("ScoreTextUpdateEvent", std::bind(&ngenius::TextComponent::SetText, scoreTextComp, std::placeholders::_1));
-	qbertComp->RegisterJumpOutEvent("JumpOutEvent", Make_Delegate(std::weak_ptr(lifeComp), &LifeComponent::ApplyDamage));
+	qbertComp->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 
 	pyramidComp->RegisterColorChangeEvent("UpdateScore" + name + "Event", Make_Delegate(std::weak_ptr(scoreComp), &Score::UpdateScore));
 
@@ -95,7 +95,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateSlickSam(const ngenius
 	auto lifeComp = slickSamGO->AddComponent<LifeComponent>(1);
 	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, type == EnemyType::SAM ? EnemyType::SLICK : EnemyType::SAM));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(slickSamGO), &ngenius::GameObject::Delete));
-	enemyController->RegisterJumpOutEvent("JumpOutEvent", Make_Delegate(std::weak_ptr(lifeComp), &LifeComponent::ApplyDamage));
+	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
 	slickSamGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
 
@@ -118,7 +118,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateEgg(const ngenius::Tra
 
 	
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(eggGO), &ngenius::GameObject::Delete));
-	enemyController->RegisterJumpOutEvent("JumpOutEvent", Make_Delegate(std::weak_ptr(lifeComp), &LifeComponent::ApplyDamage));
+	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
 	eggGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
 
@@ -138,7 +138,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const ngenius::T
 	auto lifeComp = coilyGO->AddComponent<LifeComponent>(1);
 	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(coilyGO), &ngenius::GameObject::Delete));
-	enemyController->RegisterJumpOutEvent("JumpOutEvent", Make_Delegate(std::weak_ptr(lifeComp), &LifeComponent::ApplyDamage));
+	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
 	coilyGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
 
@@ -160,7 +160,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateUggWrongWay(const ngen
 	int r{ Helpers::RandValue(0, 1) };
 	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, r == 0 ? EnemyType::UGG : EnemyType::WRONGWAY));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(UggWrongWayGO), &ngenius::GameObject::Delete));
-	enemyController->RegisterJumpOutEvent("JumpOutEvent", Make_Delegate(std::weak_ptr(lifeComp), &LifeComponent::ApplyDamage));
+	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
 	UggWrongWayGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", texPivot);
 

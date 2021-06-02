@@ -45,6 +45,9 @@
     <Filter Include="Qbert\Characters\Enemies">
       <UniqueIdentifier>{dd66fc26-fc74-4b35-b219-a0e00bd4e885}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert\Hud">
+      <UniqueIdentifier>{1c26a14e-ee54-4ec8-ba4b-5cb1fd398af0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="LifeComponent.cpp">
       <Filter>Qbert\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeDisplay.cpp">
+      <Filter>Qbert\Hud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="LifeComponent.h">
       <Filter>Qbert\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeDisplay.h">
+      <Filter>Qbert\Hud</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

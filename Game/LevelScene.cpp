@@ -8,6 +8,8 @@
 #include "ResourceManager.h"
 #include "TextComponent.h"
 #include "FactoryMethod.h"
+#include "LifeComponent.h"
+#include "LifeDisplay.h"
 
 void LevelScene::Initialise()
 {
@@ -37,4 +39,14 @@ void LevelScene::Initialise()
 	
 	Add(qbert1);
 	Add(qbert2);
+
+	auto LifeDisplaytGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
+	auto lifeDisplayComp = LifeDisplaytGo->AddComponent<LifeDisplay>(3);
+	qbert1->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
+	Add(LifeDisplaytGo);
+
+	auto LifeDisplayt2Go{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(890.f, 60.f)), "Life_UI_P2") };
+	auto lifeDisplay2Comp = LifeDisplayt2Go->AddComponent<LifeDisplay>(3);
+	qbert2->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplay2Comp), &LifeDisplay::UpdateLifeDrawCount));
+	Add(LifeDisplayt2Go);
 }

@@ -47,7 +47,9 @@ private:
 	float m_CellSize;
 	bool m_IsCellReverting;
 	bool m_HasIntermediateColor;
-	
+
+	bool IsInBound(const glm::vec2& position) const;
+	bool IsInBound(int row, int col) const;
 	int GetIndex(int row, int col) const;
 	glm::vec2 GetPosition(int row, int column, CellFace face = CellFace::TOP) const;
 	void GetRowAndColumnFromPosition(const glm::vec2& position, int& r, int& c) const;
