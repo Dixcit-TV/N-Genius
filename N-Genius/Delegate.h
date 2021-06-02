@@ -45,6 +45,16 @@ namespace ngenius
 	{
 		return Delegate<RET_TYPE, TARGET_TYPE, ARG_TYPE...>(target, function);
 	}
+
+	template<typename RET_TYPE, typename TARGET_TYPE, typename... ARG_TYPE>
+	std::function<RET_TYPE(ARG_TYPE...)> Make_Delegate(std::weak_ptr<TARGET_TYPE> target, RET_TYPE(TARGET_TYPE::* function)(ARG_TYPE...))
+	{
+		return [=](ARG_TYPE&&... args) -> RET_TYPE
+		{
+			if (!target.expired())
+				return (target.lock().get()->*function)(std::forward<ARG_TYPE>(args)...);
+		};
+	}
 	
 	template<typename... ARG_TYPE>
 	class Event
