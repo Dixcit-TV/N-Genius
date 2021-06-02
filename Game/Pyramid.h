@@ -30,7 +30,7 @@ public:
 	void UnregisterColorChangeEvent(const std::string& evtName) { m_ColorChangeEvent.Unregister(evtName); }
 	
 	size_t GetCellIdxFromWorldPos(const glm::vec2& position) const;
-	glm::vec2 GetTargetPosition(const glm::vec2& position, const glm::vec2& direction, CellFace face = CellFace::TOP) const;
+	void GetTargetPosition(const glm::vec2& position, const glm::vec2& direction, CellFace face, glm::vec2& targetPos, bool& isTargetOut) const;
 
 	glm::vec2 GetFacePosition(int row, int column, CellFace face = CellFace::TOP) const;
 	glm::vec2 GetTopPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(static_cast<int>(m_RowCount - 1), 0, face); }
@@ -47,7 +47,8 @@ private:
 	float m_CellSize;
 	bool m_IsCellReverting;
 	bool m_HasIntermediateColor;
-
+	
+	int GetIndex(int row, int col) const;
 	glm::vec2 GetPosition(int row, int column, CellFace face = CellFace::TOP) const;
 	void GetRowAndColumnFromPosition(const glm::vec2& position, int& r, int& c) const;
 

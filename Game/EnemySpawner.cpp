@@ -1,5 +1,6 @@
 #include "EnemySpawner.h"
 #include "FactoryMethod.h"
+#include "HelperFunctions.h"
 #include "TimeSettings.h"
 #include "Pyramid.h"
 
@@ -11,20 +12,16 @@ EnemySpawner::EnemySpawner()
 	, m_WasSlickSpawned(false)
 	, m_WasSamSpawned(false)
 {
-	float r{ static_cast<float>(rand()) / RAND_MAX * (m_MaxTimerDuration - m_MinTimerDuration) + m_MinTimerDuration };
-	m_SpawnQueue.push_back(SpawnTimer{ r, 0.f, EnemyType::SAM });
+	QueueSpawn(EnemyType::SAM);
+	QueueSpawn(EnemyType::UGG);
+	QueueSpawn(EnemyType::WRONGWAY);
+	QueueSpawn(EnemyType::EGG);
+	QueueSpawn(EnemyType::EGG);
+}
 
-	r = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimerDuration - m_MinTimerDuration) + m_MinTimerDuration;
-	m_SpawnQueue.push_back(SpawnTimer{ r, 0.f, EnemyType::UGG });
-
-	r = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimerDuration - m_MinTimerDuration) + m_MinTimerDuration;
-	m_SpawnQueue.push_back(SpawnTimer{ r, 0.f, EnemyType::WRONGWAY });
-
-	r = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimerDuration - m_MinTimerDuration) + m_MinTimerDuration;
-	m_SpawnQueue.push_back(SpawnTimer{ r, 0.f, EnemyType::EGG });
-
-	r = static_cast<float>(rand()) / RAND_MAX * (m_MaxTimerDuration - m_MinTimerDuration) + m_MinTimerDuration;
-	m_SpawnQueue.push_back(SpawnTimer{ r, 0.f, EnemyType::EGG });
+void EnemySpawner::QueueSpawn(EnemyType eType)
+{
+	m_SpawnQueue.push_back(SpawnTimer{ Helpers::RandValue(m_MinTimerDuration, m_MaxTimerDuration), 0.f, eType });
 }
 
 void EnemySpawner::Update()
@@ -47,16 +44,16 @@ void EnemySpawner::Update()
 			{
 			case EnemyType::SAM:
 			case EnemyType::SLICK:
-				pGo = FactoryMethod::CreateSlickSam(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), pyramidComp, timer.spawnType);
+				pGo = FactoryMethod::CreateSlickSam(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), pyramidComp, shared_from_this(), timer.spawnType);
 				break;
 			case EnemyType::UGG:
-				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomRightPosition(CellFace::RIGHT)), timer.spawnType);
+				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomRightPosition(CellFace::RIGHT)), shared_from_this(), timer.spawnType);
 				break;
 			case EnemyType::WRONGWAY:
-				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomLeftPosition(CellFace::LEFT)), timer.spawnType);
+				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomLeftPosition(CellFace::LEFT)), shared_from_this(), timer.spawnType);
 				break;
 			case EnemyType::EGG:
-				pGo = FactoryMethod::CreateEgg(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), timer.spawnType);
+				pGo = FactoryMethod::CreateEgg(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), shared_from_this(), timer.spawnType);
 				break;
 			case EnemyType::COILY: break;
 			}

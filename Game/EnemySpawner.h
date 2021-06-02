@@ -3,7 +3,7 @@
 
 #include "Enums.h"
 
-class EnemySpawner final : public ngenius::IComponent
+class EnemySpawner final : public ngenius::IComponent, public std::enable_shared_from_this<EnemySpawner>
 {
 	struct SpawnTimer
 	{
@@ -22,6 +22,8 @@ public:
 	EnemySpawner& operator=(EnemySpawner&& rhs) noexcept = delete;
 
 	void Update() override;
+
+	void QueueSpawn(EnemyType eType);
 
 private:
 	std::vector<SpawnTimer> m_SpawnQueue;

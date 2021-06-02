@@ -29,8 +29,12 @@ public:
 				const glm::vec2& goPos{ characterGo->GetTransform().GetPosition() };
 				CellFace face{ characterComp->GetCellFace() };
 				const glm::vec2 dir{ Helpers::EnumToDirection(m_Direction, face) };
-				const glm::vec2 targetPos{ pyramidComp->GetTargetPosition(goPos, dir, face) };
-				characterComp->SetTargetPosition(targetPos);
+
+				glm::vec2 targetPos{ };
+				bool isOut{ false };
+				pyramidComp->GetTargetPosition(goPos, dir, face, targetPos, isOut);
+				
+				characterComp->SetTargetPosition(targetPos, isOut);
 				characterComp->SetState(CharacterState::MOVING);
 			}
 			else

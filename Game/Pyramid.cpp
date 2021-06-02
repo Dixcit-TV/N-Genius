@@ -103,17 +103,27 @@ size_t Pyramid::GetCellIdxFromWorldPos(const glm::vec2& position) const
 	for (int r2{ 0 }; r2 < r; ++r2)
 		rTotal += r2;
 	
-	return c + r * m_RowCount - rTotal;
+	return GetIndex(r, c);
 }
 
-glm::vec2 Pyramid::GetTargetPosition(const glm::vec2& position, const glm::vec2& direction, CellFace face) const
+int Pyramid::GetIndex(int row, int col) const
+{
+	int rTotal{ 0 };
+	for (int r2{ 0 }; r2 < row; ++r2)
+		rTotal += r2;
+
+	return col + row * static_cast<int>(m_RowCount) - rTotal;
+}
+
+void Pyramid::GetTargetPosition(const glm::vec2& position, const glm::vec2& direction, CellFace face, glm::vec2& targetPos, bool& isTargetOut) const
 {
 	int r, c;
 	GetRowAndColumnFromPosition(position, r, c);
-	c += static_cast<size_t>(direction.x);
-	r += static_cast<size_t>(direction.y);
-	
-	return GetFacePosition(r, c, face);
+	c += static_cast<int>(direction.x);
+	r += static_cast<int>(direction.y);
+
+	targetPos = GetFacePosition(r, c, face);
+	isTargetOut = r < 0 || r >= static_cast<int>(m_RowCount) || c < 0 || c > static_cast<int>(m_RowCount) - (r + 1);
 }
 
 glm::vec2 Pyramid::GetPosition(int row, int column, CellFace) const

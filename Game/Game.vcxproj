@@ -209,12 +209,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     </ClCompile>
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="LevelScene.cpp" />
+    <ClCompile Include="LifeComponent.cpp" />
     <ClCompile Include="LoggingSoundService.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="SdlSoundService.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Pyramid.cpp" />
-    <ClCompile Include="Stats.cpp" />
+    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
@@ -224,6 +225,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="FactoryMethod.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="LevelScene.h" />
+    <ClInclude Include="LifeComponent.h" />
     <ClInclude Include="LoggingSoundService.h" />
     <ClInclude Include="NullSoundService.h" />
     <ClInclude Include="CharacterController.h" />
@@ -232,7 +234,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="ISoundService.h" />
     <ClInclude Include="Pyramid.h" />
-    <ClInclude Include="Stats.h" />
+    <ClInclude Include="Score.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

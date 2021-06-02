@@ -27,20 +27,23 @@
     <Filter Include="Qbert\Common">
       <UniqueIdentifier>{23f8640a-8964-438f-99bc-216d5ad50cc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Qbert\Player">
-      <UniqueIdentifier>{9835ab26-e6e2-40a7-9ef3-75129c33e056}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Qbert\Scenes">
       <UniqueIdentifier>{0d805a51-d15c-4308-a6f3-be700614a277}</UniqueIdentifier>
     </Filter>
     <Filter Include="Qbert\Factory">
       <UniqueIdentifier>{a781b9ca-f629-4584-9ea4-40d049bb2e3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Qbert\Enemies">
-      <UniqueIdentifier>{dd66fc26-fc74-4b35-b219-a0e00bd4e885}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Qbert\Level">
       <UniqueIdentifier>{69c22be9-f221-451a-83e0-0c58329e61c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qbert\Characters">
+      <UniqueIdentifier>{fcd10bbe-3c1f-43c4-b8d8-bc7e95d835e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qbert\Characters\Player">
+      <UniqueIdentifier>{9835ab26-e6e2-40a7-9ef3-75129c33e056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qbert\Characters\Enemies">
+      <UniqueIdentifier>{dd66fc26-fc74-4b35-b219-a0e00bd4e885}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,11 +62,8 @@
     <ClCompile Include="HelperFunctions.cpp">
       <Filter>Qbert\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Stats.cpp">
-      <Filter>Qbert\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterController.cpp">
-      <Filter>Qbert\Player</Filter>
+    <ClCompile Include="Score.cpp">
+      <Filter>Qbert\Characters\Player</Filter>
     </ClCompile>
     <ClCompile Include="LevelScene.cpp">
       <Filter>Qbert\Scenes</Filter>
@@ -72,13 +72,19 @@
       <Filter>Qbert\Factory</Filter>
     </ClCompile>
     <ClCompile Include="EnemyController.cpp">
-      <Filter>Qbert\Enemies</Filter>
+      <Filter>Qbert\Characters\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Pyramid.cpp">
       <Filter>Qbert\Level</Filter>
     </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>Qbert\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterController.cpp">
+      <Filter>Qbert\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeComponent.cpp">
+      <Filter>Qbert\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,11 +112,8 @@
     <ClInclude Include="HelperFunctions.h">
       <Filter>Qbert\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Stats.h">
-      <Filter>Qbert\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterController.h">
-      <Filter>Qbert\Player</Filter>
+    <ClInclude Include="Score.h">
+      <Filter>Qbert\Characters\Player</Filter>
     </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Qbert\Common</Filter>
@@ -122,13 +125,19 @@
       <Filter>Qbert\Factory</Filter>
     </ClInclude>
     <ClInclude Include="EnemyController.h">
-      <Filter>Qbert\Enemies</Filter>
+      <Filter>Qbert\Characters\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Pyramid.h">
       <Filter>Qbert\Level</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>Qbert\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterController.h">
+      <Filter>Qbert\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeComponent.h">
+      <Filter>Qbert\Characters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

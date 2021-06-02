@@ -1,12 +1,11 @@
-#include "Stats.h"
+#include "Score.h"
 #include "Pyramid.h"
 
-Stats::Stats(int startLifeCount)
+Score::Score()
 	: IComponent()
 	, m_ScoreUpdateEvent()
 	, m_ScoreRules()
 	, m_Score(0)
-	, m_LiveCount(startLifeCount)
 {
 	m_ScoreRules[ScoreEventType::COLOR_CHANGE] = 25;
 	m_ScoreRules[ScoreEventType::COILY_DEFEAT] = 500;
@@ -14,7 +13,7 @@ Stats::Stats(int startLifeCount)
 	m_ScoreRules[ScoreEventType::SLICK_SAM_CAUGHT] = 300;
 }
 
-void Stats::UpdateScore(ScoreEventType scoreEvent)
+void Score::UpdateScore(ScoreEventType scoreEvent)
 {
 	auto it{ m_ScoreRules.find(scoreEvent) };
 

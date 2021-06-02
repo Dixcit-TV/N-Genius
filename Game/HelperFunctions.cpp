@@ -52,3 +52,13 @@ glm::vec2 Helpers::EnumToDirection(Direction direction, CellFace face)
 
 	return dir;
 }
+
+int Helpers::RandValue(int min, int max)
+{
+	return rand() % (max - min + 1) + min;
+}
+
+float Helpers::RandValue(float min, float max)
+{
+	return static_cast<float>(rand()) / RAND_MAX * (max - min) + min;
+}
