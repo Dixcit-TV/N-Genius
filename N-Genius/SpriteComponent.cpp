@@ -1,8 +1,13 @@
 #include "SpriteComponent.h"
 
+#include <SDL_rect.h>
+
+
 #include "ResourceManager.h"
 #include "GameObject.h"
+#include "Renderer.h"
 #include "Transform.h"
+#include "Texture2D.h"
 
 ngenius::SpriteComponent::SpriteComponent(const std::string& file, int sheetColumnCount, int sheetFrameCount, int numCols
     , int frameCount, int startColumn, int startRow, float frameTime, bool shouldRepeat)

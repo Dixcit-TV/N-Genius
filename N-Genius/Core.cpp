@@ -4,7 +4,10 @@
 #include "Renderer.h"
 #include <SDL.h>
 
+#include "FontLoader.h"
 #include "InputManager.h"
+#include "ResourceManager.h"
+#include "Texture2DLoader.h"
 #include "TimeSettings.h"
 
 using namespace std;
@@ -35,6 +38,8 @@ void ngenius::Core::Initialize(const std::string& windowName, int width, int hei
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+	ResourceManager::GetInstance().RegisterLoader(new Texture2DLoader());
+	ResourceManager::GetInstance().RegisterLoader(new FontLoader());
 
 	m_IsInit = true;
 }

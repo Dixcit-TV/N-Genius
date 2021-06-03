@@ -263,16 +263,17 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="FontLoader.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ILoader.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="IResource.h" />
-    <ClInclude Include="ResourceLoaders.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="PCH.h" />
@@ -283,6 +284,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Texture2DLoader.h" />
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TimeSettings.h" />
     <ClInclude Include="Transform.h" />
@@ -296,6 +298,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontLoader.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -316,6 +319,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Texture2DLoader.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="TimeSettings.cpp" />
     <ClCompile Include="Transform.cpp" />

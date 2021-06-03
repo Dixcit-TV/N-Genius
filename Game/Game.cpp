@@ -10,6 +10,7 @@
 #include <SceneManager.h>
 #include <InputManager.h>
 #include <ResourceManager.h>
+#include <SDL.h>
 #include <SDL_mixer.h>
 
 #include "Commands.h"

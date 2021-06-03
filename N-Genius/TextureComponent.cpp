@@ -1,6 +1,6 @@
 #include "PCH.h"
 #include "TextureComponent.h"
-
+#include "Texture2D.h"
 #include "GameObject.h"
 #include "Renderer.h"
 

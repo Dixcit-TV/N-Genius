@@ -1,6 +1,8 @@
 #include "LifeDisplay.h"
 
-#include "ResourceManager.h"
+#include <Texture2D.h>
+#include <Renderer.h>
+#include <ResourceManager.h>
 
 LifeDisplay::LifeDisplay(int initialLifeCount)
 	: IComponent()

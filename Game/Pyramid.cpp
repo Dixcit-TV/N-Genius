@@ -1,13 +1,9 @@
 #include "Pyramid.h"
 
 #include <iostream>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-
-#include "InputManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include <Texture2D.h>
+#include <Renderer.h>
+#include <ResourceManager.h>
 
 Pyramid::Pyramid(size_t rowCount, float cellSize, bool cellReverting, bool intermediateColor)
 	: m_CellMatrix(glm::mat2x2(2.f, 0.f, 1.f, 3.f / 2.f))

@@ -32,6 +32,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{fb712fc2-ea2c-4378-a116-80dd821e4cc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Loaders">
+      <UniqueIdentifier>{a519b651-7548-4e28-a41b-b8bf099c3c72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -121,17 +124,20 @@
     <ClInclude Include="Font.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteSheet.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="IResource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceLoaders.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="ILoader.h">
+      <Filter>Resources\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2DLoader.h">
+      <Filter>Resources\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="FontLoader.h">
+      <Filter>Resources\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +192,6 @@
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_sdl.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Managers\Inputs</Filter>
     </ClCompile>
@@ -204,9 +207,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteSheet.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -215,6 +215,12 @@
     </ClCompile>
     <ClCompile Include="IResource.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2DLoader.cpp">
+      <Filter>Resources\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="FontLoader.cpp">
+      <Filter>Resources\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

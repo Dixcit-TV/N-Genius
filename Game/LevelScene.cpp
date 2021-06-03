@@ -1,11 +1,10 @@
 #include "LevelScene.h"
 #include <GameObject.h>
-#include <gtc/constants.hpp>
+#include <ResourceManager.h>
+#include <Font.h>
 
-#include "Commands.h"
 #include "EnemySpawner.h"
 #include "Pyramid.h"
-#include "ResourceManager.h"
 #include "TextComponent.h"
 #include "FactoryMethod.h"
 #include "LifeComponent.h"
