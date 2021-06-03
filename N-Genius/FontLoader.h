@@ -7,7 +7,7 @@ namespace ngenius
 	class FontLoader final : public IBaseLoader<Font, int>
 	{
 	public:
-		explicit FontLoader() = default;
+		explicit FontLoader();
 		FontLoader(const FontLoader&) = delete;
 		FontLoader(FontLoader&&) noexcept = delete;
 		FontLoader& operator=(const FontLoader&) = delete;

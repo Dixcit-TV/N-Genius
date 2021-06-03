@@ -7,7 +7,7 @@ namespace ngenius
 	class Texture2DLoader final : public IBaseLoader<Texture2D>
 	{
 	public:
-		explicit Texture2DLoader() = default;
+		explicit Texture2DLoader();
 		Texture2DLoader(const Texture2DLoader&) = delete;
 		Texture2DLoader(Texture2DLoader&&) noexcept = delete;
 		Texture2DLoader& operator=(const Texture2DLoader&) = delete;

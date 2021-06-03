@@ -4,6 +4,20 @@
 
 #include "Renderer.h"
 
+ngenius::Texture2DLoader::Texture2DLoader()
+	: IBaseLoader<Texture2D>()
+{
+	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG)
+	{
+		throw std::runtime_error(std::string("Failed to load support for png's: ") + SDL_GetError());
+	}
+
+	if ((IMG_Init(IMG_INIT_JPG) & IMG_INIT_JPG) != IMG_INIT_JPG)
+	{
+		throw std::runtime_error(std::string("Failed to load support for jpg's: ") + SDL_GetError());
+	}
+}
+
 std::shared_ptr<ngenius::Texture2D> ngenius::Texture2DLoader::LoadContent(const std::string& path) const
 {
 	const std::string& fullPath{ path };
