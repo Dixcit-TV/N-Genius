@@ -93,7 +93,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateSlickSam(const ngenius
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(slickSamGO, Direction::SOUTH_WEST));
 	enemyController->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, true));
 	auto lifeComp = slickSamGO->AddComponent<LifeComponent>(1);
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, type == EnemyType::SAM ? EnemyType::SLICK : EnemyType::SAM));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, type == EnemyType::SAM ? EnemyType::SLICK : EnemyType::SAM, false));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(slickSamGO), &ngenius::GameObject::Delete));
 	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
@@ -113,7 +113,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateEgg(const ngenius::Tra
 	auto lifeComp = eggGO->AddComponent<LifeComponent>(1);
 
 	//Temp
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG, false));
 
 
 	
@@ -136,7 +136,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const ngenius::T
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(coilyGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(coilyGO, Direction::SOUTH_WEST));
 	auto lifeComp = coilyGO->AddComponent<LifeComponent>(1);
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG, false));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(coilyGO), &ngenius::GameObject::Delete));
 	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
@@ -158,7 +158,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateUggWrongWay(const ngen
 	auto lifeComp = UggWrongWayGO->AddComponent<LifeComponent>(1);
 
 	int r{ Helpers::RandValue(0, 1) };
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, r == 0 ? EnemyType::UGG : EnemyType::WRONGWAY));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, r == 0 ? EnemyType::UGG : EnemyType::WRONGWAY, false));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(UggWrongWayGO), &ngenius::GameObject::Delete));
 	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
