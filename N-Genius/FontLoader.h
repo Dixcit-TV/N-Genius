@@ -4,7 +4,6 @@
 
 namespace ngenius
 {
-	template<typename PARAM_TYPE = int>
 	class FontLoader final : public IBaseLoader<Font, int>
 	{
 	public:
@@ -15,8 +14,8 @@ namespace ngenius
 		FontLoader& operator=(FontLoader&&) noexcept = delete;
 		~FontLoader() override = default;
 
-		std::string GenerateResourceID(const std::string& path, PARAM_TYPE&& fontSize) const override { return path + "_" + std::to_string(fontSize); }
-		std::shared_ptr<Font> LoadContent(const std::string& path, PARAM_TYPE&& fontSize) const override;
+		std::string GenerateResourceID(const std::string& path, int&& fontSize) const override { return path + "_" + std::to_string(fontSize); }
+		std::shared_ptr<Font> LoadContent(const std::string& path, int&& fontSize) const override;
 	};
 }
 

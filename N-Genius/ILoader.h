@@ -32,7 +32,7 @@ namespace ngenius
 		IBaseLoader& operator=(IBaseLoader&&) noexcept = delete;
 		virtual ~IBaseLoader() = default;
 
-		virtual const type_info& GetType() const { return typeid(CONTENT_TYPE); }
+		virtual const type_info& GetType() const override { return typeid(CONTENT_TYPE); }
 
 		virtual std::string GenerateResourceID(const std::string& path, ARG_TYPE&&...) const { return path; }
 		virtual std::shared_ptr<CONTENT_TYPE> LoadContent(const std::string& path, ARG_TYPE&&...) const = 0;
