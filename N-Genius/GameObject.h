@@ -18,7 +18,7 @@ namespace ngenius
 
 		using Components = std::vector<std::shared_ptr<IComponent>>;
 		
-		explicit GameObject(const Transform& transform = Transform(), const std::string& name = "GameObject");
+		explicit GameObject(const Transform& transform = Transform(), const std::string& name = "GameObject", const std::string& tag = "");
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -52,6 +52,9 @@ namespace ngenius
 		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const { return m_pParentScene.lock()->GetAllGameObjectsWithName(name); }
 
 		std::shared_ptr<Scene> GetScene() const { return m_pParentScene.lock(); }
+		
+		const std::string& GetTag() const { return m_Tag; }
+		void SetTag(const std::string& newTag) { m_Tag = newTag; }
 
 		void Delete() { m_pParentScene.lock()->Remove(shared_from_this()); };
 	

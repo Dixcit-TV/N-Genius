@@ -12,6 +12,8 @@ namespace ngenius {
 		virtual void Update() {}
 		virtual void Render() const {}
 
+		std::shared_ptr<GameObject> GetGameObject() const { return m_pGameObject.lock(); }
+
 	protected:		
 		explicit IComponent() = default;
 		IComponent(const IComponent& rhs) = default;
