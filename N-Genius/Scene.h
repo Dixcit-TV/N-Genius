@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <memory>
+#include <queue>
 #include <string>
 #include <vector>
 
@@ -43,7 +44,7 @@ namespace ngenius
 
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_Objects;
-		std::vector<std::function<void()>> m_SceneQueue;
+		std::queue<std::function<void()>> m_SceneQueue;
 		bool m_Initalized;
 	};
 

@@ -224,6 +224,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FactoryMethod.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="LevelScene.h" />
     <ClInclude Include="LifeComponent.h" />

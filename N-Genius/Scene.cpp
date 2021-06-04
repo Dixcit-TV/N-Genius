@@ -14,7 +14,7 @@ void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object, bool force)
 	assert(object->m_pParentScene.expired() || object->m_pParentScene.lock() == nullptr);
 
 	if (m_Initalized && !force)
-		m_SceneQueue.push_back([object, this]() { Add(object, true); });
+		m_SceneQueue.push([object, this]() { Add(object, true); });
 	else
 	{
 		m_Objects.push_back(object);
@@ -30,7 +30,7 @@ void ngenius::Scene::Remove(const std::shared_ptr<GameObject>& object, bool forc
 	}
 	
 	if (m_Initalized && !force)
-		m_SceneQueue.push_back([object, this]() { Remove(object, true); });
+		m_SceneQueue.push([object, this]() { Remove(object, true); });
 	else
 	{
 		auto it{ std::find(std::begin(m_Objects), std::end(m_Objects), object) };
@@ -41,10 +41,11 @@ void ngenius::Scene::Remove(const std::shared_ptr<GameObject>& object, bool forc
 
 void ngenius::Scene::Update()
 {
-	for (auto event : m_SceneQueue)
-		event();
-	
-	m_SceneQueue.clear();
+	while (!m_SceneQueue.empty())
+	{
+		m_SceneQueue.front()();
+		m_SceneQueue.pop();
+	}
 	
 	for(auto object : m_Objects)
 	{

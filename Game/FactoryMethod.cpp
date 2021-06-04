@@ -32,7 +32,10 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	scoreComp->RegisterScoreUpdateEvent("ScoreTextUpdateEvent", Make_Delegate(std::weak_ptr(scoreTextComp), &ngenius::TextComponent::SetText));
 	auto lifeComp = qbertGO->AddComponent<LifeComponent>(3);
 	//lifeComp->RegisterUpdateEvent("ScoreTextUpdateEvent", std::bind(&ngenius::TextComponent::SetText, scoreTextComp, std::placeholders::_1));
-	qbertComp->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
+	qbertComp->RegisterJumpOutEvent("JumpOutLifeLostEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
+
+	const glm::vec2& startPos{ transform.GetPosition() };
+	qbertComp->RegisterJumpOutEvent("JumpOutPositionEvent", [&transform = qbertGO->GetTransform(), startPos](){ transform.SetPosition(startPos); });
 
 	pyramidComp->RegisterColorChangeEvent("UpdateScore" + name + "Event", Make_Delegate(std::weak_ptr(scoreComp), &Score::UpdateScore));
 
