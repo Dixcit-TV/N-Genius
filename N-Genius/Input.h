@@ -1,8 +1,11 @@
 #pragma once
+#include <windows.h>
+
 #pragma warning(push)
 #pragma warning (disable:4201)
 #include <glm.hpp>
 #pragma warning(pop)
+#include <SDL.h>
 
 namespace ngenius
 {
@@ -47,7 +50,14 @@ namespace ngenius
 
 	struct InputData
 	{
-		InputState state;
-		glm::vec2 value;
+		InputState state{};
+		glm::vec2 value{};
+	};
+
+	struct SDLButtonListener
+	{
+		SDL_EventType sdlEventType;
+		UINT8 button;
+		bool isValid;
 	};
 }

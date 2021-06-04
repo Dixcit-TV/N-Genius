@@ -35,6 +35,9 @@
     <Filter Include="Resources\Loaders">
       <UniqueIdentifier>{a519b651-7548-4e28-a41b-b8bf099c3c72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\UI">
+      <UniqueIdentifier>{880d8f6f-3eb9-4091-a7d8-194dd6144adf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -149,6 +152,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Button.h">
+      <Filter>Components\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -242,5 +248,8 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Button.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

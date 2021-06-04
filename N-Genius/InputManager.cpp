@@ -12,16 +12,35 @@ bool ngenius::InputManager::ProcessInput()
 
 	[[maybe_unused]] auto a = GetKeyboardState(m_KeyboardState);
 
+	std::for_each(std::begin(m_SdlButtonListener), std::end(m_SdlButtonListener), [](SDLButtonListener& listener) { listener.isValid = false; });
+	
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-
+		
+		for (SDLButtonListener& listener : m_SdlButtonListener)
+		{
+			if (e.type != static_cast<Uint32>(listener.sdlEventType))
+				continue;
+			
+			switch (e.type)
+			{
+			case SDL_KEYUP:
+			case SDL_KEYDOWN:
+				listener.isValid = e.key.keysym.sym == listener.button ? true : listener.isValid;
+				break;
+			case SDL_CONTROLLERBUTTONUP:
+			case SDL_CONTROLLERBUTTONDOWN:
+				listener.isValid = e.cbutton.button == listener.button ? true : listener.isValid;
+				break;
+			case SDL_MOUSEBUTTONUP:
+			case SDL_MOUSEBUTTONDOWN:
+				listener.isValid = e.button.button == listener.button ? true : listener.isValid;
+				break;
+			default: break;
+			}
 		}
 	}
 
@@ -101,8 +120,12 @@ glm::vec2 ngenius::InputManager::GetAxisData(const Input& input) const
 	{
 		int x, y;
 		SDL_GetRelativeMouseState(&x, &y);
-		newAxisValue.x = float(x);
-		newAxisValue.y = float(y);
+		newAxisValue.x = static_cast<float>(x);
+		newAxisValue.y = static_cast<float>(y);
+	}
+	else
+	{
+		newAxisValue.x = (m_KeyboardState[input.key] & 0xF0) * 1.f + (m_KeyboardState[input.negativeKey] & 0xF0) * -1.f;
 	}
 
 	return newAxisValue;
@@ -134,6 +157,33 @@ ngenius::InputState ngenius::InputManager::GetButtonStateChange(const Input& inp
 		return InputState::NONE;
 
 	return prevState;
+}
+
+void ngenius::InputManager::AddSDLButtonListener(SDL_EventType sdlEventType, UINT8 button)
+{
+	auto listernerIt{ std::find_if(std::begin(m_SdlButtonListener), std::end(m_SdlButtonListener), 
+		[sdlEventType, button](const SDLButtonListener& listener)
+		{
+			return listener.button == button && listener.sdlEventType == sdlEventType;
+		})
+	};
+
+	if (listernerIt != std::end(m_SdlButtonListener))
+		return;
+
+	m_SdlButtonListener.push_back(SDLButtonListener{ sdlEventType, button, false });
+}
+
+bool ngenius::InputManager::GetSDLEvent(SDL_EventType sdlEventType, UINT8 button)
+{
+	auto listernerIt{ std::find_if(std::begin(m_SdlButtonListener), std::end(m_SdlButtonListener),
+		[sdlEventType, button](const SDLButtonListener& listener)
+		{
+			return listener.button == button && listener.sdlEventType == sdlEventType;
+		})
+	};
+
+	return listernerIt != std::end(m_SdlButtonListener) && listernerIt->isValid;
 }
 
 void ngenius::InputManager::BindInput(const std::string& bindingName, ICommand* pCommand, std::initializer_list<Input> inpuList)

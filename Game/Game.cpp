@@ -4,11 +4,11 @@
 #include <SceneManager.h>
 #include <InputManager.h>
 #include <ResourceManager.h>
-#include <SDL.h>
-#include <SDL_mixer.h>
 
 #include "Commands.h"
 #include "LevelScene.h"
+#include "MainMenu.h"
+#include "SdlSoundService.h"
 #include "ServiceLocator.h"
 
 using namespace ngenius;
@@ -19,18 +19,8 @@ void LoadGame();
 int main(int, char* [])
 {
 	srand(unsigned(time(nullptr)));
-	
-	if (SDL_Init(SDL_INIT_AUDIO) < 0)
-	{
-		std::cerr << "error when calling SDL_Init: " << SDL_GetError() << std::endl;
-	}
-	
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		std::cerr << "error when calling Mix_OpenAudio: " << Mix_GetError() << std::endl;
-	}
 
-	
+	ServiceLocator::RegisterSoundService(new SdlSoundService());
 	Core core{ "Q-bert", 960, 720 };
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");	
@@ -38,14 +28,14 @@ int main(int, char* [])
     core.Run();
 
 	ServiceLocator::UnRegister();
-	Mix_Quit();
     return 0;
 }
 
 void LoadGame()
 {
 	SceneManager::GetInstance().AddScene<LevelScene>("LevelScene1");
-	SceneManager::GetInstance().SetCurrentScene("LevelScene1");
+	SceneManager::GetInstance().AddScene<MainMenu> ("MainMenu");
+	SceneManager::GetInstance().SetCurrentScene("MainMenu");
 
 	//PrintInfo();
 }

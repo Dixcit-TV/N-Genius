@@ -1,8 +1,10 @@
 #include "FactoryMethod.h"
 
 #define WIN32_LEAN_AND_MEAN
+#include <SDL_mixer.h>
 #include <windows.h>
 
+#include "Button.h"
 #include "Commands.h"
 #include "EnemyController.h"
 #include "InputManager.h"
@@ -11,8 +13,10 @@
 #include "EnemySpawner.h"
 #include "LifeComponent.h"
 #include "Score.h"
+#include "ServiceLocator.h"
 #include "TextComponent.h"
 #include "TextureComponent.h"
+#include "Font.h"
 
 std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::Transform& transform
 	, std::shared_ptr<Pyramid> pyramidComp
@@ -210,4 +214,16 @@ void FactoryMethod::OverlapResponsePlayerSlickSam(std::shared_ptr<ngenius::Rigid
 		if (collidingLifeComp)
 			collidingLifeComp->ApplyDamage(1);
 	}
+}
+
+
+std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateButton(const std::string& text, const glm::vec2& position, const std::string& name, int textSize)
+{
+	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", textSize);
+	auto buttonGO{ std::make_shared<ngenius::GameObject>(ngenius::Transform(position), name) };
+	auto buttonComp{ buttonGO->AddComponent<ngenius::Button>(text, pfont) };
+	buttonComp->RegisterOnClickEvent("ButtonClickEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuClick.mp3", MIX_MAX_VOLUME); });
+	buttonComp->RegisterOnSelectedEvent("ButtonSelectedEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuHover.mp3", MIX_MAX_VOLUME); });
+
+	return buttonGO;
 }

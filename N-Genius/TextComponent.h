@@ -10,23 +10,23 @@ namespace ngenius
 	class Texture2D;
 	class Font;
 	
-	class TextComponent final : public IComponent
+	class TextComponent : public IComponent
 	{
 	public:
 		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color = { 255, 255, 255 }, const glm::vec2& pivot = {0.f, 0.f});
 		~TextComponent() override = default;
-		TextComponent(const TextComponent& rhs) = delete;
-		TextComponent(TextComponent&& rhs) noexcept = delete;
-		TextComponent& operator=(const TextComponent& rhs) = delete;
-		TextComponent& operator=(TextComponent&& rhs) noexcept = delete;
+		TextComponent(const TextComponent& rhs) = default;
+		TextComponent(TextComponent&& rhs) noexcept = default;
+		TextComponent& operator=(const TextComponent& rhs) = default;
+		TextComponent& operator=(TextComponent&& rhs) noexcept = default;
 		
-		void Update() override;
-		void Render() const override;
+		virtual void Update() override;
+		virtual void Render() const override;
 
 		void SetText(const std::string& text);
 		void SetColor(const SDL_Color& newColor);
 
-	private:
+	protected:
 		SDL_Color m_Color;
 		glm::vec2 m_Pivot;
 		std::shared_ptr<Font> m_pFont;

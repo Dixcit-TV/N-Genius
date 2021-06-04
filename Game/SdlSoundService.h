@@ -9,7 +9,7 @@ class SdlSoundService final : public ISoundService
 {
 public:
 	explicit SdlSoundService();
-	~SdlSoundService() override;;
+	~SdlSoundService() override;
 
 	void PlaySound(const std::string& soundFile, int volume) override;
 

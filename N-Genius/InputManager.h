@@ -1,6 +1,8 @@
 #pragma once
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <map>
-#include <SDL_gamecontroller.h>
 #include <XInput.h>
 
 #include "Singleton.h"
@@ -45,6 +47,8 @@ namespace ngenius
 		
 		bool ProcessInput();
 
+		void AddSDLButtonListener(SDL_EventType sdlEventType, UINT8 button);
+		bool GetSDLEvent(SDL_EventType sdlEventType, UINT8 button);
 		void BindInput(const std::string& bindingName, ICommand* pCommand, std::initializer_list<Input> inpuList);
 		int RegisterGamepad(int id = -1);
 
@@ -55,8 +59,9 @@ namespace ngenius
 		explicit InputManager() = default;
 
 		BYTE* m_KeyboardState = new BYTE[256];
-		ControllerMap m_ControllerMap;
-		InputBindings m_InputBindings;
+		ControllerMap m_ControllerMap{};
+		InputBindings m_InputBindings{};
+		std::vector<SDLButtonListener> m_SdlButtonListener{};
 
 		void ProcessInput(InputBinding& binding) const;
 		glm::vec2 GetAxisData(const Input& input) const;

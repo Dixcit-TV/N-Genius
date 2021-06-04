@@ -92,6 +92,12 @@
     <ClCompile Include="LifeDisplay.cpp">
       <Filter>Qbert\Hud</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Qbert\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>LabCode\ServiceLocator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServiceLocator.h">
@@ -150,6 +156,9 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Qbert\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

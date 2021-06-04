@@ -24,5 +24,8 @@ namespace FactoryMethod
 
 	void OverlapResponsePlayerEnemy(std::shared_ptr<ngenius::RigidBody> thisBody, std::shared_ptr<ngenius::RigidBody> overlappingBody);
 	void OverlapResponsePlayerSlickSam(std::shared_ptr<ngenius::RigidBody> thisBody, std::shared_ptr<ngenius::RigidBody> overlappingBody);
+
+
+	std::shared_ptr<ngenius::GameObject> CreateButton(const std::string& text, const glm::vec2& position, const std::string& name = "Button", int textSize = 28);
 }
 

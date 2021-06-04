@@ -213,7 +213,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClCompile Include="LifeDisplay.cpp" />
     <ClCompile Include="LoggingSoundService.cpp" />
     <ClCompile Include="CharacterController.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="SdlSoundService.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Score.cpp" />
@@ -230,6 +232,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="LifeComponent.h" />
     <ClInclude Include="LifeDisplay.h" />
     <ClInclude Include="LoggingSoundService.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="NullSoundService.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="SdlSoundService.h" />
