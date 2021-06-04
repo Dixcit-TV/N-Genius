@@ -11,10 +11,14 @@ namespace ngenius
 	{
 	public:
 		virtual ~Subject() = default;
+		Subject(const Subject&) = default;
+		Subject(Subject&&) noexcept = default;
+		Subject& operator=(const Subject&) = default;
+		Subject& operator=(Subject&&) noexcept = default;
 
 		void AddObserver(std::weak_ptr<IObserver> pNewObserver) { m_Observers.push_back(std::move(pNewObserver)); }
 
-		void Notify(Event event, void* pPayload)
+		void Notify(MessageType event, void* pPayload)
 		{
 			bool needCleanup{ false };
 

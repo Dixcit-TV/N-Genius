@@ -148,6 +148,7 @@
     <ClInclude Include="RigidBody.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -240,5 +241,6 @@
     <ClCompile Include="RigidBody.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cpp" />
   </ItemGroup>
 </Project>
