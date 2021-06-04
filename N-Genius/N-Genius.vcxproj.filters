@@ -139,6 +139,15 @@
     <ClInclude Include="FontLoader.h">
       <Filter>Resources\Loaders</Filter>
     </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsHandler.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -221,6 +230,15 @@
     </ClCompile>
     <ClCompile Include="FontLoader.cpp">
       <Filter>Resources\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsHandler.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

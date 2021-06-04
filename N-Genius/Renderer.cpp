@@ -73,6 +73,17 @@ void ngenius::Renderer::RenderTexture(SDL_Texture* pTexture, const SDL_Rect& src
 	SDL_RenderCopyEx(GetSDLRenderer(), pTexture, &srcRect, &destRect, static_cast<double>(rotation), &center, SDL_FLIP_NONE);
 }
 
+void ngenius::Renderer::DrawRect(const glm::vec2& centerPosition, float width, float height, const SDL_Color&) const
+{
+	SDL_Rect rect{};
+	rect.x = static_cast<int>(centerPosition.x - width * 0.5f);
+	rect.y = static_cast<int>(centerPosition.y - height * 0.5f);
+	rect.w = static_cast<int>(width);
+	rect.h = static_cast<int>(height);
+	
+	SDL_RenderDrawRect(GetSDLRenderer(), &rect);
+}
+
 int ngenius::Renderer::GetOpenGLDriverIndex() const
 {
 	int openGLIndex{ -1 };

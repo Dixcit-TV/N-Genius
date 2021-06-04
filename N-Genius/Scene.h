@@ -4,6 +4,7 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include "PhysicsHandler.h"
 
 namespace ngenius
 {
@@ -42,6 +43,7 @@ namespace ngenius
 			m_Initalized = true;
 		}
 
+		PhysicsHandler m_physxHandler;
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_Objects;
 		std::queue<std::function<void()>> m_SceneQueue;

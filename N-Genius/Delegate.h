@@ -81,7 +81,7 @@ namespace ngenius
 	void Event<ARG_TYPE...>::Invoke(ARG_TYPE... args) const
 	{
 		for (const auto& callBackPair : m_pCallbacks)
-			callBackPair.second(std::forward<ARG_TYPE>(args)...);
+			callBackPair.second(args...);
 	}
 
 }

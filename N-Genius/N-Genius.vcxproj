@@ -264,6 +264,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="FontLoader.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="Enum.h" />
@@ -274,6 +275,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="IResource.h" />
+    <ClInclude Include="PhysicsHandler.h" />
+    <ClInclude Include="RigidBody.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="PCH.h" />
@@ -300,6 +303,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontLoader.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="IObserver.h" />
@@ -312,8 +316,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PCH.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="PhysicsHandler.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />

@@ -26,6 +26,8 @@ namespace ngenius
 		void RenderTexture(SDL_Texture* pTexture, const glm::vec2& position, const glm::ivec2& size, const glm::vec2& scale = glm::vec2{ 1.f, 1.f }, float rotation = 0.f, const glm::vec2& pivot = {0.f, 0.f}) const;
 		void RenderTexture(SDL_Texture* pTexture, const SDL_Rect& srcRect, const SDL_Rect& destRect, float rotation = 0.f, const glm::vec2& pivot = { 0.f, 0.f }) const;
 
+		void DrawRect(const glm::vec2& centerPosition, float width, float height, const SDL_Color& drawColor) const;
+
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 	
 	private:

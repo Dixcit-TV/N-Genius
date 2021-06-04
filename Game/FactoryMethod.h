@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Enums.h"
+#include "RigidBody.h"
 
 class EnemySpawner;
 class Pyramid;
@@ -20,5 +21,8 @@ namespace FactoryMethod
 	std::shared_ptr<ngenius::GameObject> CreateEgg(const ngenius::Transform& transform, std::shared_ptr<EnemySpawner> spawner, EnemyType type = EnemyType::EGG);
 	std::shared_ptr<ngenius::GameObject> CreateCoily(const ngenius::Transform& transform, std::shared_ptr<EnemySpawner> spawner, EnemyType type = EnemyType::COILY);
 	std::shared_ptr<ngenius::GameObject> CreateUggWrongWay(const ngenius::Transform& transform, std::shared_ptr<EnemySpawner> spawner, EnemyType type);
+
+	void OverlapResponsePlayerEnemy(std::shared_ptr<ngenius::RigidBody> thisBody, std::shared_ptr<ngenius::RigidBody> overlappingBody);
+	void OverlapResponsePlayerSlickSam(std::shared_ptr<ngenius::RigidBody> thisBody, std::shared_ptr<ngenius::RigidBody> overlappingBody);
 }
 
