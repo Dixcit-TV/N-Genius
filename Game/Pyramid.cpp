@@ -5,11 +5,13 @@
 #include <Renderer.h>
 #include <ResourceManager.h>
 
-Pyramid::Pyramid(size_t rowCount, float cellSize, bool cellReverting, bool intermediateColor)
+Pyramid::Pyramid(size_t rowCount, float cellSize, int colorIdx, bool cellReverting, bool intermediateColor)
 	: m_CellMatrix(glm::mat2x2(2.f, 0.f, 1.f, 3.f / 2.f))
 	, m_Blocks()
 	, m_CompletionEvent()
+	, m_pTexture(ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Texture2D>("Sprites/QBert.png"))
 	, m_RowCount(rowCount)
+	, m_ColorIdx(colorIdx)
 	, m_CellSize(cellSize)
 	, m_IsCellReverting(cellReverting)
 	, m_HasIntermediateColor(intermediateColor)
@@ -21,8 +23,10 @@ Pyramid::Pyramid(size_t rowCount, float cellSize, bool cellReverting, bool inter
 
 void Pyramid::Render() const
 {
-	auto t{ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Texture2D>("Sprites/QBert.png") };
-
+	const int texTileSize{ 32 };
+	const int colorOffset{ 80 };
+	const int texTileYOffset{ 160 };
+	
 	int columnCount{ static_cast<int>(m_RowCount) };
 	int rSum{ 0 };
 	for (int r{}; r < static_cast<int>(m_RowCount); ++r)
@@ -38,12 +42,12 @@ void Pyramid::Render() const
 			dest.h = static_cast<int>(2 * m_CellSize);
 			
 			SDL_Rect src{};
-			src.w = 32;
-			src.h = 32;
-			src.x = 0;
-			src.y = 160 + static_cast<int>(m_Blocks[c + m_RowCount * r - rSum]) * src.h;
+			src.w = texTileSize;
+			src.h = texTileSize;
+			src.x = colorOffset * m_ColorIdx;
+			src.y = texTileYOffset + static_cast<int>(m_Blocks[c + m_RowCount * r - rSum]) * src.h;
 			
-			ngenius::Renderer::GetInstance().RenderTexture(t->GetSDLTexture(), src, dest);
+			ngenius::Renderer::GetInstance().RenderTexture(m_pTexture->GetSDLTexture(), src, dest);
 		}
 		rSum += r;
 		--columnCount;
@@ -54,7 +58,6 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 {
 	if (!IsInBound(playerPosition))
 	{
-		std::cout << "Cell Out of Range" << std::endl;
 		return;
 	}
 
@@ -83,10 +86,16 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 	
 	if (newState != prevCellState && !hasReverted)
 		m_ColorChangeEvent.Invoke(ScoreEventType::COLOR_CHANGE);
+
+	if (newState != prevCellState && newState == CellState::FINAL)
+		std::cout << "Check Completion" << std::endl;
 	
 	if (newState != prevCellState && newState == CellState::FINAL 
 		&& CheckCompletion())
+	{
+		std::cout << "Completed" << std::endl;
 		m_CompletionEvent.Invoke();
+	}
 }
 
 size_t Pyramid::GetCellIdxFromWorldPos(const glm::vec2& position) const

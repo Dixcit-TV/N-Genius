@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+
 #include "Singleton.h"
 #include <vector>
 #include <memory>
@@ -20,6 +22,7 @@ namespace ngenius
 		void AddScene(std::shared_ptr<Scene> pNewScene);
 		void SetCurrentScene(int id);
 		void SetCurrentScene(const std::string& sceneName);
+		void ReloadCurrentScene();
 
 		void Update();
 		void Render();

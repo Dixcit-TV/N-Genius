@@ -1,0 +1,23 @@
+[
+	{
+		"Name" : "Level 1",
+		"RowCount" : 7,
+		"IntermediateColor" : false,
+		"ColorScheme" : -1,
+		"RevertColor" : false
+	},
+	{
+		"Name" : "Level 2",
+		"RowCount" : 7,
+		"IntermediateColor" : true,
+		"ColorScheme" : -1,
+		"RevertColor" : false
+	},
+	{
+		"Name" : "Level 3",
+		"RowCount" : 7,
+		"IntermediateColor" : false,
+		"ColorScheme" : -1,
+		"RevertColor" : true
+	}
+]

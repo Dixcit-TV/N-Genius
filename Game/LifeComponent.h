@@ -17,6 +17,12 @@ public:
 	void RegisterHealthDepletedEvent(const std::string& evtName, const std::function<void()>& callback) { m_OnHealthDepletedEvent.Register(evtName, callback); }
 	void ApplyDamage(int damageAmount);
 
+	int GetHealth() const { return m_LifeCount; }
+	void SetHealth(int newHealth)
+	{
+		ApplyDamage(-(newHealth - m_LifeCount));
+	}
+
 private:
 	ngenius::Event<> m_OnHealthDepletedEvent;
 	ngenius::Event<int, int> m_OnHealthChangeEvent;

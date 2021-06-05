@@ -1,14 +1,22 @@
 #include "QbertGameMode.h"
 
 #include "FactoryMethod.h"
+#include "InputManager.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
 
 QbertGameMode::QbertGameMode()
 	: GameMode()
-	, m_CurrentState()
+	, m_GameData()
+	, m_CurrentState(GameState::MAIN_MENU)
 	, m_SelectedGameType()
+	, m_StateChanged(false)
 {
-	auto clearLambda{ [](std::shared_ptr<ngenius::Scene> pScene) { pScene->Clear(); } };
+	auto clearLambda{ [](std::shared_ptr<ngenius::Scene> pScene)
+	{
+		ngenius::InputManager::GetInstance().ClearInputBinding();
+		pScene->Clear();
+	} };
 	
 	auto pMainMenuScene{ std::make_shared<ngenius::Scene>("MainMenuScene") };
 	pMainMenuScene->RegisterActivateEvent("InitEvent", &FactoryMethod::InitMainMenu);
@@ -26,37 +34,61 @@ QbertGameMode::QbertGameMode()
 	pVersusScene->RegisterActivateEvent("InitEvent", &FactoryMethod::InitVersusScene);
 	pVersusScene->RegisterDeactivateEvent("DeactivateEvent", clearLambda);
 
+	auto pEndScene{ std::make_shared<ngenius::Scene>("EndScene") };
+	pEndScene->RegisterActivateEvent("InitEvent", &FactoryMethod::InitGameOverScene);
+	pEndScene->RegisterDeactivateEvent("DeactivateEvent", clearLambda);
+
 	ngenius::SceneManager::GetInstance().AddScene(pMainMenuScene);
 	ngenius::SceneManager::GetInstance().AddScene(pSinglePlayerScene);
 	ngenius::SceneManager::GetInstance().AddScene(pCoopScene);
 	ngenius::SceneManager::GetInstance().AddScene(pVersusScene);
-	
-	SetState(GameState::MAIN_MENU);
+	ngenius::SceneManager::GetInstance().AddScene(pEndScene);
+	ngenius::SceneManager::GetInstance().SetCurrentScene("MainMenuScene");
 }
 
 void QbertGameMode::Update()
 {
-	
+	if (m_StateChanged)
+	{
+		m_StateChanged = false;
+		
+		switch (m_CurrentState)
+		{
+		case GameState::MAIN_MENU:
+			ngenius::SceneManager::GetInstance().SetCurrentScene("MainMenuScene");
+			break;
+		case GameState::GAME_START:
+			InitGameData();
+			SelectSceneFromGameType();
+			SetState(GameState::IN_GAME);
+			break;
+		case GameState::IN_GAME:
+			break;
+		case GameState::SWITCH_LEVEL:
+			{
+				++m_GameData.currentLevelIdx;
+				const int levelCount{ static_cast<int>(m_GameData.pStageData->levels.size()) };
+				if (m_GameData.currentLevelIdx >= levelCount)
+					SetState(GameState::GAME_OVER);
+				else
+				{
+					ngenius::InputManager::GetInstance().ClearInputBinding();
+					ngenius::SceneManager::GetInstance().ReloadCurrentScene();
+					SetState(GameState::IN_GAME);
+				}
+			}
+			break;
+		case GameState::GAME_OVER:
+			ngenius::SceneManager::GetInstance().SetCurrentScene("EndScene");
+			break;
+		}
+	}
 }
 
 void QbertGameMode::SetState(GameState newState)
 {
+	m_StateChanged = m_CurrentState != newState;
 	m_CurrentState = newState;
-	
-	switch (m_CurrentState)
-	{
-	case GameState::MAIN_MENU:
-		ngenius::SceneManager::GetInstance().SetCurrentScene("MainMenuScene");
-		break;
-	case GameState::GAME_START:
-		SelectSceneFromGameType();
-		m_CurrentState = GameState::IN_GAME;
-		break;
-	case GameState::IN_GAME:
-		break;
-	case GameState::GAME_OVER:
-		break;
-	}
 }
 
 void QbertGameMode::SelectSceneFromGameType() const
@@ -73,4 +105,24 @@ void QbertGameMode::SelectSceneFromGameType() const
 		ngenius::SceneManager::GetInstance().SetCurrentScene("VersusScene");
 		break;
 	}
+}
+
+void QbertGameMode::InitGameData()
+{
+	const int startHealth{ 3 };
+	const int startScore{ 0 };
+	
+	m_GameData.player1.playerName = "Player_1";
+	m_GameData.player1.health = startHealth;
+	m_GameData.player1.score = startScore;
+
+	if (m_SelectedGameType == GameType::COOP)
+	{
+		m_GameData.player2.playerName = "Player_2";
+		m_GameData.player2.health = startHealth;
+		m_GameData.player2.score = startScore;
+	}
+
+	m_GameData.pStageData = ngenius::ResourceManager::GetInstance().LoadResource<StageData>("Levels/Stage_1.json");
+	m_GameData.currentLevelIdx = 0;
 }

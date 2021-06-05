@@ -1,5 +1,4 @@
 #include "SceneManager.h"
-#include <cassert>
 #include <iostream>
 
 #include "Scene.h"
@@ -29,6 +28,17 @@ void ngenius::SceneManager::SetCurrentScene(int id)
 	
 	m_CurrentSceneId = id;
 	m_Scenes[m_CurrentSceneId]->m_OnSceneActivate.Invoke(m_Scenes[m_CurrentSceneId]);
+}
+
+void ngenius::SceneManager::ReloadCurrentScene()
+{
+	assert(m_CurrentSceneId >= 0 && m_CurrentSceneId < static_cast<int>(m_Scenes.size()));
+
+	auto currentScene{ m_Scenes[m_CurrentSceneId] };
+	currentScene->Clear();
+	currentScene->m_OnSceneInitialise.Invoke(currentScene);
+	currentScene->m_Initalized = true;
+	currentScene->m_OnSceneActivate.Invoke(currentScene);
 }
 
 void ngenius::SceneManager::SetCurrentScene(const std::string& sceneName)

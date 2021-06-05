@@ -17,6 +17,13 @@ public:
 	void UpdateScore(ScoreEventType scoreEvent);
 	void RegisterScoreUpdateEvent(const std::string& evtName, const std::function<void(std::string)>& callback) { m_ScoreUpdateEvent.Register(evtName, callback); }
 
+	int GetScore() const { return m_Score; }
+	void SetScore(int newScore)
+	{
+		m_Score = newScore;
+		m_ScoreUpdateEvent.Invoke("Score: " + std::to_string(m_Score));
+	}
+
 private:
 	ngenius::Event<std::string> m_ScoreUpdateEvent;
 	std::map<ScoreEventType, int> m_ScoreRules;

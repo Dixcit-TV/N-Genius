@@ -6,6 +6,7 @@
 #include "QbertGameMode.h"
 #include "SdlSoundService.h"
 #include "ServiceLocator.h"
+#include "StageLoader.h"
 
 using namespace ngenius;
 
@@ -16,6 +17,7 @@ int main(int, char* [])
 	ServiceLocator::RegisterSoundService(new SdlSoundService());
 	Core core{ "Q-bert", 960, 720 };
 	ResourceManager::GetInstance().Init("../Data/");
+	ResourceManager::GetInstance().RegisterLoader(new StageLoader());
 	GameModeManager::SetGameMode(new QbertGameMode());
     core.Run();
 

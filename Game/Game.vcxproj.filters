@@ -45,6 +45,9 @@
     <Filter Include="Qbert\Hud">
       <UniqueIdentifier>{1c26a14e-ee54-4ec8-ba4b-5cb1fd398af0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Qbert\DataLoader">
+      <UniqueIdentifier>{e2b394ff-1619-43e7-91a1-fd247f3fa3b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -91,6 +94,12 @@
     </ClCompile>
     <ClCompile Include="QbertGameMode.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLoader.cpp">
+      <Filter>Qbert\DataLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="structs.cpp">
+      <Filter>Qbert\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +159,15 @@
     </ClInclude>
     <ClInclude Include="QbertGameMode.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageData.h">
+      <Filter>Qbert\DataLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLoader.h">
+      <Filter>Qbert\DataLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="structs.h">
+      <Filter>Qbert\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

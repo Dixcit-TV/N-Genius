@@ -52,6 +52,6 @@ enum class GameType
 
 enum class GameState
 {
-	MAIN_MENU, GAME_START, IN_GAME, GAME_OVER
+	MAIN_MENU, GAME_START, SWITCH_LEVEL, IN_GAME, GAME_OVER
 };
 

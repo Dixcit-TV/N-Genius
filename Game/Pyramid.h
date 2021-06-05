@@ -9,11 +9,12 @@
 #include <algorithm>
 #include "Delegate.h"
 #include "Enums.h"
+#include "Texture2D.h"
 
 class Pyramid final: public ngenius::IComponent
 {
 public:
-	explicit Pyramid(size_t rowCount, float cellSize, bool cellReverting = false, bool intermediateColor = false);
+	explicit Pyramid(size_t rowCount, float cellSize, int colorIdx, bool cellReverting = false, bool intermediateColor = false);
 	~Pyramid() override = default;
 	
 	Pyramid(const Pyramid& rhs) = delete;
@@ -43,7 +44,9 @@ private:
 	std::vector<bool> m_Disks;
 	ngenius::Event<ScoreEventType> m_ColorChangeEvent;
 	ngenius::Event<> m_CompletionEvent;
+	std::shared_ptr<ngenius::Texture2D> m_pTexture;
 	size_t m_RowCount;
+	int m_ColorIdx;
 	float m_CellSize;
 	bool m_IsCellReverting;
 	bool m_HasIntermediateColor;
