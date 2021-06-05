@@ -56,7 +56,7 @@ namespace ngenius
 	
 	private:
 		friend class Singleton<InputManager>;
-		explicit InputManager() = default;
+		explicit InputManager();
 
 		BYTE* m_KeyboardState = new BYTE[256];
 		ControllerMap m_ControllerMap{};

@@ -45,4 +45,13 @@ enum class EnemyType
 	SLICK, SAM, UGG, WRONGWAY, COILY, EGG
 };
 
+enum class GameType
+{
+	SINGLE, COOP, VERSUS
+};
+
+enum class GameState
+{
+	MAIN_MENU, GAME_START, IN_GAME, GAME_OVER
+};
 

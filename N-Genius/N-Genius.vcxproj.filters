@@ -152,6 +152,12 @@
     <ClInclude Include="Button.h">
       <Filter>Components\UI</Filter>
     </ClInclude>
+    <ClInclude Include="GameModeManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMode.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -244,6 +250,12 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Button.cpp">
       <Filter>Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModeManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMode.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

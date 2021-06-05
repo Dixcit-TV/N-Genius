@@ -12,7 +12,7 @@ bool Helpers::AabbOverlapCheck(const glm::vec2& centerPosition1, float width1, f
 		&& centerPosition2.x - halfWidth2 <= centerPosition1.x + halfWidth1 };
 
 	bool yCollision{ centerPosition1.y - halfHeight1 <= centerPosition2.y + halfHeight2
-		|| centerPosition2.y - halfHeight2 <= centerPosition1.y + halfHeight1 };
+		&& centerPosition2.y - halfHeight2 <= centerPosition1.y + halfHeight1 };
 
 	return xCollision && yCollision;
 }

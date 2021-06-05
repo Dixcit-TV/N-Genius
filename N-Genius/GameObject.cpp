@@ -1,4 +1,3 @@
-#include "PCH.h"
 #include "GameObject.h"
 
 ngenius::GameObject::GameObject(const Transform& transform, const std::string& name, const std::string& tag)

@@ -17,7 +17,11 @@
 #include "TextComponent.h"
 #include "TextureComponent.h"
 #include "Font.h"
+#include "GameModeManager.h"
+#include "LifeDisplay.h"
+#include "QbertGameMode.h"
 
+#pragma region GameObjects
 std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::Transform& transform
 	, std::shared_ptr<Pyramid> pyramidComp
 	, std::shared_ptr<ngenius::TextComponent> scoreTextComp
@@ -182,6 +186,19 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateUggWrongWay(const ngen
 	return UggWrongWayGO;
 }
 
+std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateButton(const std::string& text, const glm::vec2& position, const std::string& name, int textSize)
+{
+	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", textSize);
+	auto buttonGO{ std::make_shared<ngenius::GameObject>(ngenius::Transform(position), name) };
+	auto buttonComp{ buttonGO->AddComponent<ngenius::Button>(text, pfont, SDL_Color{ 255, 255, 255 }, glm::vec2{0.5f, 0.5f}) };
+	buttonComp->RegisterOnClickEvent("ButtonClickEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuClick.mp3", MIX_MAX_VOLUME); });
+	buttonComp->RegisterOnSelectedEvent("ButtonSelectedEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuHover.mp3", MIX_MAX_VOLUME); });
+
+	return buttonGO;
+}
+#pragma endregion
+
+#pragma region CollisionResponses
 void FactoryMethod::OverlapResponsePlayerEnemy(std::shared_ptr<ngenius::RigidBody> thisBody, std::shared_ptr<ngenius::RigidBody> overlappingBody)
 {
 	auto thisGo{ thisBody->GetGameObject() };
@@ -215,15 +232,128 @@ void FactoryMethod::OverlapResponsePlayerSlickSam(std::shared_ptr<ngenius::Rigid
 			collidingLifeComp->ApplyDamage(1);
 	}
 }
+#pragma endregion
 
-
-std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateButton(const std::string& text, const glm::vec2& position, const std::string& name, int textSize)
+#pragma region Scenes
+void FactoryMethod::InitMainMenu(std::shared_ptr<ngenius::Scene> pScene)
 {
-	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", textSize);
-	auto buttonGO{ std::make_shared<ngenius::GameObject>(ngenius::Transform(position), name) };
-	auto buttonComp{ buttonGO->AddComponent<ngenius::Button>(text, pfont) };
-	buttonComp->RegisterOnClickEvent("ButtonClickEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuClick.mp3", MIX_MAX_VOLUME); });
-	buttonComp->RegisterOnSelectedEvent("ButtonSelectedEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuHover.mp3", MIX_MAX_VOLUME); });
+	auto singleButton{ CreateButton("Start Single", glm::vec2{ 100.f, 250.f}) };
+	singleButton->GetComponent<ngenius::Button>()->RegisterOnClickEvent("GameStartEvent", []()
+		{
+			QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
+			pGameMode->SetGameType(GameType::SINGLE);
+			pGameMode->SetState(GameState::GAME_START);
+		});
+	
+	auto coopButton{ CreateButton("Start Co-op", glm::vec2{ 100.f, 400.f}) };
+	singleButton->GetComponent<ngenius::Button>()->RegisterOnClickEvent("GameStartEvent", []()
+		{
+			QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
+			pGameMode->SetGameType(GameType::COOP);
+			pGameMode->SetState(GameState::GAME_START);
+		});
+	
+	auto versusButton{ CreateButton("Start Versus", glm::vec2{ 100.f, 550.f}) };
+	singleButton->GetComponent<ngenius::Button>()->RegisterOnClickEvent("GameStartEvent", []()
+		{
+			QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
+			pGameMode->SetGameType(GameType::VERSUS);
+			pGameMode->SetState(GameState::GAME_START);
+		});
 
-	return buttonGO;
+	pScene->Add(singleButton);
+	pScene->Add(coopButton);
+	pScene->Add(versusButton);
 }
+
+void FactoryMethod::InitSinglePlayerScene(std::shared_ptr<ngenius::Scene> pScene)
+{
+	auto pyramid = std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(200.f, 600.f)), "Pyramid");
+	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
+	pyramid->AddComponent<EnemySpawner>();
+	pScene->Add(pyramid);
+
+	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", 20);
+	auto scoreTextGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 20.f)), "Score_UI_P1") };
+	auto textComp = scoreTextGo->AddComponent<ngenius::TextComponent>("Score: 0", pfont);
+	pScene->Add(scoreTextGo);
+
+	auto qbert1 = CreateQbert(ngenius::Transform(pyramidComp->GetBottomLeftPosition())
+		, pyramidComp
+		, textComp
+		, "Player1", PlayerTag::PLAYER1);
+
+	auto LifeDisplaytGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
+	auto lifeDisplayComp = LifeDisplaytGo->AddComponent<LifeDisplay>(3);
+	qbert1->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
+	pScene->Add(LifeDisplaytGo);
+
+	pScene->Add(qbert1);
+}
+
+void FactoryMethod::InitCoopScene(std::shared_ptr<ngenius::Scene> pScene)
+{
+	auto pyramid = std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(200.f, 600.f)), "Pyramid");
+	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
+	pyramid->AddComponent<EnemySpawner>();
+	pScene->Add(pyramid);
+
+	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", 20);
+	auto scoreTextGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 20.f)), "Score_UI_P1") };
+	auto textComp = scoreTextGo->AddComponent<ngenius::TextComponent>("Score: 0", pfont);
+	pScene->Add(scoreTextGo);
+
+	auto qbert1 = CreateQbert(ngenius::Transform(pyramidComp->GetBottomLeftPosition())
+		, pyramidComp
+		, textComp
+		, "Player1", PlayerTag::PLAYER1);
+
+	auto LifeDisplaytGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
+	auto lifeDisplayComp = LifeDisplaytGo->AddComponent<LifeDisplay>(3);
+	qbert1->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
+	pScene->Add(LifeDisplaytGo);
+
+	pScene->Add(qbert1);
+
+	auto scoreText2Go{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(940.f, 20.f)), "Score_UI_P2") };
+	auto textComp2 = scoreText2Go->AddComponent<ngenius::TextComponent>("Score: 0", pfont, SDL_Color{ 255, 255, 255 }, glm::vec2{ 1.f, 0.f });
+	pScene->Add(scoreText2Go);
+
+	auto qbert2 = CreateQbert(ngenius::Transform(pyramidComp->GetBottomRightPosition())
+		, pyramidComp
+		, textComp2
+		, "Player2", PlayerTag::PLAYER2);
+
+	pScene->Add(qbert2);
+
+	auto LifeDisplayt2Go{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(890.f, 60.f)), "Life_UI_P2") };
+	auto lifeDisplay2Comp = LifeDisplayt2Go->AddComponent<LifeDisplay>(3);
+	qbert2->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplay2Comp), &LifeDisplay::UpdateLifeDrawCount));
+	pScene->Add(LifeDisplayt2Go);
+}
+
+void FactoryMethod::InitVersusScene(std::shared_ptr<ngenius::Scene> pScene)
+{
+	auto pyramid = std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(200.f, 600.f)), "Pyramid");
+	auto pyramidComp = pyramid->AddComponent<Pyramid>(7, 40.f, false, false);
+	pyramid->AddComponent<EnemySpawner>();
+	pScene->Add(pyramid);
+
+	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", 20);
+	auto scoreTextGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 20.f)), "Score_UI_P1") };
+	auto textComp = scoreTextGo->AddComponent<ngenius::TextComponent>("Score: 0", pfont);
+	pScene->Add(scoreTextGo);
+
+	auto qbert1 = CreateQbert(ngenius::Transform(pyramidComp->GetBottomLeftPosition())
+		, pyramidComp
+		, textComp
+		, "Player1", PlayerTag::PLAYER1);
+
+	auto LifeDisplaytGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
+	auto lifeDisplayComp = LifeDisplaytGo->AddComponent<LifeDisplay>(3);
+	qbert1->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
+	pScene->Add(LifeDisplaytGo);
+
+	pScene->Add(qbert1);
+}
+#pragma endregion

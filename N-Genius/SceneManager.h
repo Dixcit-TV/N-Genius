@@ -1,5 +1,4 @@
 #pragma once
-#include <cassert>
 
 #include "Singleton.h"
 #include <vector>
@@ -17,19 +16,8 @@ namespace ngenius
 		SceneManager(SceneManager&& other) = delete;
 		SceneManager& operator=(const SceneManager& other) = delete;
 		SceneManager& operator=(SceneManager&& other) = delete;
-
-		template<typename SCENE_TYPE, typename = std::enable_if_t<std::is_base_of_v<Scene, SCENE_TYPE>>>
-		void AddScene(const std::string& name)
-		{
-			assert(std::find_if(std::cbegin(m_Scenes), std::cend(m_Scenes), [&name](const auto pScene)
-				{
-					return pScene->GetName() == name;
-				}) == std::cend(m_Scenes) && "A scene already exists with the name !");
-
-			m_Scenes.push_back(std::make_shared<SCENE_TYPE>(name));
-			m_Scenes.back()->RootInitialise();
-		}
-
+		
+		void AddScene(std::shared_ptr<Scene> pNewScene);
 		void SetCurrentScene(int id);
 		void SetCurrentScene(const std::string& sceneName);
 

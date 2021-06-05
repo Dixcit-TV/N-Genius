@@ -1,15 +1,26 @@
-#include "PCH.h"
 #include "Scene.h"
+
+#include <iostream>
 #include "GameObject.h"
 #include "IComponent.h"
 #include "RigidBody.h"
 
 ngenius::Scene::Scene(const std::string& name)
-	: m_physxHandler()
+	: m_PhysxHandler()
 	, m_Name(name)
 	, m_Objects()
 	, m_Initalized(false)
 {}
+
+void ngenius::Scene::Clear()
+{
+	m_PhysxHandler.Clear();
+	
+	while (!m_SceneQueue.empty())
+		m_SceneQueue.pop();
+	
+	m_Objects.clear();
+}
 
 void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object, bool force)
 {
@@ -21,7 +32,7 @@ void ngenius::Scene::Add(const std::shared_ptr<GameObject>& object, bool force)
 	{
 		m_Objects.push_back(object);
 		object->m_pParentScene = weak_from_this();
-		m_physxHandler.RegisterRigidBody(object);
+		m_PhysxHandler.RegisterRigidBody(object);
 	}
 }
 
@@ -37,7 +48,7 @@ void ngenius::Scene::Remove(const std::shared_ptr<GameObject>& object, bool forc
 	else
 	{
 		auto it{ std::find(std::begin(m_Objects), std::end(m_Objects), object) };
-		m_physxHandler.UnregisterRigidBody(object);
+		m_PhysxHandler.UnregisterRigidBody(object);
 		object->m_pParentScene.reset();
 		
 		m_Objects.erase(it);
@@ -61,7 +72,7 @@ void ngenius::Scene::Update()
 		}
 	}
 
-	m_physxHandler.Update();
+	m_PhysxHandler.Update();
 }
 
 void ngenius::Scene::Render() const
@@ -75,7 +86,7 @@ void ngenius::Scene::Render() const
 		}
 	}
 
-	m_physxHandler.Render();
+	m_PhysxHandler.Render();
 }
 
 std::shared_ptr<ngenius::GameObject> ngenius::Scene::GetGameObjectWithName(const std::string& name) const

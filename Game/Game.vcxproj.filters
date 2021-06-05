@@ -27,9 +27,6 @@
     <Filter Include="Qbert\Common">
       <UniqueIdentifier>{23f8640a-8964-438f-99bc-216d5ad50cc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Qbert\Scenes">
-      <UniqueIdentifier>{0d805a51-d15c-4308-a6f3-be700614a277}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Qbert\Factory">
       <UniqueIdentifier>{a781b9ca-f629-4584-9ea4-40d049bb2e3f}</UniqueIdentifier>
     </Filter>
@@ -68,9 +65,6 @@
     <ClCompile Include="Score.cpp">
       <Filter>Qbert\Characters\Player</Filter>
     </ClCompile>
-    <ClCompile Include="LevelScene.cpp">
-      <Filter>Qbert\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="FactoryMethod.cpp">
       <Filter>Qbert\Factory</Filter>
     </ClCompile>
@@ -92,11 +86,11 @@
     <ClCompile Include="LifeDisplay.cpp">
       <Filter>Qbert\Hud</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Qbert\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>LabCode\ServiceLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertGameMode.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +124,6 @@
     <ClInclude Include="Commands.h">
       <Filter>Qbert\Common</Filter>
     </ClInclude>
-    <ClInclude Include="LevelScene.h">
-      <Filter>Qbert\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="FactoryMethod.h">
       <Filter>Qbert\Factory</Filter>
     </ClInclude>
@@ -157,8 +148,8 @@
     <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Qbert\Scenes</Filter>
+    <ClInclude Include="QbertGameMode.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

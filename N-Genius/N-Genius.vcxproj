@@ -265,6 +265,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Button.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="FontLoader.h" />
+    <ClInclude Include="GameMode.h" />
+    <ClInclude Include="GameModeManager.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Delegate.h" />
@@ -304,6 +306,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontLoader.cpp" />
+    <ClCompile Include="GameMode.cpp" />
+    <ClCompile Include="GameModeManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Input.cpp" />

@@ -23,6 +23,7 @@ namespace ngenius
 		void UnregisterRigidBody(std::shared_ptr<GameObject> pGameObject);
 		void Update();
 		void Render() const;
+		void Clear() { m_pBodies.clear(); }
 		
 		std::vector<std::shared_ptr<RigidBody>> m_pBodies;
 	};

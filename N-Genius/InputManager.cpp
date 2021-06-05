@@ -1,6 +1,11 @@
 #include "InputManager.h"
 #include <SDL.h>
 
+ngenius::InputManager::InputManager()
+{
+	AddSDLButtonListener(SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT);
+}
+
 bool ngenius::InputManager::ProcessInput()
 {
 	std::for_each(std::begin(m_ControllerMap), std::end(m_ControllerMap), [](ControllerMap::value_type& cPair)

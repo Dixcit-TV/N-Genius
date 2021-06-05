@@ -1,10 +1,10 @@
-#include "PCH.h"
 #include "Core.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include <SDL.h>
 
 #include "FontLoader.h"
+#include "GameModeManager.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "Texture2DLoader.h"
@@ -46,6 +46,7 @@ void ngenius::Core::Initialize(const std::string& windowName, int width, int hei
 
 void ngenius::Core::Cleanup()
 {
+	GameModeManager::Destroy();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
@@ -71,6 +72,8 @@ void ngenius::Core::Run()
 			timeSettings.Update();
 			
 			doContinue = input.ProcessInput();
+			GameModeManager::Update();
+			
 			sceneManager.Update();
 			renderer.Render();
 

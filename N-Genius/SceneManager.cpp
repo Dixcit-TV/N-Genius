@@ -1,7 +1,20 @@
-#include "PCH.h"
 #include "SceneManager.h"
 #include <cassert>
+#include <iostream>
+
 #include "Scene.h"
+
+void ngenius::SceneManager::AddScene(std::shared_ptr<Scene> pNewScene)
+{
+	assert(std::find_if(std::cbegin(m_Scenes), std::cend(m_Scenes), [pNewScene](const auto pScene)
+		{
+			return pScene->GetName() == pNewScene->GetName();
+		}) == std::cend(m_Scenes) && "A scene already exists with the name !");
+
+	m_Scenes.push_back(pNewScene);
+	pNewScene->m_OnSceneInitialise.Invoke(pNewScene);
+	pNewScene->m_Initalized = true;
+}
 
 void ngenius::SceneManager::SetCurrentScene(int id)
 {
@@ -12,10 +25,10 @@ void ngenius::SceneManager::SetCurrentScene(int id)
 	}
 
 	if (m_CurrentSceneId >= 0 && m_CurrentSceneId < static_cast<int>(m_Scenes.size()))
-		m_Scenes[m_CurrentSceneId]->Deactivate();
+		m_Scenes[m_CurrentSceneId]->m_OnSceneDeactivate.Invoke(m_Scenes[m_CurrentSceneId]);
 	
 	m_CurrentSceneId = id;
-	m_Scenes[m_CurrentSceneId]->Activate();
+	m_Scenes[m_CurrentSceneId]->m_OnSceneActivate.Invoke(m_Scenes[m_CurrentSceneId]);
 }
 
 void ngenius::SceneManager::SetCurrentScene(const std::string& sceneName)

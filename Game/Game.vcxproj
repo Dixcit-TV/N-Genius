@@ -208,12 +208,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
       <AdditionalUsingDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <ClCompile Include="HelperFunctions.cpp" />
-    <ClCompile Include="LevelScene.cpp" />
     <ClCompile Include="LifeComponent.cpp" />
     <ClCompile Include="LifeDisplay.cpp" />
     <ClCompile Include="LoggingSoundService.cpp" />
     <ClCompile Include="CharacterController.cpp" />
-    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="QbertGameMode.cpp" />
     <ClCompile Include="SdlSoundService.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
@@ -228,13 +227,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll" "$(O
     <ClInclude Include="FactoryMethod.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HelperFunctions.h" />
-    <ClInclude Include="LevelScene.h" />
     <ClInclude Include="LifeComponent.h" />
     <ClInclude Include="LifeDisplay.h" />
     <ClInclude Include="LoggingSoundService.h" />
-    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="NullSoundService.h" />
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="QbertGameMode.h" />
     <ClInclude Include="SdlSoundService.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="SoundEffect.h" />
