@@ -1,4 +1,3 @@
-#include "PCH.h"
 #include "Transform.h"
 
 void ngenius::Transform::SetPosition(const float x, const float y)

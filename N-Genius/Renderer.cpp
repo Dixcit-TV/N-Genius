@@ -1,6 +1,7 @@
-#include "PCH.h"
 #include "Renderer.h"
 #include <SDL.h>
+#include <stdexcept>
+
 
 #include "imgui.h"
 #include "SceneManager.h"

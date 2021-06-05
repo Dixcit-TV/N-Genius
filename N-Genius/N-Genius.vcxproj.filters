@@ -55,9 +55,6 @@
     <ClInclude Include="Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="PCH.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -170,9 +167,6 @@
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PCH.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">

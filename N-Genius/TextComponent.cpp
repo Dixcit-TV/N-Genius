@@ -1,11 +1,11 @@
-#include "PCH.h"
 #include "TextComponent.h"
 
 #include <SDL_ttf.h>
+#include <stdexcept>
+
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
-#include "GameObject.h"
 
 ngenius::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& pfont, const SDL_Color& color, const glm::vec2& pivot)
 	: IComponent()

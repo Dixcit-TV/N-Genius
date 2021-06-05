@@ -1,5 +1,6 @@
-#include "PCH.h"
 #include "TimeSettings.h"
+#include <algorithm>
+#include <thread>
 
 ngenius::TimeSettings::TimeSettings()
 	: m_LastTimePoint(Clock::now())

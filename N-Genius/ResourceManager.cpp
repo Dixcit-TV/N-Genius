@@ -1,4 +1,3 @@
-#include "PCH.h"
 #include "ResourceManager.h"
 
 ngenius::ResourceManager::~ResourceManager()
