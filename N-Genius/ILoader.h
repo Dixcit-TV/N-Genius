@@ -2,8 +2,6 @@
 #include <string>
 #include <memory>
 
-#include "IResource.h"
-
 namespace ngenius
 {
 	class ILoader

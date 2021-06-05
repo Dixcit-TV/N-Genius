@@ -51,8 +51,15 @@ namespace ngenius
 		bool GetSDLEvent(SDL_EventType sdlEventType, UINT8 button);
 		void BindInput(const std::string& bindingName, ICommand* pCommand, std::initializer_list<Input> inpuList);
 		int RegisterGamepad(int id = -1);
+		void ClearInputBinding();
 
 		static glm::ivec2 GetMousePosition();
+		static void PostQuitEvent()
+		{
+			SDL_Event sdlevent{};
+			sdlevent.type = SDL_QUIT;
+			SDL_PushEvent(&sdlevent);
+		}
 	
 	private:
 		friend class Singleton<InputManager>;

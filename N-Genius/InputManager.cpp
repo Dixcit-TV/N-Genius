@@ -199,6 +199,11 @@ void ngenius::InputManager::BindInput(const std::string& bindingName, ICommand* 
 	}
 }
 
+void ngenius::InputManager::ClearInputBinding()
+{
+	m_InputBindings.clear();
+}
+
 int ngenius::InputManager::RegisterGamepad(int id)
 {
 	if (id < 0)

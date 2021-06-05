@@ -48,10 +48,10 @@ void ngenius::PhysicsHandler::Update()
 
 void ngenius::PhysicsHandler::Render() const
 {
-	Renderer& renderer{ Renderer::GetInstance() };
-	for (const auto& rb : m_pBodies)
-	{
-		glm::vec2 bodyCenter{ rb->GetGameObject()->GetTransform().GetPosition() + rb->m_Center };
-		renderer.DrawRect(bodyCenter, rb->m_Width, rb->m_Height, SDL_Color{});
-	}
+	//Renderer& renderer{ Renderer::GetInstance() };
+	//for (const auto& rb : m_pBodies)
+	//{
+	//	glm::vec2 bodyCenter{ rb->GetGameObject()->GetTransform().GetPosition() + rb->m_Center };
+	//	renderer.DrawRect(bodyCenter, rb->m_Width, rb->m_Height, SDL_Color{});
+	//}
 }
