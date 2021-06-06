@@ -4,6 +4,7 @@
 #include <Command.h>
 #include "Pyramid.h"
 #include "CharacterController.h"
+#include "ServiceLocator.h"
 
 class MoveCommand final : public ngenius::ICommand
 {
@@ -36,6 +37,7 @@ public:
 				
 				characterComp->SetTargetPosition(targetPos, isOut);
 				characterComp->SetState(CharacterState::MOVING);
+				ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/jump-3.mp3", MIX_MAX_VOLUME);
 			}
 			else
 			{

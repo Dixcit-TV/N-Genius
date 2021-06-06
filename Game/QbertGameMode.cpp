@@ -4,6 +4,8 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "ServiceLocator.h"
+#include "SoundEffect.h"
 
 QbertGameMode::QbertGameMode()
 	: GameMode()
@@ -55,6 +57,7 @@ void QbertGameMode::Update()
 		switch (m_CurrentState)
 		{
 		case GameState::MAIN_MENU:
+			SoundEffect::StopAll();
 			ngenius::SceneManager::GetInstance().SetCurrentScene("MainMenuScene");
 			break;
 		case GameState::GAME_START:
@@ -66,6 +69,7 @@ void QbertGameMode::Update()
 			break;
 		case GameState::SWITCH_LEVEL:
 			{
+				SoundEffect::StopAll();
 				++m_GameData.currentLevelIdx;
 				const int levelCount{ static_cast<int>(m_GameData.pStageData->levels.size()) };
 				if (m_GameData.currentLevelIdx >= levelCount)
@@ -79,6 +83,8 @@ void QbertGameMode::Update()
 			}
 			break;
 		case GameState::GAME_OVER:
+			SoundEffect::StopAll();
+			ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/tune.mp3", MIX_MAX_VOLUME);
 			ngenius::SceneManager::GetInstance().SetCurrentScene("EndScene");
 			break;
 		}

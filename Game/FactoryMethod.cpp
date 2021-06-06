@@ -71,6 +71,12 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	scoreComp->SetScore(score);
 	
 	auto lifeComp = qbertGO->AddComponent<LifeComponent>(health);
+	lifeComp->RegisterUpdateEvent("DamageSoundEvent", [](int prevHp, int newHp)
+	{
+		if (prevHp > newHp)
+			ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/swear.mp3", MIX_MAX_VOLUME);
+	});
+	
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", &DeathEventCheck);
 	qbertComp->RegisterJumpOutEvent("JumpOutLifeLostEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
@@ -168,6 +174,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const glm::vec2&
 				inputManager.RemoveInputBinding("Move2_SouthEast");
 				inputManager.RemoveInputBinding("Move2_NortEast");
 			});
+			qbertComp->RegisterJumpOutEvent("JumpOutSoundEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/snake-fall.mp3", MIX_MAX_VOLUME); });
 		}
 		break;
 	default:
@@ -178,6 +185,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const glm::vec2&
 			enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(coilyGO, Direction::SOUTH_EAST));
 			enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(coilyGO, Direction::SOUTH_WEST));
 			enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
+			enemyController->RegisterJumpOutEvent("JumpOutSoundEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/snake-fall.mp3", MIX_MAX_VOLUME); });
 		}
 		break;
 	}
