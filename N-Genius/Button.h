@@ -15,6 +15,8 @@ namespace ngenius
 		
 		void RegisterOnSelectedEvent(const std::string& evtName, std::function<void()> callback) { OnSelected.Register(evtName, std::move(callback)); }
 		void RegisterOnClickEvent(const std::string& evtName, std::function<void()> callback) { OnClick.Register(evtName, std::move(callback)); }
+		void UnregisterOnSelectedEvent(const std::string& evtName) { OnSelected.Unregister(evtName); }
+		void UnregisterOnClickEvent(const std::string& evtName) { OnClick.Unregister(evtName); }
 
 		void Update() override;
 
