@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-#include <SDL_syswm.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 #include "Enum.h"
 #include "Singleton.h"

@@ -84,7 +84,7 @@ void QbertGameMode::Update()
 			break;
 		case GameState::GAME_OVER:
 			SoundEffect::StopAll();
-			ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/tune.mp3", MIX_MAX_VOLUME);
+			ServiceLocator::GetSoundService()->PlaySound("Data/Sounds/tune.mp3", MIX_MAX_VOLUME);
 			ngenius::SceneManager::GetInstance().SetCurrentScene("EndScene");
 			break;
 		}

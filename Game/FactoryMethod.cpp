@@ -74,7 +74,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	lifeComp->RegisterUpdateEvent("DamageSoundEvent", [](int prevHp, int newHp)
 	{
 		if (prevHp > newHp)
-			ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/swear.mp3", MIX_MAX_VOLUME);
+			ServiceLocator::GetSoundService()->PlaySound("Data/Sounds/swear.mp3", MIX_MAX_VOLUME);
 	});
 	
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", &DeathEventCheck);
@@ -174,7 +174,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const glm::vec2&
 				inputManager.RemoveInputBinding("Move2_SouthEast");
 				inputManager.RemoveInputBinding("Move2_NortEast");
 			});
-			qbertComp->RegisterJumpOutEvent("JumpOutSoundEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/snake-fall.mp3", MIX_MAX_VOLUME); });
+			qbertComp->RegisterJumpOutEvent("JumpOutSoundEvent", []() { ServiceLocator::GetSoundService()->PlaySound("Data/Sounds/snake-fall.mp3", MIX_MAX_VOLUME); });
 		}
 		break;
 	default:
@@ -185,7 +185,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const glm::vec2&
 			enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(coilyGO, Direction::SOUTH_EAST));
 			enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(coilyGO, Direction::SOUTH_WEST));
 			enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
-			enemyController->RegisterJumpOutEvent("JumpOutSoundEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/snake-fall.mp3", MIX_MAX_VOLUME); });
+			enemyController->RegisterJumpOutEvent("JumpOutSoundEvent", []() { ServiceLocator::GetSoundService()->PlaySound("Data/Sounds/snake-fall.mp3", MIX_MAX_VOLUME); });
 		}
 		break;
 	}
@@ -231,8 +231,8 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateButton(const std::stri
 	auto pfont = ngenius::ResourceManager::GetInstance().LoadResource<ngenius::Font>("Lingua.otf", textSize);
 	auto buttonGO{ std::make_shared<ngenius::GameObject>(ngenius::Transform(position), name) };
 	auto buttonComp{ buttonGO->AddComponent<ngenius::Button>(text, pfont, SDL_Color{ 255, 255, 255 }, glm::vec2{0.5f, 0.5f}) };
-	buttonComp->RegisterOnClickEvent("ButtonClickEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuClick.mp3", MIX_MAX_VOLUME); });
-	buttonComp->RegisterOnSelectedEvent("ButtonSelectedEvent", []() { ServiceLocator::GetSoundService()->PlaySound("../Data/Sounds/MenuHover.mp3", MIX_MAX_VOLUME); });
+	buttonComp->RegisterOnClickEvent("ButtonClickEvent", []() { ServiceLocator::GetSoundService()->PlaySound("Data/Sounds/MenuClick.mp3", MIX_MAX_VOLUME); });
+	buttonComp->RegisterOnSelectedEvent("ButtonSelectedEvent", []() { ServiceLocator::GetSoundService()->PlaySound("Data/Sounds/MenuHover.mp3", MIX_MAX_VOLUME); });
 
 	return buttonGO;
 }

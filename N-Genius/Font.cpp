@@ -1,6 +1,7 @@
-#include "PCH.h"
 #include <SDL_ttf.h>
 #include "Font.h"
+
+#include <stdexcept>
 
 ngenius::Font::Font(const std::string& fullPath, unsigned int size)
 	: m_Font(TTF_OpenFont(fullPath.c_str(), size))
