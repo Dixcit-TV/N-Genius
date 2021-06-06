@@ -4,18 +4,19 @@
 
 #include "Enums.h"
 #include "StageData.h"
+#include <map>
 
 struct PlayerData
 {
 	std::string playerName;
 	int health;
 	int score;
+	bool isDead;
 };
 
 struct GameData
 {
-	PlayerData player1;
-	PlayerData player2;
+	std::map<std::string, PlayerData> playerData;
 	std::shared_ptr<StageData> pStageData;
 	int currentLevelIdx;
 };

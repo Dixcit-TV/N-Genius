@@ -111,17 +111,12 @@ void QbertGameMode::InitGameData()
 {
 	const int startHealth{ 3 };
 	const int startScore{ 0 };
-	
-	m_GameData.player1.playerName = "Player_1";
-	m_GameData.player1.health = startHealth;
-	m_GameData.player1.score = startScore;
+
+	m_GameData.playerData.clear();
+	m_GameData.playerData["Player_1"] = PlayerData{ "Player_1", startHealth, startScore, false };
 
 	if (m_SelectedGameType == GameType::COOP)
-	{
-		m_GameData.player2.playerName = "Player_2";
-		m_GameData.player2.health = startHealth;
-		m_GameData.player2.score = startScore;
-	}
+		m_GameData.playerData["Player_2"] = PlayerData{ "Player_2", startHealth, startScore, false };
 
 	m_GameData.pStageData = ngenius::ResourceManager::GetInstance().LoadResource<StageData>("Levels/Stage_1.json");
 	m_GameData.currentLevelIdx = 0;

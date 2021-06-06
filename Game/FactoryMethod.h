@@ -39,5 +39,10 @@ namespace FactoryMethod
 	void InitVersusScene(std::shared_ptr<ngenius::Scene> pScene);
 	void InitGameOverScene(std::shared_ptr<ngenius::Scene> pScene);
 #pragma endregion
+
+#pragma region Misc
+	void DeathEventCheck();
+	void SavePlayerData();
+#pragma endregion
 }
 

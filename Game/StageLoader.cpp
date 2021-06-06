@@ -22,6 +22,8 @@ std::shared_ptr<StageData> StageLoader::LoadContent(const std::string& path) con
 		int colorIndex{ level["ColorScheme"] };
 		if (colorIndex == -1)
 			colorIndex = Helpers::RandValue(0, LevelData::COLORSCHEMECOUNT - 1);
+		else
+			colorIndex = glm::clamp(colorIndex, 0, LevelData::COLORSCHEMECOUNT - 1);
 		
 		pStageData->levels.push_back(LevelData{ level["Name"], level["RowCount"], colorIndex, level["IntermediateColor"], level["RevertColor"] });
 	}

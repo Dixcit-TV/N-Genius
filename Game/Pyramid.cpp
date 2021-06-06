@@ -62,7 +62,6 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 	}
 
 	const size_t cellIdx{ GetCellIdxFromWorldPos(playerPosition) };
-	std::cout << "Updated Cell: " << cellIdx << std::endl;
 	const CellState prevCellState{ m_Blocks[cellIdx] };
 	CellState newState{ prevCellState };
 	bool hasReverted{ false };
@@ -87,15 +86,9 @@ void Pyramid::UpdateCell(const glm::vec2& playerPosition, bool forceRevertColor)
 	if (newState != prevCellState && !hasReverted)
 		m_ColorChangeEvent.Invoke(ScoreEventType::COLOR_CHANGE);
 
-	if (newState != prevCellState && newState == CellState::FINAL)
-		std::cout << "Check Completion" << std::endl;
-	
 	if (newState != prevCellState && newState == CellState::FINAL 
 		&& CheckCompletion())
-	{
-		std::cout << "Completed" << std::endl;
 		m_CompletionEvent.Invoke();
-	}
 }
 
 size_t Pyramid::GetCellIdxFromWorldPos(const glm::vec2& position) const
@@ -185,10 +178,4 @@ bool Pyramid::IsInBound(int row, int col) const
 }
 
 void Pyramid::Update()
-{
-	//glm::ivec2 mousePos{ ngenius::InputManager::GetMousePosition() };
-	//int r, c;
-	//GetRowAndColumnFromPosition(mousePos, r, c);
-	//std::cout << "MousePos =====> x: " << mousePos.x << ", y: " << mousePos.y << std::endl;
-	//std::cout << "Targeted Cell =====> r: " << r << ", c: " << c << std::endl;
-}
+{}

@@ -20,6 +20,7 @@
 #include "GameModeManager.h"
 #include "LifeDisplay.h"
 #include "QbertGameMode.h"
+#include "SceneManager.h"
 
 #pragma region GameObjects
 std::shared_ptr<ngenius::GameObject> FactoryMethod::CreatePyramid()
@@ -32,6 +33,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreatePyramid()
 	auto pyramidComp = pyramid->AddComponent<Pyramid>(level.rowCount, 40.f, level.ColorSchemeIndex, level.colorRverting, level.hasIntermediateColor);
 	pyramidComp->RegisterCompletionEvent("ColorCompletionEvent", []()
 	{
+		SavePlayerData();
 		QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
 		pGameMode->SetState(GameState::SWITCH_LEVEL);
 	});
@@ -49,25 +51,15 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
 	const GameData& gameData{ pGameMode->GetGameData() };
 
-	std::string name{};
-	int health{};
-	int score{};
-	switch (tag)
-	{
-	case PlayerTag::PLAYER1:
-		name = gameData.player1.playerName;
-		health = gameData.player1.health;
-		score = gameData.player1.score;
-		break;
-	case PlayerTag::PLAYER2:
-		name = gameData.player2.playerName;
-		health = gameData.player2.health;
-		score = gameData.player2.score;
-		break;
-	}
+	std::string name{ tag == PlayerTag::PLAYER1 ? "Player_1" : "Player_2" };
+	const PlayerData& data{ gameData.playerData.find(name)->second };
+	const int health{ data.health };
+	const int score{ data.score };
+	const bool isDead{ data.isDead };
 	
 	auto qbertGO = std::make_shared<ngenius::GameObject>(transform, name, "Player");
 	qbertGO->GetTransform().SetScale(2.f, 2.f);
+	qbertGO->SetEnable(!isDead);
 	auto qbertComp = qbertGO->AddComponent<CharacterController>(10.f, face);
 
 	auto a = Make_Delegate(std::weak_ptr(pyramidComp), &Pyramid::UpdateCell);
@@ -79,6 +71,7 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	scoreComp->SetScore(score);
 	
 	auto lifeComp = qbertGO->AddComponent<LifeComponent>(health);
+	lifeComp->RegisterHealthDepletedEvent("DeathEvent", &DeathEventCheck);
 	qbertComp->RegisterJumpOutEvent("JumpOutLifeLostEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	
 	auto rigidBodyComp = qbertGO->AddComponent<ngenius::RigidBody>(10.f, 10.f, glm::vec2(0.f, -20.f));
@@ -89,24 +82,6 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	qbertComp->RegisterJumpOutEvent("JumpOutPositionEvent", [&transform = qbertGO->GetTransform(), startPos](){ transform.SetPosition(startPos); });
 
 	pyramidComp->RegisterColorChangeEvent("UpdateScore" + name + "Event", Make_Delegate(std::weak_ptr(scoreComp), &Score::UpdateScore));
-	pyramidComp->RegisterCompletionEvent("SavePlayerDataEvent", [playerGo = std::weak_ptr(qbertGO), tag]()
-		{
-			QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
-			GameData& gameData{ pGameMode->GetGameData() };
-
-			std::shared_ptr pPlayer{ playerGo.lock() };
-			switch (tag)
-			{
-			case PlayerTag::PLAYER1:
-				gameData.player1.health = playerGo.lock()->GetComponent<LifeComponent>()->GetHealth();
-				gameData.player1.score = playerGo.lock()->GetComponent<Score>()->GetScore();
-				break;
-			case PlayerTag::PLAYER2:
-				gameData.player2.health = playerGo.lock()->GetComponent<LifeComponent>()->GetHealth();
-				gameData.player2.score = playerGo.lock()->GetComponent<Score>()->GetScore();
-				break;
-			}
-		});
 	
 	switch(tag)
 	{
@@ -296,6 +271,10 @@ void FactoryMethod::OverlapResponsePlayerSlickSam(std::shared_ptr<ngenius::Rigid
 #pragma region Scenes
 void FactoryMethod::InitMainMenu(std::shared_ptr<ngenius::Scene> pScene)
 {
+	auto backgroundGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2{960.f, 0.f})) };
+	backgroundGo->AddComponent<ngenius::TextureComponent>("Main_Background.png", glm::vec2{1.f, 0.f});
+	pScene->Add(backgroundGo);
+	
 	auto singleButton{ CreateButton("Start Single", glm::vec2{ 150.f, 250.f}) };
 	singleButton->GetComponent<ngenius::Button>()->RegisterOnClickEvent("GameStartEvent", []()
 		{
@@ -348,12 +327,7 @@ void FactoryMethod::InitSinglePlayerScene(std::shared_ptr<ngenius::Scene> pScene
 
 	auto LifeDisplaytGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
 	auto lifeDisplayComp = LifeDisplaytGo->AddComponent<LifeDisplay>(lifeComp->GetHealth());
-	qbert1->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
-	qbert1->GetComponent<LifeComponent>()->RegisterHealthDepletedEvent("DeathEvent", []()
-		{
-			QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
-			pGameMode->SetState(GameState::GAME_OVER);
-		});
+	lifeComp->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
 	
 	pScene->Add(LifeDisplaytGo);
 
@@ -371,7 +345,7 @@ void FactoryMethod::InitCoopScene(std::shared_ptr<ngenius::Scene> pScene)
 	auto textComp = scoreTextGo->AddComponent<ngenius::TextComponent>("Score: 0", pfont);
 	pScene->Add(scoreTextGo);
 
-	auto qbert1 = CreateQbert(ngenius::Transform(pyramidComp->GetTopPosition())
+	auto qbert1 = CreateQbert(ngenius::Transform(pyramidComp->GetBottomLeftPosition())
 		, pyramidComp
 		, textComp
 		, PlayerTag::PLAYER1);
@@ -394,8 +368,8 @@ void FactoryMethod::InitCoopScene(std::shared_ptr<ngenius::Scene> pScene)
 		, PlayerTag::PLAYER2);
 	auto lifeComp2{ qbert2->GetComponent<LifeComponent>() };
 
-	auto LifeDisplayt2Go{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
-	auto lifeDisplay2Comp = LifeDisplaytGo->AddComponent<LifeDisplay>(lifeComp2->GetHealth());
+	auto LifeDisplayt2Go{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(890.f, 60.f)), "Life_UI_P1") };
+	auto lifeDisplay2Comp = LifeDisplayt2Go->AddComponent<LifeDisplay>(lifeComp2->GetHealth());
 
 	qbert2->GetComponent<LifeComponent>()->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplay2Comp), &LifeDisplay::UpdateLifeDrawCount));
 	pScene->Add(LifeDisplayt2Go);
@@ -418,11 +392,13 @@ void FactoryMethod::InitVersusScene(std::shared_ptr<ngenius::Scene> pScene)
 		, pyramidComp
 		, textComp
 		, PlayerTag::PLAYER1);
+	
 	auto lifeComp{ qbert1->GetComponent<LifeComponent>() };
 
 	auto LifeDisplaytGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2(20.f, 60.f)), "Life_UI_P1") };
 	auto lifeDisplayComp = LifeDisplaytGo->AddComponent<LifeDisplay>(lifeComp->GetHealth());
 	lifeComp->RegisterUpdateEvent("UpdateDisplayEvent", Make_Delegate(std::weak_ptr(lifeDisplayComp), &LifeDisplay::UpdateLifeDrawCount));
+	
 	pScene->Add(LifeDisplaytGo);
 
 	pScene->Add(qbert1);
@@ -442,5 +418,38 @@ void FactoryMethod::InitGameOverScene(std::shared_ptr<ngenius::Scene> pScene)
 
 	pScene->Add(backToMainButton);
 	pScene->Add(quitButton);
+}
+#pragma endregion
+
+#pragma region Misc
+void FactoryMethod::DeathEventCheck()
+{
+	auto players{ ngenius::SceneManager::GetInstance().GetCurrentScene()->GetAllGameObjectsWithTag("Player") };
+	bool anyAlive{ std::any_of(std::begin(players), std::end(players), [](const std::shared_ptr<ngenius::GameObject>& pPlayer)
+	{
+		auto lifeComp{ pPlayer->GetComponent<LifeComponent>() };
+		return lifeComp && lifeComp->GetHealth() > 0;
+	}) };
+
+	if (!anyAlive)
+	{
+		QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
+		pGameMode->SetState(GameState::GAME_OVER);
+	}
+}
+
+void FactoryMethod::SavePlayerData()
+{
+	QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
+	GameData& gameData{ pGameMode->GetGameData() };
+	auto players{ ngenius::SceneManager::GetInstance().GetCurrentScene()->GetAllGameObjectsWithTag("Player") };
+
+	for (const auto& pPlayer : players)
+	{
+		PlayerData& data{ gameData.playerData[pPlayer->GetName()] };
+		data.health = pPlayer->GetComponent<LifeComponent>()->GetHealth();
+		data.score = pPlayer->GetComponent<Score>()->GetScore();
+		data.isDead = !pPlayer->IsEnabled();
+	}
 }
 #pragma endregion

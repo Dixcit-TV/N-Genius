@@ -5,7 +5,7 @@
 
 struct LevelData
 {
-	static const int COLORSCHEMECOUNT{ 9 };
+	static const int COLORSCHEMECOUNT{ 8 };
 	std::string name{};
 	int rowCount{ 0 };
 	int ColorSchemeIndex{ 0 };

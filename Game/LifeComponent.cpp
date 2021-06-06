@@ -20,6 +20,9 @@ void LifeComponent::ApplyDamage(int damageAmount)
 		m_OnHealthChangeEvent.Invoke(prevLifeCount, m_LifeCount);
 
 		if (m_LifeCount == 0)
+		{
 			m_OnHealthDepletedEvent.Invoke();
+			GetGameObject()->SetEnable(false);
+		}
 	}
 }
