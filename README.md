@@ -106,7 +106,7 @@ The game logic is built around a single SceneManager that holds all the existing
 
 # Physics system (more like the idea of one)
 
-I simply created the start of the bare bone of what could eventually be (yeah that little) the be physics system and so far have mostly enough to cover my QBert overlaps. But the idea comes to have a scene specific Physics handling system, whenever game objects are created or destroyed their rigid bodies are (un)registered to the physics handler which will process their collision in it's game update phase.
+I simply created the start of the bare bone of what could eventually (yeah that little) be the physics system and so far have mostly enough to cover my QBert overlaps. But the idea comes to have a scene specific Physics handling system, whenever game objects are created or destroyed their rigid bodies are (un)registered to the physics handler which will process their collision in it's game update phase.
 Each rigidbodies can register their overlap events to handle their own responses (if any) to the current overlap, giving them access to the objects their are overlapping with. It's really eary work but I have some rough idea how I could add other collision detection and/or collision resolution logic around the current design.
 
 ![image](https://user-images.githubusercontent.com/76394390/120941295-1b8d6980-c722-11eb-8391-790f832e7215.png)
