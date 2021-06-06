@@ -15,6 +15,7 @@ public:
 
 	void Update() override;
 	void SetState(GameState newState);
+	GameType GetGameType() const { return m_SelectedGameType; }
 	void SetGameType(GameType newSelectedGameType) { m_SelectedGameType = newSelectedGameType; }
 	GameData& GetGameData() { return m_GameData; }
 	const GameData& GetGameData() const { return m_GameData; }

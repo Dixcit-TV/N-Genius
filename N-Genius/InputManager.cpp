@@ -199,6 +199,14 @@ void ngenius::InputManager::BindInput(const std::string& bindingName, ICommand* 
 	}
 }
 
+void ngenius::InputManager::RemoveInputBinding(const std::string& bindingName)
+{
+	auto bindingIt{ m_InputBindings.find(bindingName) };
+
+	if (bindingIt != std::end(m_InputBindings))
+		m_InputBindings.erase(bindingIt);
+}
+
 void ngenius::InputManager::ClearInputBinding()
 {
 	m_InputBindings.clear();

@@ -16,10 +16,9 @@ EnemySpawner::EnemySpawner()
 	QueueSpawn(EnemyType::UGG);
 	QueueSpawn(EnemyType::WRONGWAY);
 	QueueSpawn(EnemyType::EGG);
-	QueueSpawn(EnemyType::EGG);
 }
 
-void EnemySpawner::QueueSpawn(EnemyType eType, bool instantSpawn)
+void EnemySpawner::QueueSpawn(EnemyType eType, glm::vec2 position, bool instantSpawn)
 {
 	if (eType == EnemyType::SAM)
 	{
@@ -37,7 +36,7 @@ void EnemySpawner::QueueSpawn(EnemyType eType, bool instantSpawn)
 		m_WasSlickSpawned = true;
 	}
 	
-	m_SpawnQueue.push_back(SpawnTimer{ instantSpawn ? 0.f : Helpers::RandValue(m_MinTimerDuration, m_MaxTimerDuration), 0.f, eType });
+	m_SpawnQueue.push_back(SpawnTimer{ position, instantSpawn ? 0.f : Helpers::RandValue(m_MinTimerDuration, m_MaxTimerDuration), 0.f, eType });
 }
 
 void EnemySpawner::Update()
@@ -60,18 +59,18 @@ void EnemySpawner::Update()
 			{
 			case EnemyType::SAM:
 			case EnemyType::SLICK:
-				pGo = FactoryMethod::CreateSlickSam(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), pyramidComp, shared_from_this(), timer.spawnType);
+				pGo = FactoryMethod::CreateSlickSam(pyramidComp, shared_from_this(), timer.spawnType);
 				break;
 			case EnemyType::UGG:
-				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomRightPosition(CellFace::RIGHT)), shared_from_this(), timer.spawnType);
-				break;
 			case EnemyType::WRONGWAY:
-				pGo = FactoryMethod::CreateUggWrongWay(ngenius::Transform(pyramidComp->GetBottomLeftPosition(CellFace::LEFT)), shared_from_this(), timer.spawnType);
+				pGo = FactoryMethod::CreateUggWrongWay(pyramidComp, shared_from_this(), timer.spawnType);
 				break;
 			case EnemyType::EGG:
-				pGo = FactoryMethod::CreateEgg(ngenius::Transform(pyramidComp->GetTopPosition(CellFace::TOP)), shared_from_this(), timer.spawnType);
+				pGo = FactoryMethod::CreateEgg(pyramidComp, shared_from_this(), timer.spawnType);
 				break;
-			case EnemyType::COILY: break;
+			case EnemyType::COILY: 
+				pGo = FactoryMethod::CreateCoily(timer.spawnPosition, pyramidComp, shared_from_this(), timer.spawnType);
+				break;
 			}
 
 			if (pGo)

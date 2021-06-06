@@ -50,6 +50,7 @@ namespace ngenius
 		void AddSDLButtonListener(SDL_EventType sdlEventType, UINT8 button);
 		bool GetSDLEvent(SDL_EventType sdlEventType, UINT8 button);
 		void BindInput(const std::string& bindingName, ICommand* pCommand, std::initializer_list<Input> inpuList);
+		void RemoveInputBinding(const std::string& bindingName);
 		int RegisterGamepad(int id = -1);
 		void ClearInputBinding();
 

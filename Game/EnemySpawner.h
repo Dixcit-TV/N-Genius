@@ -7,6 +7,7 @@ class EnemySpawner final : public ngenius::IComponent, public std::enable_shared
 {
 	struct SpawnTimer
 	{
+		glm::vec2 spawnPosition;
 		float duration;
 		float timer;
 		EnemyType spawnType;
@@ -23,7 +24,7 @@ public:
 
 	void Update() override;
 
-	void QueueSpawn(EnemyType eType, bool instantSpawn = false);
+	void QueueSpawn(EnemyType eType, glm::vec2 position = {}, bool instantSpawn = false);
 
 private:
 	std::vector<SpawnTimer> m_SpawnQueue;

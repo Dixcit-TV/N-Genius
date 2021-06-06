@@ -82,65 +82,24 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateQbert(const ngenius::T
 	qbertComp->RegisterJumpOutEvent("JumpOutPositionEvent", [&transform = qbertGO->GetTransform(), startPos](){ transform.SetPosition(startPos); });
 
 	pyramidComp->RegisterColorChangeEvent("UpdateScore" + name + "Event", Make_Delegate(std::weak_ptr(scoreComp), &Score::UpdateScore));
-	
-	switch(tag)
-	{
-	case PlayerTag::PLAYER1:
-		{
-			const int gamepadId{ ngenius::InputManager::GetInstance().RegisterGamepad() };
-			ngenius::InputManager::GetInstance().BindInput("Move_NortWest", new MoveCommand(qbertGO, Direction::NORTH_WEST),
-				{ ngenius::Input('W', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_UP, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
 
-			ngenius::InputManager::GetInstance().BindInput("Move_SouthWest", new MoveCommand(qbertGO, Direction::SOUTH_WEST),
-				{ ngenius::Input('A', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_LEFT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-
-			ngenius::InputManager::GetInstance().BindInput("Move_SouthEast", new MoveCommand(qbertGO, Direction::SOUTH_EAST),
-				{ ngenius::Input('S', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_DOWN, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-
-			ngenius::InputManager::GetInstance().BindInput("Move_NortEast", new MoveCommand(qbertGO, Direction::NORTH_EAST),
-				{ ngenius::Input('D', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_RIGHT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-		}
-		break;
-	case PlayerTag::PLAYER2:
-		{
-			const int gamepadId = ngenius::InputManager::GetInstance().RegisterGamepad();
-			ngenius::InputManager::GetInstance().BindInput("Move2_NortWest", new MoveCommand(qbertGO, Direction::NORTH_WEST),
-				{ ngenius::Input(VK_UP, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_UP, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-
-			ngenius::InputManager::GetInstance().BindInput("Move2_SouthWest", new MoveCommand(qbertGO, Direction::SOUTH_WEST),
-				{ ngenius::Input(VK_LEFT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_LEFT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-
-			ngenius::InputManager::GetInstance().BindInput("Move2_SouthEast", new MoveCommand(qbertGO, Direction::SOUTH_EAST),
-				{ ngenius::Input(VK_DOWN, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_DOWN, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-
-			ngenius::InputManager::GetInstance().BindInput("Move2_NortEast", new MoveCommand(qbertGO, Direction::NORTH_EAST),
-				{ ngenius::Input(VK_RIGHT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
-					, ngenius::Input(XINPUT_GAMEPAD_DPAD_RIGHT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
-		}
-		break;
-	}
+	InitPlayerInput(qbertGO, tag);
 	
 	return qbertGO;
 }
 
-std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateSlickSam(const ngenius::Transform& transform, std::shared_ptr<Pyramid> pyramidComp, std::shared_ptr<EnemySpawner> spawner, EnemyType type)
+std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateSlickSam(std::shared_ptr<Pyramid> pyramidComp, std::shared_ptr<EnemySpawner> spawner, EnemyType type)
 {
 	std::string name{ type == EnemyType::SAM ? "Sam" : "Slick" };
-	auto slickSamGO = std::make_shared<ngenius::GameObject>(transform, name, "SlickSam");
-	slickSamGO->GetTransform().SetScale(2.f, 2.f);
+	glm::vec2 startPosition{ pyramidComp->GetTopPosition(CellFace::TOP) };
+	
+	auto slickSamGO = std::make_shared<ngenius::GameObject>(ngenius::Transform(startPosition, glm::vec2(2.f, 2.f)), name, "SlickSam");
 	auto enemyController = slickSamGO->AddComponent<EnemyController>(5.f, CellFace::TOP);
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(slickSamGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(slickSamGO, Direction::SOUTH_WEST));
 	enemyController->RegisterEndMoveEvent("UpdateCellStateEvent", std::bind(&Pyramid::UpdateCell, pyramidComp, std::placeholders::_1, true));
 	auto lifeComp = slickSamGO->AddComponent<LifeComponent>(1);
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, type == EnemyType::SAM ? EnemyType::SLICK : EnemyType::SAM, false));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, type == EnemyType::SAM ? EnemyType::SLICK : EnemyType::SAM, startPosition, false));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(slickSamGO), &ngenius::GameObject::Delete));
 	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	auto rigidBodyComp = slickSamGO->AddComponent<ngenius::RigidBody>(10.f, 10.f, glm::vec2(0.f, -20.f));
@@ -150,21 +109,31 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateSlickSam(const ngenius
 	return slickSamGO;
 }
 
-std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateEgg(const ngenius::Transform& transform, std::shared_ptr<EnemySpawner> spawner, EnemyType)
+std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateEgg(std::shared_ptr<Pyramid> pyramidComp, std::shared_ptr<EnemySpawner> spawner, EnemyType)
 {
 	std::string name{ "Egg" };
-	auto eggGO = std::make_shared<ngenius::GameObject>(transform, name, "Enemy");
-	eggGO->GetTransform().SetScale(2.f, 2.f);
+	glm::vec2 startPosition{ pyramidComp->GetTopPosition(CellFace::TOP) };
+	
+	auto eggGO = std::make_shared<ngenius::GameObject>(ngenius::Transform(startPosition, glm::vec2(2.f, 2.f)), name, "Enemy");
 	auto enemyController = eggGO->AddComponent<EnemyController>(5.f, CellFace::TOP);
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(eggGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(eggGO, Direction::SOUTH_WEST));
+	enemyController->RegisterEndMoveEvent("TransformEvent", [pyramidComp, spawner, go = std::weak_ptr(eggGO)](const glm::vec2& thisPosition)
+	{
+		int r{};
+		int c{};
+		pyramidComp->GetRowAndColumnFromPosition(thisPosition, r, c);
+		if (r == 0)
+		{
+			spawner->QueueSpawn(EnemyType::COILY, thisPosition, true);
+			go.lock()->Delete();
+		}
+	});
 	auto lifeComp = eggGO->AddComponent<LifeComponent>(1);
 
 	//Temp
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG, false));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG, startPosition, false));
 
-
-	
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(eggGO), &ngenius::GameObject::Delete));
 	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 	auto rigidBodyComp = eggGO->AddComponent<ngenius::RigidBody>(10.f, 10.f, glm::vec2(0.f, -20.f));
@@ -174,20 +143,45 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateEgg(const ngenius::Tra
 	return eggGO;
 }
 
-std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const ngenius::Transform& transform, std::shared_ptr<EnemySpawner> spawner, EnemyType)
+std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const glm::vec2& position, std::shared_ptr<Pyramid> pyramidComp, std::shared_ptr<EnemySpawner> spawner, EnemyType)
 {
 	std::string name{ "Coily" };
-	auto coilyGO = std::make_shared<ngenius::GameObject>(transform, name, "Enemy");
-	coilyGO->GetTransform().SetScale(2.f, 2.f);
-	auto enemyController = coilyGO->AddComponent<EnemyController>(5.f, CellFace::TOP);
-	enemyController->RegisterMoveCommand(Direction::NORTH_EAST, new MoveCommand(coilyGO, Direction::NORTH_EAST));
-	enemyController->RegisterMoveCommand(Direction::NORTH_WEST, new MoveCommand(coilyGO, Direction::NORTH_WEST));
-	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(coilyGO, Direction::SOUTH_EAST));
-	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(coilyGO, Direction::SOUTH_WEST));
+	CellFace face{ CellFace::TOP };
+	QbertGameMode* pGameMode{ dynamic_cast<QbertGameMode*>(ngenius::GameModeManager::GetGameMode()) };
+	auto coilyGO = std::make_shared<ngenius::GameObject>(ngenius::Transform(position, glm::vec2(2.f, 2.f)), name, "Enemy");
 	auto lifeComp = coilyGO->AddComponent<LifeComponent>(1);
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG, false));
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, EnemyType::EGG, pyramidComp->GetTopPosition(CellFace::TOP), false));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(coilyGO), &ngenius::GameObject::Delete));
-	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
+
+	switch(pGameMode->GetGameType())
+	{
+	case GameType::VERSUS:
+		{
+			auto qbertComp = coilyGO->AddComponent<CharacterController>(10.f, face);
+			InitPlayerInput(coilyGO, PlayerTag::PLAYER2);
+			qbertComp->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
+			lifeComp->RegisterHealthDepletedEvent("UnbindInputEvent", []()
+			{
+				ngenius::InputManager& inputManager{ ngenius::InputManager::GetInstance() };
+				inputManager.RemoveInputBinding("Move2_NortWest");
+				inputManager.RemoveInputBinding("Move2_SouthWest");
+				inputManager.RemoveInputBinding("Move2_SouthEast");
+				inputManager.RemoveInputBinding("Move2_NortEast");
+			});
+		}
+		break;
+	default:
+		{
+			auto enemyController = coilyGO->AddComponent<EnemyController>(5.f, face);
+			enemyController->RegisterMoveCommand(Direction::NORTH_EAST, new MoveCommand(coilyGO, Direction::NORTH_EAST));
+			enemyController->RegisterMoveCommand(Direction::NORTH_WEST, new MoveCommand(coilyGO, Direction::NORTH_WEST));
+			enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(coilyGO, Direction::SOUTH_EAST));
+			enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(coilyGO, Direction::SOUTH_WEST));
+			enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
+		}
+		break;
+	}
+
 	auto rigidBodyComp = coilyGO->AddComponent<ngenius::RigidBody>(10.f, 10.f, glm::vec2(0.f, -20.f));
 	
 	coilyGO->AddComponent<ngenius::TextureComponent>("Sprites/" + name + ".png", glm::vec2(0.5f, 1.f));
@@ -195,20 +189,24 @@ std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateCoily(const ngenius::T
 	return coilyGO;
 }
 
-std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateUggWrongWay(const ngenius::Transform& transform, std::shared_ptr<EnemySpawner> spawner, EnemyType type)
+std::shared_ptr<ngenius::GameObject> FactoryMethod::CreateUggWrongWay(std::shared_ptr<Pyramid> pyramidComp, std::shared_ptr<EnemySpawner> spawner, EnemyType type)
 {
 	std::string name{ type == EnemyType::UGG ? "Ugg" : "WrongWay" };
 	CellFace face{ type == EnemyType::UGG ? CellFace::RIGHT : CellFace::LEFT };
 	glm::vec2 texPivot{ type == EnemyType::UGG ? glm::vec2{0.f, 0.5f} : glm::vec2{1.f, 0.5f} };
-	auto UggWrongWayGO = std::make_shared<ngenius::GameObject>(transform, name, "Enemy");
-	UggWrongWayGO->GetTransform().SetScale(2.f, 2.f);
+	glm::vec2 startPosition{ type == EnemyType::UGG ? pyramidComp->GetBottomRightPosition(CellFace::RIGHT) : pyramidComp->GetBottomLeftPosition(CellFace::LEFT) };
+	
+	auto UggWrongWayGO = std::make_shared<ngenius::GameObject>(ngenius::Transform(startPosition, glm::vec2(2.f, 2.f)), name, "Enemy");
 	auto enemyController = UggWrongWayGO->AddComponent<EnemyController>(5.f, face);
 	enemyController->RegisterMoveCommand(Direction::SOUTH_EAST, new MoveCommand(UggWrongWayGO, Direction::SOUTH_EAST));
 	enemyController->RegisterMoveCommand(Direction::SOUTH_WEST, new MoveCommand(UggWrongWayGO, Direction::SOUTH_WEST));
 	auto lifeComp = UggWrongWayGO->AddComponent<LifeComponent>(1);
 
 	int r{ Helpers::RandValue(0, 1) };
-	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, r == 0 ? EnemyType::UGG : EnemyType::WRONGWAY, false));
+	EnemyType spawnType{ r == 0 ? EnemyType::UGG : EnemyType::WRONGWAY };
+	glm::vec2 spawnPos{ spawnType == EnemyType::UGG ? pyramidComp->GetBottomRightPosition(CellFace::RIGHT) : pyramidComp->GetBottomLeftPosition(CellFace::LEFT) };
+	
+	lifeComp->RegisterHealthDepletedEvent("RespawnEvent", std::bind(&EnemySpawner::QueueSpawn, spawner, r == 0 ? EnemyType::UGG : EnemyType::WRONGWAY, spawnPos, false));
 	lifeComp->RegisterHealthDepletedEvent("DeathEvent", Make_Delegate(std::weak_ptr(UggWrongWayGO), &ngenius::GameObject::Delete));
 	enemyController->RegisterJumpOutEvent("JumpOutEvent", std::bind(&LifeComponent::ApplyDamage, lifeComp, 1));
 
@@ -406,6 +404,10 @@ void FactoryMethod::InitVersusScene(std::shared_ptr<ngenius::Scene> pScene)
 
 void FactoryMethod::InitGameOverScene(std::shared_ptr<ngenius::Scene> pScene)
 {
+	auto backgroundGo{ std::make_shared<ngenius::GameObject>(ngenius::Transform(glm::vec2{480.f, 300.f})) };
+	backgroundGo->AddComponent<ngenius::TextureComponent>("game-over.jpg", glm::vec2{ 0.5f, 0.5f });
+	pScene->Add(backgroundGo);
+	
 	auto backToMainButton{ CreateButton("Back To Main Menu", glm::vec2{ 300.f, 650.f}) };
 	backToMainButton->GetComponent<ngenius::Button>()->RegisterOnClickEvent("BackToMainEvent", []()
 		{
@@ -413,7 +415,7 @@ void FactoryMethod::InitGameOverScene(std::shared_ptr<ngenius::Scene> pScene)
 			pGameMode->SetState(GameState::MAIN_MENU);
 		});
 
-	auto quitButton{ CreateButton("Quit Game", glm::vec2{ 600.f, 650.f}) };
+	auto quitButton{ CreateButton("Quit Game", glm::vec2{ 700.f, 650.f}) };
 	quitButton->GetComponent<ngenius::Button>()->RegisterOnClickEvent("QuitEvent", &ngenius::InputManager::PostQuitEvent);
 
 	pScene->Add(backToMainButton);
@@ -450,6 +452,54 @@ void FactoryMethod::SavePlayerData()
 		data.health = pPlayer->GetComponent<LifeComponent>()->GetHealth();
 		data.score = pPlayer->GetComponent<Score>()->GetScore();
 		data.isDead = !pPlayer->IsEnabled();
+	}
+}
+
+void FactoryMethod::InitPlayerInput(std::shared_ptr<ngenius::GameObject> go, PlayerTag tag)
+{
+	ngenius::InputManager& inputManager{ ngenius::InputManager::GetInstance() };
+	switch (tag)
+	{
+	case PlayerTag::PLAYER1:
+	{
+		const int gamepadId{ inputManager.RegisterGamepad() };
+		inputManager.BindInput("Move_NortWest", new MoveCommand(go, Direction::NORTH_WEST),
+			{ ngenius::Input('W', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_UP, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+
+		inputManager.BindInput("Move_SouthWest", new MoveCommand(go, Direction::SOUTH_WEST),
+			{ ngenius::Input('A', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_LEFT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+
+		inputManager.BindInput("Move_SouthEast", new MoveCommand(go, Direction::SOUTH_EAST),
+			{ ngenius::Input('S', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_DOWN, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+
+		inputManager.BindInput("Move_NortEast", new MoveCommand(go, Direction::NORTH_EAST),
+			{ ngenius::Input('D', 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_RIGHT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+	}
+	break;
+	case PlayerTag::PLAYER2:
+	{
+		const int gamepadId = inputManager.RegisterGamepad();
+		inputManager.BindInput("Move2_NortWest", new MoveCommand(go, Direction::NORTH_WEST),
+			{ ngenius::Input(VK_UP, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_UP, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+
+		inputManager.BindInput("Move2_SouthWest", new MoveCommand(go, Direction::SOUTH_WEST),
+			{ ngenius::Input(VK_LEFT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_LEFT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+
+		inputManager.BindInput("Move2_SouthEast", new MoveCommand(go, Direction::SOUTH_EAST),
+			{ ngenius::Input(VK_DOWN, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_DOWN, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+
+		inputManager.BindInput("Move2_NortEast", new MoveCommand(go, Direction::NORTH_EAST),
+			{ ngenius::Input(VK_RIGHT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::KEYBOARD)
+				, ngenius::Input(XINPUT_GAMEPAD_DPAD_RIGHT, 0, ngenius::InputType::BUTTON, ngenius::InputSource::GAMEPAD, gamepadId) });
+	}
+	break;
 	}
 }
 #pragma endregion

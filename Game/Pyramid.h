@@ -37,6 +37,7 @@ public:
 	glm::vec2 GetTopPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(static_cast<int>(m_RowCount - 1), 0, face); }
 	glm::vec2 GetBottomLeftPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(0, 0, face); }
 	glm::vec2 GetBottomRightPosition(CellFace face = CellFace::TOP) const { return GetFacePosition(0, static_cast<int>(m_RowCount - 1), face); }
+	void GetRowAndColumnFromPosition(const glm::vec2& position, int& r, int& c) const;
 
 private:
 	glm::mat2x2 m_CellMatrix;
@@ -55,7 +56,6 @@ private:
 	bool IsInBound(int row, int col) const;
 	int GetIndex(int row, int col) const;
 	glm::vec2 GetPosition(int row, int column, CellFace face = CellFace::TOP) const;
-	void GetRowAndColumnFromPosition(const glm::vec2& position, int& r, int& c) const;
 
 	bool CheckCompletion() const
 	{
