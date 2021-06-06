@@ -114,7 +114,7 @@ Each rigidbodies can register their overlap events to handle their own responses
 
 # The GameMode supervisor
 
-Another idea that came to me from Unreal (well what I assumed was the concept there), is to allow for a custom made (optional) GameMode implementation to allow the user to supervise theior own overall game logic, states, etc...
+Another idea that came to me from Unreal (well what I broadly assumed was the concept there), is to allow for a custom made (optional) GameMode implementation to allow the user to supervise their own overall game logic, states, etc...
 As the scenes are isolated from each other, it is difficult to send data around, that's where the GameMode comes in as it lives as long as the game does. The engine provides a simple GameMode interface that can be inherited to implement one specifically for the current game built:
 
 ![image](https://user-images.githubusercontent.com/76394390/120941411-f2210d80-c722-11eb-8008-a5723503ec49.png)
