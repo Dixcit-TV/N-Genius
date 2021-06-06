@@ -50,13 +50,19 @@ namespace ngenius
 
 		std::shared_ptr<GameObject> GetGameObjectWithName(const std::string& name) const { return m_pParentScene.lock()->GetGameObjectWithName(name); }
 		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const { return m_pParentScene.lock()->GetAllGameObjectsWithName(name); }
+		std::shared_ptr<GameObject> GetGameObjectWithTag(const std::string& tag) const { return m_pParentScene.lock()->GetGameObjectWithTag(tag); }
+		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithTag(const std::string& tag) const { return m_pParentScene.lock()->GetAllGameObjectsWithTag(tag); }
 
 		std::shared_ptr<Scene> GetScene() const { return m_pParentScene.lock(); }
-		
+
+		const std::string& GetName() const { return m_Name; }
 		const std::string& GetTag() const { return m_Tag; }
 		void SetTag(const std::string& newTag) { m_Tag = newTag; }
 
-		void Delete() { m_pParentScene.lock()->Remove(shared_from_this()); };
+		void SetEnable(bool enable) { m_IsEnabled = enable; }
+		bool IsEnabled() const { return m_IsEnabled; }
+
+		void Delete() { m_pParentScene.lock()->Remove(shared_from_this()); }
 	
 	private:
 		Components m_ComponentPtrs;
@@ -64,5 +70,6 @@ namespace ngenius
 		std::string m_Name;
 		std::string m_Tag;
 		std::weak_ptr<Scene> m_pParentScene;
+		bool m_IsEnabled;
 	};
 }

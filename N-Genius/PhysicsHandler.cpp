@@ -25,14 +25,22 @@ void ngenius::PhysicsHandler::Update()
 	for (size_t idx1{}; idx1 < bodyCount; ++idx1)
 	{
 		const RigidBody& body1{ *m_pBodies[idx1] };
-		glm::vec2 bodyCenter1{ body1.GetGameObject()->GetTransform().GetPosition() + body1.m_Center };
+		auto go1{ body1.GetGameObject() };
+		if (!go1->IsEnabled())
+			continue;
+		
+		glm::vec2 bodyCenter1{ go1->GetTransform().GetPosition() + body1.m_Center };
 		
 		for (size_t idx2{ idx1 + 1 }; idx2 < bodyCount; ++idx2)
 		{
 			const RigidBody& body2{ *m_pBodies[idx2] };
+			auto go2{ body2.GetGameObject() };
+			if (!go2->IsEnabled())
+				continue;
+
 			if (body1.m_IsTrigger || body2.m_IsTrigger)
-			{
-				glm::vec2 bodyCenter2{ body2.GetGameObject()->GetTransform().GetPosition() + body2.m_Center };
+			{	
+				glm::vec2 bodyCenter2{ go2->GetTransform().GetPosition() + body2.m_Center };
 				const bool overlap{ Helpers::AabbOverlapCheck(bodyCenter1, body1.m_Width, body1.m_Height
 					, bodyCenter2, body2.m_Width, body2.m_Height) };
 

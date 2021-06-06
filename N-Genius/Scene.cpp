@@ -65,6 +65,9 @@ void ngenius::Scene::Update()
 	
 	for(auto object : m_Objects)
 	{
+		if (!object->IsEnabled())
+			continue;
+			
 		const GameObject::Components& components{ object->GetAllComponents() };
 		for (auto comp : components)
 		{
@@ -79,6 +82,9 @@ void ngenius::Scene::Render() const
 {
 	for (auto& object : m_Objects)
 	{
+		if (!object->IsEnabled())
+			continue;
+		
 		const GameObject::Components& components{ object->GetAllComponents() };
 		for (const auto& comp : components)
 		{
@@ -99,8 +105,24 @@ std::shared_ptr<ngenius::GameObject> ngenius::Scene::GetGameObjectWithName(const
 std::vector<std::shared_ptr<ngenius::GameObject>> ngenius::Scene::GetAllGameObjectsWithName(const std::string& name) const
 {
 	std::vector<std::shared_ptr<GameObject>> result;
-	const auto it{ std::copy_if(std::begin(m_Objects), std::end(m_Objects), std::back_inserter(result)
-		, [&name](std::shared_ptr<GameObject> pGo) { return pGo->m_Name == name; }) };
+	std::copy_if(std::begin(m_Objects), std::end(m_Objects), std::back_inserter(result)
+		, [&name](std::shared_ptr<GameObject> pGo) { return pGo->m_Name == name; });
+
+	return result;
+}
+
+std::shared_ptr<ngenius::GameObject> ngenius::Scene::GetGameObjectWithTag(const std::string& tag) const
+{
+	const auto it{ std::find_if(std::begin(m_Objects), std::end(m_Objects), [&tag](std::shared_ptr<GameObject> pGo) { return pGo->m_Tag == tag; }) };
+
+	return it == std::end(m_Objects) ? nullptr : *it;
+}
+
+std::vector<std::shared_ptr<ngenius::GameObject>> ngenius::Scene::GetAllGameObjectsWithTag(const std::string& tag) const
+{
+	std::vector<std::shared_ptr<GameObject>> result;
+	std::copy_if(std::begin(m_Objects), std::end(m_Objects), std::back_inserter(result)
+		, [&tag](std::shared_ptr<GameObject> pGo) { return pGo->m_Tag == tag; });
 
 	return result;
 }

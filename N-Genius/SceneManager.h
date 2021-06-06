@@ -22,6 +22,7 @@ namespace ngenius
 		void AddScene(std::shared_ptr<Scene> pNewScene);
 		void SetCurrentScene(int id);
 		void SetCurrentScene(const std::string& sceneName);
+		std::shared_ptr<Scene> GetCurrentScene() const { return m_Scenes[m_CurrentSceneId]; }
 		void ReloadCurrentScene();
 
 		void Update();

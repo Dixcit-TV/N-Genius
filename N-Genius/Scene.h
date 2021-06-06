@@ -31,6 +31,8 @@ namespace ngenius
 
 		std::shared_ptr<GameObject> GetGameObjectWithName(const std::string& name) const;
 		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithName(const std::string& name) const;
+		std::shared_ptr<GameObject> GetGameObjectWithTag(const std::string& tag) const;
+		std::vector<std::shared_ptr<GameObject>> GetAllGameObjectsWithTag(const std::string& tag) const;
 
 		void RegisterInitialiseEvent(const std::string& evtName, std::function<void(std::shared_ptr<Scene>)> callback) { m_OnSceneInitialise.Register(evtName, std::move(callback)); }
 		void RegisterActivateEvent(const std::string& evtName, std::function<void(std::shared_ptr<Scene>)> callback) { m_OnSceneActivate.Register(evtName, std::move(callback)); }
