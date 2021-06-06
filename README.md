@@ -101,12 +101,12 @@ And if needed, a new custom loader can easily be added on top of the existing on
 
 # Scene based
 
-The game logic is built around a single SceneManager to holds all the existing Scenes objects and allow to swap between them. A scene has for single purpose to manage all the game objects that need to "work together" but game objects cannot communicate between scenes. The scene allows 3 Events to handle GameObject manmagement when it is first initialized or when it is (de)activated (scene change).
+The game logic is built around a single SceneManager that holds all the existing Scenes objects and allow to swap between them. A scene has for single purpose to manage all the game objects that need to "work together" but game objects cannot communicate between scenes. The scene allows 3 Events to handle GameObject manmagement when it is first initialized or when it is (de)activated (scene change).
 
 
-# Physics system (more like an idea)
+# Physics system (more like the idea of one)
 
-I simply created the bare bone of what could the be physics system so far mostly enough to cover my QBert usage. But the idea comes to have a scene specific Physics handling system, whenever game objects are created or destroyed their rigid bodies are (un)registered to the physics handler which will process their collision in it's game update phase.
+I simply created the start of the bare bone of what could eventually be (yeah that little) the be physics system and so far have mostly enough to cover my QBert overlaps. But the idea comes to have a scene specific Physics handling system, whenever game objects are created or destroyed their rigid bodies are (un)registered to the physics handler which will process their collision in it's game update phase.
 Each rigidbodies can register their overlap events to handle their own responses (if any) to the current overlap, giving them access to the objects their are overlapping with. It's really eary work but I have some rough idea how I could add other collision detection and/or collision resolution logic around the current design.
 
 ![image](https://user-images.githubusercontent.com/76394390/120941295-1b8d6980-c722-11eb-8391-790f832e7215.png)
