@@ -6,4 +6,5 @@ ngenius::GameObject::GameObject(const Transform& transform, const std::string& n
 	, m_Name{ name }
 	, m_Tag{ tag }
 	, m_pParentScene{ }
+	, m_IsEnabled{ true }
 {}
